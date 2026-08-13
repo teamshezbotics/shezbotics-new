@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#071423">
+<title>Book a Free Demo Class | ShezBotics</title>
+<meta name="description" content="Book a free 60-minute live demo class. See how ShezBotics teaches robotics and AI in batches of five. No experience needed, ages 8-20, anywhere in India.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<a href="#main" class="skip">Skip to content</a>
+
+<div id="preloader" role="status" aria-label="Loading ShezBotics">
+
+  <div class="loader-wave" aria-hidden="true">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path class="wave-glow" d="M0 60 Q 75 32 150 60 T 300 60 T 450 60 T 600 60 T 750 60 T 900 60 T 1050 60 T 1200 60 T 1350 60 T 1500 60 T 1650 60 T 1800 60"/>
+      <path class="wave-a"    d="M0 60 Q 75 32 150 60 T 300 60 T 450 60 T 600 60 T 750 60 T 900 60 T 1050 60 T 1200 60 T 1350 60 T 1500 60 T 1650 60 T 1800 60"/>
+      <path class="wave-b"    d="M0 84 Q 75 58 150 84 T 300 84 T 450 84 T 600 84 T 750 84 T 900 84 T 1050 84 T 1200 84 T 1350 84 T 1500 84 T 1650 84 T 1800 84"/>
+    </svg>
+  </div>
+
+  <div class="loader-content">
+    <div class="mark" data-mark>
+      <img src="assets/logo.png" alt="">
+      <svg class="mark-fallback" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="#00E5FF" stroke-width="1.6"/>
+        <path d="M24 14v10l8 5" fill="none" stroke="#5fffd7" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="2.6" fill="#00E5FF"/>
+      </svg>
+    </div>
+    <div class="loader-brand">SHEZBOTICS</div>
+    <div class="loader-seats" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <p class="loader-note">Initializing AI &amp; Robotics</p>
+  </div>
+
+</div>
+
+<header class="site-header">
+  <a href="index.html" class="brand">
+    <span class="mark" data-mark>
+      <img src="assets/logo.png" alt="">
+      <svg class="mark-fallback" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="#00E5FF" stroke-width="2"/>
+        <circle cx="24" cy="24" r="3" fill="#00E5FF"/>
+      </svg>
+    </span>
+    <b>ShezBotics</b>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#courses">Courses</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="schools.html">For Schools</a></li>
+    <li><a href="corporate.html">For Business</a></li>
+    <li><a href="index.html#founder">Founder</a></li>
+    
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="demo.html" class="nav-cta" aria-current="page">Free demo</a>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><i></i><i></i><i></i></button>
+  <div class="progress" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+
+<section class="hero hero-sub">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow lift">Free demo class</p>
+      <h1 class="lift">Sit in on a <em>real session</em></h1>
+      <p class="hero-lead lift">
+        Sixty minutes, live, with the founder. Bring nothing but curiosity &mdash;
+        we'll show you what students build, how a batch of five runs,
+        and answer whatever you'd like to ask.
+      </p>
+      <div class="hero-rail lift" style="margin-top:var(--stack)">
+        <span class="seat-chip">
+          <span class="seat-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          5 students per batch
+        </span>
+        <span>Free</span>
+        <span>60 minutes</span>
+        <span>No experience needed</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap" style="max-width:840px">
+
+    <ol class="stepper reveal">
+      <li class="is-current"><b>01</b>Student</li>
+      <li><b>02</b>Contact</li>
+      <li><b>03</b>Interests</li>
+      <li><b>04</b>Demo slot</li>
+    </ol>
+
+    <form id="demoForm" data-steps data-reset-steps
+          data-sheet="Demo"
+          data-success-title="Demo booked"
+          data-success-body="We'll confirm your slot on WhatsApp within one working day."
+          class="reveal">
+
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <!-- ============ STEP 1 · STUDENT ============ -->
+      <fieldset class="step">
+        <legend>About the student</legend>
+        <p class="legend-note">So we can place them in a batch that moves at the right pace.</p>
+
+        <div class="field">
+          <label for="studentName">1. Student's full name</label>
+          <input id="studentName" name="student_name" type="text" required autocomplete="name">
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="studentAge">2. Age</label>
+            <input id="studentAge" name="age" type="number" min="8" max="60" required inputmode="numeric">
+          </div>
+          <div class="field">
+            <label for="studentGrade">3. Class / year</label>
+            <input id="studentGrade" name="grade" type="text" placeholder="e.g. 8th standard">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="studentSchool">4. School or college</label>
+            <input id="studentSchool" name="school" type="text" placeholder="Optional">
+          </div>
+          <div class="field">
+            <label for="studentCity">5. City</label>
+            <input id="studentCity" name="city" type="text" required autocomplete="address-level2">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>6. Where are they starting from?</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="experience" value="Brand new to this" required><span>Brand new to this &mdash; most students start here</span></label>
+            <label class="choice"><input type="radio" name="experience" value="Some school projects"><span>Has done some school projects</span></label>
+            <label class="choice"><input type="radio" name="experience" value="Builds at home"><span>Already builds things at home</span></label>
+            <label class="choice"><input type="radio" name="experience" value="Has competed"><span>Has competed or exhibited</span></label>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn-ghost" data-back hidden>Back</button>
+          <button type="button" class="btn-primary" data-next>Continue</button>
+          <button type="submit" class="btn-primary" hidden>Book my free demo</button>
+          <span class="step-count">Step 1 of 4</span>
+        </div>
+      </fieldset>
+
+      <!-- ============ STEP 2 · CONTACT ============ -->
+      <fieldset class="step" hidden>
+        <legend>Who should we contact?</legend>
+        <p class="legend-note">If the student is under 18, this should be a parent or guardian.</p>
+
+        <div class="field">
+          <label for="contactName">7. Your full name</label>
+          <input id="contactName" name="contact_name" type="text" required>
+        </div>
+
+        <div class="field">
+          <label>8. You are the student's</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="relationship" value="Parent" required><span>Parent</span></label>
+            <label class="choice"><input type="radio" name="relationship" value="Guardian"><span>Guardian</span></label>
+            <label class="choice"><input type="radio" name="relationship" value="The student (18+)"><span>I am the student, 18 or over</span></label>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="contactPhone">9. Phone / WhatsApp</label>
+            <input id="contactPhone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="+91">
+          </div>
+          <div class="field">
+            <label for="contactEmail">10. Email</label>
+            <input id="contactEmail" name="email" type="email" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>11. Best way to reach you</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="contact_pref" value="WhatsApp" required><span>WhatsApp</span></label>
+            <label class="choice"><input type="radio" name="contact_pref" value="Phone call"><span>Phone call</span></label>
+            <label class="choice"><input type="radio" name="contact_pref" value="Email"><span>Email</span></label>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn-ghost" data-back>Back</button>
+          <button type="button" class="btn-primary" data-next>Continue</button>
+          <button type="submit" class="btn-primary" hidden>Book my free demo</button>
+          <span class="step-count">Step 2 of 4</span>
+        </div>
+      </fieldset>
+
+      <!-- ============ STEP 3 · INTERESTS ============ -->
+      <fieldset class="step" hidden>
+        <legend>What are they into?</legend>
+        <p class="legend-note">This shapes what we demonstrate in the session.</p>
+
+        <div class="field">
+          <label>12. Pick anything that appeals (choose as many as you like)</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="checkbox" name="interests" value="Robotics"><span>Robotics</span></label>
+            <label class="choice"><input type="checkbox" name="interests" value="Artificial intelligence"><span>Artificial intelligence</span></label>
+            <label class="choice"><input type="checkbox" name="interests" value="IoT &amp; smart home"><span>IoT &amp; smart home</span></label>
+            <label class="choice"><input type="checkbox" name="interests" value="Drones"><span>Drones</span></label>
+            <label class="choice"><input type="checkbox" name="interests" value="Coding"><span>Coding</span></label>
+            <label class="choice"><input type="checkbox" name="interests" value="Electronics"><span>Electronics</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="courseInterest">13. Which course looks right?</label>
+          <select id="courseInterest" name="course_interest" required>
+            <option value="">Select one</option>
+            <option value="Basic">Basic — ₹3,499 · 10 sessions</option>
+            <option value="Intermediate">Intermediate — ₹4,999 · 14 sessions</option>
+            <option value="Advanced">Advanced — ₹9,499 · 18 sessions</option>
+            <option value="All three (full track)">All three — ₹15,999, kit included</option>
+            <option value="Help me choose">Help me choose</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="goal">14. What would you like them to get out of it?</label>
+          <textarea id="goal" name="goal" placeholder="A hobby, exam projects, competitions, a career direction…"></textarea>
+        </div>
+
+        <div class="field">
+          <label>15. What will they join class on?</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="device" value="Own laptop or desktop" required><span>Their own laptop or desktop</span></label>
+            <label class="choice"><input type="radio" name="device" value="Shared family computer"><span>A shared family computer</span></label>
+            <label class="choice"><input type="radio" name="device" value="Tablet"><span>A tablet</span></label>
+            <label class="choice"><input type="radio" name="device" value="Arranging one — needs guidance"><span>Arranging one &mdash; happy for advice</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>16. Internet at home</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="internet" value="Home broadband or WiFi" required><span>Broadband or WiFi</span></label>
+            <label class="choice"><input type="radio" name="internet" value="Mobile hotspot"><span>Mobile hotspot</span></label>
+            <label class="choice"><input type="radio" name="internet" value="Both, varies by day"><span>Both, depending on the day</span></label>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn-ghost" data-back>Back</button>
+          <button type="button" class="btn-primary" data-next>Continue</button>
+          <button type="submit" class="btn-primary" hidden>Book my free demo</button>
+          <span class="step-count">Step 3 of 4</span>
+        </div>
+      </fieldset>
+
+      <!-- ============ STEP 4 · DEMO SLOT ============ -->
+      <fieldset class="step" hidden>
+        <legend>Pick a slot</legend>
+        <p class="legend-note">Demos run on weekends alongside live batches. We'll confirm the exact time on WhatsApp.</p>
+
+        <div class="field">
+          <label>17. Preferred day</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="demo_day" value="Saturday" required><span>Saturday</span></label>
+            <label class="choice"><input type="radio" name="demo_day" value="Sunday"><span>Sunday</span></label>
+            <label class="choice"><input type="radio" name="demo_day" value="Either"><span>Either works</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>18. Preferred time</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="demo_time" value="Morning 10am-12pm" required><span>Morning &middot; 10am&ndash;12pm</span></label>
+            <label class="choice"><input type="radio" name="demo_time" value="Afternoon 1pm-4pm"><span>Afternoon &middot; 1&ndash;4pm</span></label>
+            <label class="choice"><input type="radio" name="demo_time" value="Evening 5pm-8pm"><span>Evening &middot; 5&ndash;8pm</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>19. When would you like to start?</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="start_when" value="This month" required><span>This month</span></label>
+            <label class="choice"><input type="radio" name="start_when" value="Next month"><span>Next month</span></label>
+            <label class="choice"><input type="radio" name="start_when" value="Exploring for now"><span>Exploring for now</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="heardVia">20. How did you hear about ShezBotics?</label>
+          <select id="heardVia" name="heard_via" required>
+            <option value="">Select one</option>
+            <option>Instagram</option>
+            <option>YouTube</option>
+            <option>LinkedIn</option>
+            <option>Friend or family</option>
+            <option>Through a school</option>
+            <option>Google search</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="notes">21. Anything else we should know?</label>
+          <textarea id="notes" name="notes" placeholder="Timing constraints, questions, anything at all…"></textarea>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn-ghost" data-back>Back</button>
+          <button type="button" class="btn-primary" data-next hidden>Continue</button>
+          <button type="submit" class="btn-primary">Book my free demo</button>
+          <span class="step-count">Step 4 of 4</span>
+        </div>
+
+        <p class="form-note">
+          The demo is free and there is no obligation to enrol. We use these details only to
+          arrange your session and reply to you. If the student is under 18, a parent or guardian
+          should be the one submitting this form.
+          <a href="privacy.html" style="color:var(--cyan-soft)">Privacy policy</a>.
+        </p>
+      </fieldset>
+
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">What happens next</p>
+      <h2>Three steps, <em>no cost</em></h2>
+    </div>
+    <div class="why-grid reveal-stagger">
+      <div class="why-item">
+        <h3>We confirm the slot</h3>
+        <p>Usually within one working day, on whichever channel you picked.</p>
+      </div>
+      <div class="why-item">
+        <h3>You join the 60 minutes</h3>
+        <p>Live with the founder. We build something small, and you see how a batch actually runs.</p>
+      </div>
+      <div class="why-item">
+        <h3>You decide afterwards</h3>
+        <p>If it's a fit, we'll tell you the next batch start date. If not, that's completely fine.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="brand">
+          <span class="mark" data-mark>
+            <img src="assets/logo.png" alt="">
+            <svg class="mark-fallback" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="#00E5FF" stroke-width="2"/>
+              <circle cx="24" cy="24" r="3" fill="#00E5FF"/>
+            </svg>
+          </span>
+          <b>ShezBotics</b>
+        </span>
+        <p>Live online AI and robotics training in batches of five, for students aged 8&ndash;20 anywhere in India.</p>
+        <div class="social">
+          <a href="https://www.instagram.com/team_shezbotics" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.linkedin.com/in/shehzad-dobariya-178531250" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://youtube.com/@shezbotics" target="_blank" rel="noopener">YouTube</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Academy</h4>
+        <a href="index.html#about">About</a>
+        <a href="index.html#courses">Courses</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#founder">Founder</a>
+        <a href="index.html#gallery">Gallery</a>
+      </div>
+      <div class="footer-links">
+        <h4>Programmes</h4>
+        <a href="index.html#basic">Basic &mdash; &#8377;3,499</a>
+        <a href="index.html#intermediate">Intermediate &mdash; &#8377;4,999</a>
+        <a href="index.html#advanced">Advanced &mdash; &#8377;9,499</a>
+        <a href="index.html#full-track">All three &mdash; &#8377;15,999</a>
+        <a href="schools.html">For schools</a>
+        <a href="corporate.html">For business</a>
+      </div>
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <p>Live online, all India</p>
+        <p>Based in Mumbai</p>
+        <a href="tel:+919545797867">+91 95457 97867</a>
+        <a href="mailto:team.shezbotics@gmail.com">team.shezbotics@gmail.com</a>
+        <a href="demo.html">Book a free demo</a>
+        <a href="privacy.html">Privacy policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ShezBotics. All rights reserved. &middot; <a href="privacy.html">Privacy</a></p>
+      <p class="credit">Site by Shehzad Dobariya</p>
+    </div>
+  </div>
+</footer>
+
+<a class="whatsapp" href="https://wa.me/919545797867?text=Hi%20ShezBotics%2C%20I%27d%20like%20to%20book%20a%20free%20demo."
+   target="_blank" rel="noopener" aria-label="Message ShezBotics on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+</a>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <i>&#10003;</i>
+  <div><b>Demo booked</b><span>We'll confirm your slot on WhatsApp.</span></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
