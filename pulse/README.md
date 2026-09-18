@@ -79,9 +79,11 @@ app/
     page.tsx          Dashboard — KPIs, attendance trend, participants
     sessions/         Session Log — list, add, edit
     attendance/       Attendance — fast per-session entry
+    adoption/         Tool Adoption — level, tools, notes per participant
+    assignments/      Assignments — per session, per participant
   login/            magic-link request screen
   auth/             callback + sign-out routes
-components/         chart, nav, shared UI primitives
+components/         chart, nav, session picker, shared UI primitives
 lib/
   data.ts           queries + the KPI/attendance maths
   auth.ts           current profile, admin guard
@@ -96,6 +98,12 @@ proxy.ts            refreshes the session, redirects signed-out visitors
 - **After a session**: Attendance → pick the session → everyone defaults to
   Present, tap anyone who missed it → Save. That also marks the session
   Completed unless you untick it.
+- **Setting the homework**: Assignments → pick the session → type the task
+  once and hit *Apply* to give it to everyone → Save.
+- **Reviewing it**: same screen, tick people off (*Mark all complete* if the
+  whole cohort did it). Ticking someone fills in today's review date.
+- **Tool adoption**: edit any rows that have moved, save once. Everyone's
+  level feeds the "Confident" KPI on the dashboard.
 - **Schedule changes**: Session Log → Edit.
 - The dashboard's *Last updated* line is the most recent edit to any
   programme data, so the CEO can see at a glance how current the picture is.
@@ -103,8 +111,8 @@ proxy.ts            refreshes the session, redirects signed-out visitors
 Editing the programme shape (11 sessions, 6 support visits) is two numbers in
 `lib/config.ts`.
 
-## Not built yet
+## Possible next steps
 
-Tool Adoption and Assignments screens. The tables, types and dashboard KPIs
-for both already exist — the dashboard reads them and shows `—` until there's
-data — so those screens are additive, not a rework.
+Not built, and not needed for the first version: email notifications, the
+6 support visits tracked as their own records (only counted on the dashboard
+today), and per-track breakdowns on the dashboard.

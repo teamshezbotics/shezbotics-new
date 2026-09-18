@@ -7,14 +7,18 @@ const LINKS = [
   { href: "/", label: "Dashboard" },
   { href: "/sessions", label: "Session Log" },
   { href: "/attendance", label: "Attendance" },
+  { href: "/adoption", label: "Tool Adoption" },
+  { href: "/assignments", label: "Assignments" },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Sections" className="-mx-4 overflow-x-auto px-4">
-      <ul className="flex gap-1 whitespace-nowrap">
+    <nav aria-label="Sections">
+      {/* Wraps rather than scrolls: five tabs don't fit on a phone, and a
+          horizontal scroller hides the last two with no affordance. */}
+      <ul className="flex flex-wrap gap-1">
         {LINKS.map(({ href, label }) => {
           const active =
             href === "/" ? pathname === "/" : pathname.startsWith(href);

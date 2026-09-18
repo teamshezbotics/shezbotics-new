@@ -1,8 +1,8 @@
+import SessionPicker from "@/components/session-picker";
 import { Card, Empty, formatDate } from "@/components/ui";
 import { getCurrentProfile } from "@/lib/auth";
 import { getAttendance, getParticipants, getSessions } from "@/lib/data";
 import AttendanceForm from "./attendance-form";
-import SessionPicker from "./session-picker";
 
 export const metadata = { title: "Attendance · Pulse" };
 
@@ -66,6 +66,7 @@ export default async function AttendancePage({
               sessions={sessions}
               selectedId={selected.id}
               markedIds={markedIds}
+              basePath="/attendance"
             />
             <p className="mt-1.5 text-xs text-ink-muted">
               {formatDate(selected.date)} · {selected.status}
