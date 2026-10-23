@@ -370,3 +370,105 @@ document.querySelectorAll('[data-mark] img').forEach(function (img) {
   });
   if (img.complete && img.naturalWidth === 0) img.closest('[data-mark]').classList.add('no-img');
 });
+
+/* ===== 11 · CYLINDER GALLERY ===== */
+(function () {
+  var root = document.querySelector('[data-cylinder]');
+  if (!root) return;
+  var ring = root.querySelector('.cyl-ring');
+  var originals = Array.prototype.slice.call(ring.children);
+  if (!originals.length) return;
+
+  // Fill the ring to at least 12 cards so the cylinder reads as continuous.
+  while (ring.children.length < 12) {
+    originals.forEach(function (card) {
+      var copy = card.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      ring.appendChild(copy);
+    });
+  }
+  var cards = Array.prototype.slice.call(ring.children);
+  var n = cards.length, step = 360 / n, GAP = 14, R = 0;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var AUTO = reduce ? 0 : 7;                       // degrees per second
+
+  root.classList.add('is-3d');
+
+  function layout() {
+    var w = root.clientWidth;
+    var cw = Math.round(Math.max(140, Math.min(230, w * 0.2)));
+    var ch = Math.round(cw * 1.36);
+    R = n * (cw + GAP) / (2 * Math.PI);
+    root.style.setProperty('--cw', cw + 'px');
+    root.style.setProperty('--ch', ch + 'px');
+    root.style.setProperty('--persp', Math.round(R * 2.3) + 'px');   // camera must sit past the near wall (2R)
+    cards.forEach(function (card, i) {
+      card.style.transform = 'rotateY(' + (-i * step) + 'deg) translateZ(' + (-R) + 'px)';
+    });
+  }
+
+  var angle = 0, vel = AUTO, target = null;
+  var dragging = false, hovering = false, visible = true, running = false;
+  var startX = 0, startAngle = 0, lastX = 0, lastT = 0, last = 0;
+
+  function frame(t) {
+    var dt = Math.min((t - (last || t)) / 1000, 0.1);
+    last = t;
+    if (!dragging) {
+      if (target !== null) {
+        angle += (target - angle) * Math.min(1, reduce ? 1 : dt * 7);
+        if (Math.abs(target - angle) < 0.05) { angle = target; target = null; vel = 0; }
+      } else {
+        var goal = hovering ? 0 : AUTO;
+        vel += (goal - vel) * Math.min(1, dt * 2.5);  // inertia eases back to cruise speed
+        angle += vel * dt;
+      }
+    }
+    ring.style.transform = 'translateZ(' + R + 'px) rotateY(' + angle + 'deg)';
+    if (visible) requestAnimationFrame(frame); else { running = false; last = 0; }
+  }
+  function start() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+  function degPerPx() { return 180 / (Math.PI * R); }
+
+  root.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('.cyl-btn')) return;
+    dragging = true; target = null;
+    startX = lastX = e.clientX; startAngle = angle; lastT = performance.now();
+    root.classList.add('is-dragging');
+    root.setPointerCapture(e.pointerId);
+  });
+  root.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    var now = performance.now();
+    angle = startAngle - (e.clientX - startX) * degPerPx();
+    if (now > lastT) vel = -(e.clientX - lastX) * degPerPx() / ((now - lastT) / 1000);
+    lastX = e.clientX; lastT = now;
+  });
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false;
+    root.classList.remove('is-dragging');
+    if (performance.now() - lastT > 80) vel = 0;   // released after holding still
+  }
+  root.addEventListener('pointerup', endDrag);
+  root.addEventListener('pointercancel', endDrag);
+  root.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hovering = true; });
+  root.addEventListener('pointerleave', function () { hovering = false; });
+
+  function go(dir) { target = Math.round((target !== null ? target : angle) / step) * step + dir * step; }
+  root.querySelector('[data-cyl-prev]').addEventListener('click', function () { go(-1); });
+  root.querySelector('[data-cyl-next]').addEventListener('click', function () { go(1); });
+
+  layout();
+  window.addEventListener('resize', layout);
+
+  // Only animate while the gallery is on screen.
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      if (visible) start();
+    }).observe(root);
+  }
+  start();
+})();
