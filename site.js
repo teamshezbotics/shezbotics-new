@@ -1308,3 +1308,69 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
   }), { threshold: 0.25 });
   clips.forEach((v) => io.observe(v));
 })();
+
+/* ===== 13 · THE REEL: zoom through the headline into the footage; scroll fast and it fast-forwards ===== */
+(() => {
+  const reel = document.querySelector('[data-reel]');
+  if (!reel) return;
+  const clips = [...reel.querySelectorAll('.reel-clip')];
+  const mask = reel.querySelector('.reel-mask'), title = reel.querySelector('.reel-title'), stem = reel.querySelector('[data-zoom]');
+  const hud = reel.querySelector('.reel-hud'), time = reel.querySelector('[data-reel-time]'), cap = reel.querySelector('[data-reel-cap]');
+  const count = reel.querySelector('[data-reel-count]'), ff = reel.querySelector('[data-reel-ff]');
+  if (reduced) {
+    reel.classList.add('is-still');
+    clips.forEach((v) => { v.controls = true; v.preload = 'metadata'; });
+    return;
+  }
+  const two = (n) => String(n).padStart(2, '0');
+  // zoom about the middle of the I, so its stroke becomes the whole screen
+  const aim = () => {
+    title.style.transform = 'none';
+    const t = title.getBoundingClientRect(), z = stem.getBoundingClientRect();
+    title.style.setProperty('--ox', `${(z.left + z.width / 2 - t.left).toFixed(1)}px`);
+    title.style.setProperty('--oy', `${(z.top + z.height / 2 - t.top).toFixed(1)}px`);
+  };
+  aim();
+  addEventListener('resize', aim);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(aim);
+
+  let active = 0, lastY = scrollY, rate = 1, seen = false;
+  const show = (i) => {
+    if (i === active) return;
+    clips[active].pause(); clips[active].classList.remove('is-on');
+    active = i;
+    const v = clips[i]; v.classList.add('is-on'); v.play().catch(() => {});
+    reel.classList.remove('is-cut'); void reel.offsetWidth; reel.classList.add('is-cut');
+    cap.textContent = v.dataset.caption || '';
+    count.textContent = `${two(i + 1)} / ${two(clips.length)}`;
+  };
+  count.textContent = `01 / ${two(clips.length)}`;
+  const tick = () => {
+    requestAnimationFrame(tick);
+    const r = reel.getBoundingClientRect();
+    const near = r.top < innerHeight && r.bottom > 0;
+    if (!near) {
+      if (seen) { clips[active].pause(); seen = false; }
+      lastY = scrollY; return;
+    }
+    if (!seen) { seen = true; clips[active].play().catch(() => {}); }
+    const p = clamp(-r.top / Math.max(1, r.height - innerHeight));
+    const z = smooth(0.02, 0.42, p);
+    title.style.transform = `scale(${(1 + 34 * z * z * z).toFixed(3)})`;
+    mask.style.opacity = (1 - smooth(0.3, 0.44, p)).toFixed(3);
+    mask.style.visibility = p > 0.45 ? 'hidden' : '';
+    hud.style.opacity = smooth(0.4, 0.5, p).toFixed(3);
+    // after the reveal, the rest of the section is shared between the clips
+    show(Math.min(clips.length - 1, Math.floor(clamp((p - 0.45) / 0.55) * clips.length)));
+    // scrolling fast plays it faster, up to three and a half times
+    const speed = Math.abs(scrollY - lastY); lastY = scrollY;
+    const want = p > 0.42 ? 1 + Math.min(2.5, speed / 22) : 1;
+    rate += (want - rate) * (want > rate ? 0.25 : 0.06);
+    const v = clips[active];
+    if (Math.abs(v.playbackRate - rate) > 0.05) v.playbackRate = rate;
+    ff.textContent = rate > 1.2 ? `>> ${rate.toFixed(1)}x` : '';
+    const s = v.currentTime || 0;
+    time.textContent = `${two(Math.floor(s / 60))}:${two(Math.floor(s) % 60)}:${two(Math.floor((s % 1) * 30))}`;
+  };
+  requestAnimationFrame(tick);
+})();
