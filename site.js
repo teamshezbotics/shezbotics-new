@@ -361,6 +361,7 @@ async function robot() {
   const THREE = await import('three');
   const { RoomEnvironment } = await import('./vendor/three/addons/RoomEnvironment.js');
   const { RoundedBoxGeometry } = await import('./vendor/three/addons/RoundedBoxGeometry.js');
+  const { mergeGeometries } = await import('./vendor/three/addons/BufferGeometryUtils.js');
   // with the boot screen up, build only once its bar is holding, so its typing never stutters
   if (html.classList.contains('booting')) await new Promise((res) => {
     if (window.__shezBootHold) return res();
@@ -369,8 +370,11 @@ async function robot() {
   });
 
   const phone = mq('(max-width: 767px)').matches;
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: false });
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, phone ? 1.75 : 2));
+  // 1.5x is sharp on any screen; a device that can't keep up steps down from there (see frame)
+  let pr = Math.min(devicePixelRatio || 1, 1.5);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !phone, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: false });
+  renderer.setPixelRatio(pr);
+  renderer.autoClear = false;                // frame() clears, then draws inside a scissor
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping;
   renderer.toneMappingExposure = 1.0;
@@ -388,8 +392,8 @@ async function robot() {
   renderer.shadowMap.type = THREE.PCFShadowMap;
   const key = new THREE.DirectionalLight(0xffffff, 2.6);
   key.castShadow = true;
-  key.shadow.mapSize.set(phone ? 1024 : 2048, phone ? 1024 : 2048);
-  key.shadow.radius = 4; key.shadow.bias = -0.0004;
+  key.shadow.mapSize.set(phone ? 512 : 1024, phone ? 512 : 1024);
+  key.shadow.radius = 3; key.shadow.bias = -0.0004;
   const keyDir = new THREE.Vector3(-3, 7.5, 5).normalize();
   scene.add(key, key.target);
   const rim = new THREE.DirectionalLight(0x5fffd7, 1.3); rim.position.set(5, 3, -5); scene.add(rim);
@@ -552,9 +556,9 @@ async function robot() {
 
   /* ---------- materials ---------- */
   const M = {
-    yellow: new THREE.MeshPhysicalMaterial({ color: 0xffc21a, roughness: 0.42, clearcoat: 0.3, clearcoatRoughness: 0.5 }),
+    yellow: new THREE.MeshStandardMaterial({ color: 0xffc21a, roughness: 0.4 }),
     tyre: new THREE.MeshStandardMaterial({ color: 0x1a1c1f, roughness: 0.84 }),
-    rim: new THREE.MeshPhysicalMaterial({ color: 0xf1f3f5, roughness: 0.36, clearcoat: 0.5, clearcoatRoughness: 0.3 }),
+    rim: new THREE.MeshStandardMaterial({ color: 0xf1f3f5, roughness: 0.34 }),
     rimInner: new THREE.MeshStandardMaterial({ color: 0x8d969f, roughness: 0.6 }),
     black: new THREE.MeshStandardMaterial({ color: 0x121418, roughness: 0.5 }),
     sink: new THREE.MeshStandardMaterial({ color: 0x1b1e22, roughness: 0.4, metalness: 0.7 }),
@@ -566,14 +570,14 @@ async function robot() {
     white: new THREE.MeshStandardMaterial({ color: 0xf2f4f6, roughness: 0.5 }),
     nylon: new THREE.MeshStandardMaterial({ color: 0xeee8d8, roughness: 0.62 }),
     terminal: new THREE.MeshStandardMaterial({ color: 0x1f64d8, roughness: 0.42 }),
-    servo: new THREE.MeshPhysicalMaterial({ color: 0x2a6be0, roughness: 0.26, clearcoat: 0.8, clearcoatRoughness: 0.2 }),
+    servo: new THREE.MeshStandardMaterial({ color: 0x2a6be0, roughness: 0.24 }),
     servoLabel: new THREE.MeshStandardMaterial({ map: servoTex, roughness: 0.4 }),
     chipTop: new THREE.MeshStandardMaterial({ map: chipTex, roughness: 0.4, metalness: 0.15 }),
     header: new THREE.MeshStandardMaterial({ color: 0x15171a, roughness: 0.55 }),
-    cell: new THREE.MeshPhysicalMaterial({ map: cellTex, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.25 }),
-    deck: new THREE.MeshPhysicalMaterial({ map: deckMap, roughnessMap: deckRough, roughness: 1, metalness: 0, envMapIntensity: 0.7 }),
-    deckEdge: new THREE.MeshPhysicalMaterial({ color: 0x15181c, roughness: 0.16, clearcoat: 1, clearcoatRoughness: 0.08 }),
-    bracket: new THREE.MeshPhysicalMaterial({ color: 0x0d0f12, roughness: 0.2, clearcoat: 0.8, clearcoatRoughness: 0.12 }),
+    cell: new THREE.MeshStandardMaterial({ map: cellTex, roughness: 0.28 }),
+    deck: new THREE.MeshStandardMaterial({ map: deckMap, roughnessMap: deckRough, roughness: 1, metalness: 0, envMapIntensity: 0.7 }),
+    deckEdge: new THREE.MeshStandardMaterial({ color: 0x15181c, roughness: 0.12 }),
+    bracket: new THREE.MeshStandardMaterial({ color: 0x0d0f12, roughness: 0.18 }),
   };
   const led = (on) => new THREE.MeshStandardMaterial({ color: 0x0a3d33, emissive: 0x5fffd7, emissiveIntensity: on ? 2.2 : 0, roughness: 0.3 });
   // a box with its own material on one face: 0 +x, 1 −x, 2 top, 3 bottom, 4 front, 5 back
@@ -809,7 +813,7 @@ async function robot() {
     'R': '1e11111e141211', 'S': '0f10100e01011e', 'T': '1f040404040404', 'Z': '1f01020408101f',
     'c': '00000e1010110e', 'm': '00001a15151111', ',': '000000000c0408', '.': '00000000000c0c', '-': '0000001f000000',
   };
-  const DOT = 10, PITCH = 12, CELL_W = 5 * PITCH + 6, CELL_H = 8 * PITCH + 8, PADX = 30, PADY = 24;
+  const DOT = 5, PITCH = 6, CELL_W = 5 * PITCH + 3, CELL_H = 8 * PITCH + 4, PADX = 15, PADY = 12;   // about as many pixels as it ever shows
   const LW = PADX * 2 + 16 * CELL_W - 6, LH = PADY * 2 + 2 * CELL_H - 8;
   const lcdCanvas = document.createElement('canvas'); lcdCanvas.width = LW; lcdCanvas.height = LH;
   const lcdCtx = lcdCanvas.getContext('2d');
@@ -898,7 +902,43 @@ async function robot() {
   wire([[0.33, 0.9, 0.07], [0.45, 0.95, -0.35], [0.53, 0.94, -0.85], [0.48, 1.08, -0.91]], 3);
 
   // every solid part casts and catches the key light's shadows
-  body.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+  // one draw per material for everything that moves together: hundreds of small parts become a few dozen meshes
+  const moving = new Set([...wheels, neck, eyes]);
+  const flatten = (m, toRoot) => {
+    const g = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone();
+    Object.keys(g.attributes).forEach((k) => { if (k !== 'position' && k !== 'normal' && k !== 'uv') g.deleteAttribute(k); });
+    if (!g.attributes.uv) g.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(g.attributes.position.count * 2), 2));
+    g.clearGroups();
+    return g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(toRoot, m.matrixWorld));
+  };
+  const mergeInto = (root) => {
+    root.updateMatrixWorld(true);
+    const toRoot = new THREE.Matrix4().copy(root.matrixWorld).invert();
+    const buckets = new Map();
+    const walk = (o) => o.children.slice().forEach((c) => {
+      if (moving.has(c)) mergeInto(c);
+      else if (c.isMesh && !c.isInstancedMesh && !Array.isArray(c.material) && !c.children.length) {
+        const list = buckets.get(c.material) || []; list.push(c); buckets.set(c.material, list);
+      } else if (!c.isMesh) walk(c);
+    });
+    walk(root);
+    buckets.forEach((list, mat) => {
+      if (list.length < 2) return;
+      const geo = mergeGeometries(list.map((m) => flatten(m, toRoot)), false);
+      if (!geo) return;
+      list.forEach((m) => m.parent.remove(m));
+      root.add(new THREE.Mesh(geo, mat));
+    });
+  };
+  Object.values(parts).forEach((pt) => mergeInto(pt.g));
+  mergeInto(wires);
+  // everything catches the key light's shadows; only the parts big enough to matter cast them
+  body.traverse((o) => {
+    if (!o.isMesh) return;
+    o.receiveShadow = true;
+    if (!o.geometry.boundingSphere) o.geometry.computeBoundingSphere();
+    o.castShadow = !o.isInstancedMesh && o.geometry.boundingSphere.radius > 0.09;
+  });
   pings.forEach((pg) => { pg.m.castShadow = false; });
 
   // the floor: a soft drawn blob for contact, plus a catcher for the real shadows
@@ -911,7 +951,8 @@ async function robot() {
   })();
   const floorBlob = mesh(new THREE.PlaneGeometry(2.9, 2.7), new THREE.MeshBasicMaterial({ map: blobTex, transparent: true, depthWrite: false }), 0, 0.004, -0.05, body);
   floorBlob.rotation.x = -Math.PI / 2;
-  const floor = mesh(new THREE.PlaneGeometry(7, 7), new THREE.ShadowMaterial({ color: 0x03101c, opacity: 0.3, depthWrite: false }), 0, 0.002, 0, body);
+  // only as big as the shadow ever reaches (the light is front-left, so it falls back and right)
+  const floor = mesh(new THREE.PlaneGeometry(3.6, 4.0), new THREE.ShadowMaterial({ color: 0x03101c, opacity: 0.3, depthWrite: false }), 0.3, 0.002, -0.5, body);
   floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true;
 
   Object.values(parts).forEach((p) => { p.home = p.g.position.clone(); });
@@ -1006,8 +1047,7 @@ async function robot() {
   // one step of rolling: tilt pushes it, friction slows it, the walls and the robot bounce it
   const sensPx = { x: -1e4, y: -1e4, ppu: 1 };
   const BALL_R = 11;
-  const roll = (dt) => {
-    const r = field.getBoundingClientRect();
+  const roll = (dt, r) => {
     ball.vx = clamp((ball.vx + ball.gx * 2400 * dt) * Math.pow(0.4, dt), -1400, 1400);
     ball.vy = clamp((ball.vy + ball.gy * 2400 * dt) * Math.pow(0.4, dt), -1400, 1400);
     ball.x += ball.vx * dt; ball.y += ball.vy * dt;
@@ -1037,7 +1077,9 @@ async function robot() {
       if (vn < 0) { ball.vx -= 1.7 * vn * nx; ball.vy -= 1.7 * vn * ny; }
       ball.vx += nx * 160; ball.vy += ny * 160;
     }
-    // the ball is the target, exactly as a cursor would be
+  };
+  // once a frame: put the ball on the page, and make it the target, exactly as a cursor would be
+  const placeBall = (r) => {
     ball.el.style.transform = `translate(${ball.x.toFixed(1)}px, ${ball.y.toFixed(1)}px)`;
     const px = r.left + ball.x, py = r.top + ball.y;
     pointer.px = px; pointer.py = py; pointer.x = (px / W) * 2 - 1; pointer.y = -(py / H) * 2 + 1;
@@ -1057,20 +1099,31 @@ async function robot() {
   const TOO_CLOSE = 9;                     // cm, at the robot's own scale (1 unit = 10 cm)
   let lastPing = 0, avoidAt = -10, hudAt = 0, glow = 0, avoiding = false, retreat = 0, retreatPrev = 0;
 
+  let shown = '', slow = 1 / 60, samples = 0;
   function frame() {
     requestAnimationFrame(frame);
     if (frozen) return;
     const t = performance.now() / 1000;
-    const dt = Math.min(0.05, t - last); last = t;
+    if (t - last < 1 / 75) return;             // about 60 frames a second at most, even on 120 Hz screens
+    const raw = t - last;
+    const dt = Math.min(0.05, raw); last = t;
 
     const heroR = hero.getBoundingClientRect();
     const kitR = kit ? kit.getBoundingClientRect() : { top: Infinity, bottom: -Infinity };
     const onScreen = heroR.bottom > 0 || (kitR.top < H && kitR.bottom > 0);
-    canvas.style.visibility = onScreen ? 'visible' : 'hidden';
-    // the layer covers only the hero and the kit stage, never the sections after them
-    const lo = Math.min(H, Math.max(heroR.bottom, kitR.bottom));
-    canvas.style.clipPath = `inset(0 0 ${Math.max(0, H - lo).toFixed(0)}px 0)`;
+    const vis = onScreen ? 'visible' : 'hidden';
+    if (vis !== shown) { canvas.style.visibility = vis; shown = vis; }
     if (!onScreen) return;
+    // the layer covers only the hero and the kit stage, never the sections after them (a scissor, so no CSS repaint)
+    const lo = Math.min(H, Math.max(heroR.bottom, kitR.bottom));
+
+    // a device that can't hold about 40 frames a second renders fewer pixels, then drops the shadows
+    if (raw < 0.25) { samples++; slow += (raw - slow) * 0.05; }
+    if (samples > 120 && slow > 1 / 38) {
+      samples = 0; slow = 1 / 60;
+      if (pr > 0.75) { pr = Math.max(0.75, pr - 0.25); renderer.setPixelRatio(pr); renderer.setSize(W, H, false); }
+      else key.castShadow = false;
+    }
 
     // travel from the hero spot to the kit spot as the kit section comes up
     const travel = kit ? smooth(0, 1, 1 - kitR.top / H) : 0;
@@ -1090,7 +1143,9 @@ async function robot() {
     const now = t;
     // the ball keeps real time (in small steps), whatever the frame rate
     if (ball.on && travel < 0.5 && heroR.bottom > 0) {
-      let left = Math.min(0.25, t - (ball.t || t)); while (left > 1e-4) { const st = Math.min(1 / 60, left); roll(st); left -= st; }
+      const fr = field.getBoundingClientRect();
+      let left = Math.min(0.25, t - (ball.t || t)); while (left > 1e-4) { const st = Math.min(1 / 60, left); roll(st, fr); left -= st; }
+      placeBall(fr);
     }
     ball.t = t;
     const tracking = travel < 0.5 && now - pointer.moved < 2.5;
@@ -1197,6 +1252,8 @@ async function robot() {
       l.material.emissiveIntensity = on ? 2.4 : 0.05;
     });
 
+    renderer.setScissorTest(false); renderer.clear();
+    renderer.setScissor(0, H - lo, W, lo); renderer.setScissorTest(true);
     renderer.render(scene, camera);
   }
 
@@ -1217,6 +1274,7 @@ async function robot() {
     lcdShow('kit', 0, 0);
     lcdShow('kit', 0, 0);
     robotRoot.updateMatrixWorld(true); aimKey(robotRoot.scale.x);
+    renderer.setScissorTest(false); renderer.clear();
     renderer.render(scene, camera);
     return canvas.toDataURL('image/png');
   };
@@ -1319,7 +1377,7 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
   const count = reel.querySelector('[data-reel-count]'), ff = reel.querySelector('[data-reel-ff]');
   if (reduced) {
     reel.classList.add('is-still');
-    clips.forEach((v) => { v.controls = true; v.preload = 'metadata'; });
+    clips.forEach((v, i) => { v.controls = true; v.preload = i ? 'none' : 'metadata'; });   // only the first one shows
     return;
   }
   const two = (n) => String(n).padStart(2, '0');
