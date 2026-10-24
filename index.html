@@ -63,9 +63,9 @@
 
     <div class="robot-spot robot-spot--hero" data-spot="hero">
       <img class="robot-still" src="assets/web/robot.webp" width="900" height="700"
-           alt="The obstacle-avoiding robot car students build in the Basic course">
+           alt="The obstacle-avoiding robot car students build in the Intermediate course">
     </div>
-    <p class="hero-hint" data-load style="--d:900ms">The Basic build. Its sensor follows your cursor. Get too close and it backs off.</p>
+    <p class="hero-hint" data-load style="--d:900ms">The Intermediate build. Its sensor follows your cursor. Get too close and it backs off.</p>
   </div>
 
   <div class="hero-band">
@@ -84,7 +84,7 @@
 
     <div class="robot-spot robot-spot--kit" data-spot="kit">
       <img class="robot-still" src="assets/web/robot-parts.webp" width="900" height="700" loading="lazy"
-           alt="The Basic robot kit laid out: board, ultrasonic sensor, servo, motors, wheels and battery">
+           alt="The obstacle-avoiding robot laid out: board, ultrasonic sensor, servo, motors, wheels, battery and screen">
     </div>
 
     <ul class="kit-parts">
@@ -110,13 +110,14 @@
       </li>
       <li class="kit-all">
         <h3>All together</h3>
-        <p>Five parts, one robot that finds its own way round a room. Built and coded by the student in Basic.</p>
+        <p>Five parts, one robot that finds its own way round a room. Built and coded by the student in Intermediate.</p>
       </li>
     </ul>
 
     <p class="kit-foot">
-      The Basic kit costs &#8377;1,600, passed on at cost, and it stays with the student.
-      The five lights on the board are the five seats in every batch.
+      The Intermediate kit costs &#8377;2,499, passed on at cost, and it stays with the student.
+      The five lights on the board are the five seats in every batch. The screen on the back is the
+      16&times;2 LCD from the Advanced kit.
     </p>
   </div>
 </section>
@@ -188,21 +189,23 @@
   <div class="levels" data-picker>
     <article class="level" id="basic">
       <h3 class="level-name"><button type="button" aria-pressed="false"
-          data-level="Basic" data-fee="3499" data-kit="1600" data-sessions="10" data-weeks="5">Basic</button></h3>
+          data-level="Basic" data-fee="3499" data-kit="1599" data-sessions="10" data-weeks="5">Basic</button></h3>
       <div class="level-facts">
         <p class="level-price">&#8377;3,499 <span>10 sessions, 5 weeks</span></p>
         <p>Electronics and circuits from scratch, Arduino programming, sensors, motors and outputs. Five working builds and a certificate.</p>
-        <p class="level-kit">Kit &#8377;1,600 at cost, optional</p>
+        <p class="level-builds">You build: LED and sensor automation, a traffic light, a smart alarm with a buzzer.</p>
+        <p class="level-kit">Kit &#8377;1,599 at cost, optional: Arduino Uno R3, breadboard, ultrasonic, IR and LDR sensors, a servo, buzzer, LEDs and wires</p>
       </div>
     </article>
 
     <article class="level" id="intermediate">
       <h3 class="level-name"><button type="button" aria-pressed="false"
-          data-level="Intermediate" data-fee="4999" data-kit="2500" data-sessions="14" data-weeks="7">Intermediate</button></h3>
+          data-level="Intermediate" data-fee="4999" data-kit="2499" data-sessions="14" data-weeks="7">Intermediate</button></h3>
       <div class="level-facts">
         <p class="level-price">&#8377;4,999 <span>14 sessions, 7 weeks</span></p>
         <p>ESP32 and WiFi, IoT dashboards and control, a Bluetooth-controlled robot and a home automation build. Certificate on completion.</p>
-        <p class="level-kit">Kit &#8377;2,500 at cost, optional</p>
+        <p class="level-builds">You build: an obstacle-avoiding robot, a line follower, smart parking, a password locker, an automatic street light, a security alarm.</p>
+        <p class="level-kit">Kit &#8377;2,499 at cost, optional: everything in Basic, plus a robot chassis, motors and wheels, L298N driver, HC-05 Bluetooth, keypad, relay and battery pack</p>
       </div>
     </article>
 
@@ -212,7 +215,8 @@
       <div class="level-facts">
         <p class="level-price">&#8377;9,499 <span>18 sessions, 9 weeks</span></p>
         <p>AI on hardware, Raspberry Pi, computer vision, and a final innovation project of the student's own. Certificate on completion.</p>
-        <p class="level-kit">Kit &#8377;3,000 at cost, optional</p>
+        <p class="level-builds">You build: a human-follower robot, joystick and Bluetooth cars, a voice-controlled robot, an RFID door lock, a smart attendance system.</p>
+        <p class="level-kit">Kit &#8377;3,000 at cost, optional: everything in Basic and Intermediate, plus an Arduino Nano, RFID set, 16&times;2 LCD with I2C, and a joystick</p>
       </div>
     </article>
   </div>
@@ -381,6 +385,9 @@
     <video class="reel-clip is-on" src="assets/web/reel-01.mp4" poster="assets/web/reel-01.webp" width="1024" height="576"
            muted loop playsinline preload="none" data-caption="Sensor test, school workshop"
            aria-label="Students testing the infrared sensor on their Arduino build during a school workshop"></video>
+    <video class="reel-clip" src="assets/web/reel-02.mp4" poster="assets/web/reel-02.webp" width="1280" height="720"
+           muted loop playsinline preload="none" data-caption="What AI can and can't do, a team session"
+           aria-label="Shehzad walking a company team through what AI is good at and what it is not"></video>
     <div class="reel-scan" aria-hidden="true"></div>
     <div class="reel-mask">
       <h2 class="reel-title"><span class="line"><span data-zoom>I</span>nside</span> <span class="line">a class</span></h2>
@@ -390,7 +397,7 @@
       <p class="reel-time" data-reel-time>00:00:00</p>
       <p class="reel-ff" data-reel-ff></p>
       <p class="reel-cap" data-reel-cap>Sensor test, school workshop</p>
-      <p class="reel-count" data-reel-count>01 / 01</p>
+      <p class="reel-count" data-reel-count>01 / 02</p>
     </div>
   </div>
 </section>
@@ -427,7 +434,7 @@
   <div class="cyl" data-cylinder aria-roledescription="carousel" aria-label="Gallery photos">
     <div class="cyl-ring">
       <figure class="cyl-card"><img src="assets/web/school-kits.webp" alt="Students opening their robotics kits at a school workshop" loading="lazy" draggable="false"><figcaption>Kits open, school workshop</figcaption></figure>
-      <figure class="cyl-card"><img src="assets/web/car-build.webp" alt="A student wiring a robot car with yellow wheels" loading="lazy" draggable="false"><figcaption>The Basic robot car</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/car-build.webp" alt="A student wiring a robot car with yellow wheels" loading="lazy" draggable="false"><figcaption>The obstacle-avoiding robot car</figcaption></figure>
       <figure class="cyl-card"><img src="assets/web/founder-teaching.webp" alt="Shehzad explaining a circuit to a group of students" loading="lazy" draggable="false"><figcaption>Explaining the circuit</figcaption></figure>
       <figure class="cyl-card"><img src="assets/web/certificate-1.webp" alt="A young student with his completion certificate" loading="lazy" draggable="false"><figcaption>Certificate day</figcaption></figure>
       <figure class="cyl-card"><img src="assets/web/dubai-team.webp" alt="Shehzad at the Team India wall in Dubai" loading="lazy" draggable="false"><figcaption>Team India, Dubai</figcaption></figure>

@@ -61,7 +61,7 @@ browsers that can't draw 3D.
 ## 4. Recent changes (October 2026)
 
 - **New design on every page.** One typeface (TikTok Sans), brand navy, cyan and mint, square corners.
-- **3D robot** (the Basic obstacle-avoiding car) in the homepage, demo and schools heroes. On the homepage
+- **3D robot** (the Intermediate obstacle-avoiding car, with the Advanced kit's 16×2 LCD) in the homepage, demo and schools heroes. On the homepage
   it comes apart into its parts as you scroll. Visitors with reduced motion get the still version.
 - **Demo form fixed:** Continue now works on every step (it stopped at step 2 before).
 - **Forms:** check that the Sheet or FormSubmit actually accepted the enquiry; on failure the visitor
@@ -73,8 +73,10 @@ browsers that can't draw 3D.
 ## 5. Still open
 
 - **Weekend session times** on the homepage (15, 40, 15 min…) are placeholders. Send the real ones.
-- **What's in the Basic kit**: the 3D robot and parts list show Arduino Uno, ultrasonic sensor, servo,
-  two geared motors with a driver, battery pack and chassis. Confirm or correct.
+- **Advanced kit price**: the kit sheet says ₹2,499 (the same as Intermediate); the site shows ₹3,000.
+  Confirm which is right. (Basic ₹1,599 and Intermediate ₹2,499 are taken from the kit sheet.)
+- **Advanced course text** mentions Raspberry Pi and computer vision; the Advanced kit sheet lists an
+  Arduino Nano, RFID, a 16×2 LCD with I2C and a joystick. Confirm the course description.
 - **Advanced price** — site says ₹9,499. Your bundle maths implied ₹9,999. Four numbers change if it's the latter.
 - **Testimonials** are still anonymous ("A parent, Mumbai"). Named ones convert far better.
 - **Project images** are the AI-generated renders. Swap for real build photos when you can.
