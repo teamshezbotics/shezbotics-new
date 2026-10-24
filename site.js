@@ -2,7 +2,7 @@
    SHEZBOTICS · site.js  (every page, loaded as a module after script.js)
    01 scrolling · 02 bar ink by chapter · 03 entrances · 04 rolling figures
    05 course tally · 06 sideways journey · 07 kit stage · 08 the 3D robot
-   09 the demo pass. Each part does nothing on a page without its elements.
+   09 the demo pass ... 13 the reel · 14 the founder. Each part does nothing on a page without its elements.
    script.js still runs the menu, modal, enrol links, forms, toast and gallery.
    ========================================================================== */
 
@@ -1435,4 +1435,66 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
     if (on && !running) { running = true; lastY = scrollY; requestAnimationFrame(tick); }
     else if (!on && running) { running = false; seen = false; clips[active].pause(); }
   }).observe(reel);
+})();
+
+/* ===== 14 · THE FOUNDER: the portrait boots like an OLED, and his story lights up as it is read ===== */
+(() => {
+  const hex = document.querySelector('[data-oled]');
+  if (hex) {
+    if (reduced) hex.classList.add('is-done');
+    else {
+      const img = hex.querySelector('.oled-img');
+      const boot = () => {
+        hex.classList.add('is-on');                                   // the pixel picture draws in
+        setTimeout(() => hex.classList.add('is-real'), 1500);         // the scan line turns it into the photo
+        setTimeout(() => hex.classList.add('is-done'), 2750);
+      };
+      // an element cut to a shape never reports as visible, so watch the panel and check the portrait itself
+      let near = false, started = false;
+      const check = () => {
+        if (started || !near) return;
+        const r = hex.getBoundingClientRect();
+        if (r.top < innerHeight * 0.72 && r.bottom > innerHeight * 0.2) {
+          started = true; io.disconnect(); removeEventListener('scroll', onScroll);
+          (img.complete ? Promise.resolve() : img.decode().catch(() => {})).then(boot);
+        }
+      };
+      const onScroll = () => requestAnimationFrame(check);
+      const io = new IntersectionObserver((es) => {
+        near = es[es.length - 1].isIntersecting;
+        if (near) img.loading = 'eager';     // it starts fully clipped, so lazy loading would never fetch it
+        check();
+      }, { rootMargin: '50% 0px' });
+      io.observe(hex.parentElement);
+      addEventListener('scroll', onScroll, { passive: true });
+    }
+  }
+
+  const text = document.querySelector('.founder-text');
+  if (!text || reduced) return;
+  // every word of the two paragraphs and the quote becomes its own span, numbered in reading order
+  let n = 0;
+  text.querySelectorAll(':scope > div > p, .founder-quote p').forEach((p) => {
+    const words = p.textContent.trim().split(/\s+/);
+    p.textContent = '';
+    words.forEach((w, k) => {
+      const s = Object.assign(document.createElement('span'), { className: 'w', textContent: w });
+      s.style.setProperty('--i', n++);
+      p.append(s);
+      if (k < words.length - 1) p.append(' ');
+    });
+  });
+  text.style.setProperty('--n', n);
+  text.classList.add('is-reading');
+  // all of it is lit by the time the block's bottom reaches 75% of the screen
+  let near = false, queued = false;
+  const place = () => {
+    queued = false;
+    const r = text.getBoundingClientRect(), vh = innerHeight;
+    text.style.setProperty('--p', clamp((vh * 0.85 - r.top) / (r.height + vh * 0.1)).toFixed(3));
+  };
+  new IntersectionObserver((es) => { near = es[es.length - 1].isIntersecting; if (near) place(); }, { rootMargin: '20% 0px' }).observe(text);
+  addEventListener('scroll', () => { if (near && !queued) { queued = true; requestAnimationFrame(place); } }, { passive: true });
+  addEventListener('resize', place);
+  place();
 })();

@@ -608,6 +608,27 @@ html.js .kit.is-live .kit-stage{
   background:var(--navy-3);
 }
 .founder-hex img{ width:100%; height:100%; object-fit:cover; object-position:50% 18% }
+.founder-text h3 + p, .founder-quote p{ text-wrap:pretty }
+/* the portrait boots like a small OLED screen (site.js 14): off, the pixel picture draws in rows with a flicker,
+   then a scan line sweeps down and leaves the photo behind it */
+.founder-hex{ position:relative }
+.oled-off,.oled-img,.oled-scan{ display:none }
+html.js .founder-hex[data-oled] :is(.oled-off,.oled-img,.oled-scan){ display:block; position:absolute; inset:0; width:100%; height:100%; pointer-events:none }
+.founder-hex .oled-off{ background:#020408 }
+.founder-hex .oled-img{ clip-path:inset(0 0 100% 0) }
+.founder-hex .oled-scan{ opacity:0 }
+.founder-hex .oled-scan i{ position:absolute; left:0; right:0; top:0; height:2px; background:var(--mint) }
+.founder-hex .oled-scan i::before{ content:""; position:absolute; left:0; right:0; bottom:2px; height:36px; background:rgba(95,255,215,.16) }
+.founder-hex.is-on .oled-img{ animation:oled-draw 720ms steps(16, jump-end) forwards, oled-flicker 720ms linear }
+.founder-hex.is-real :is(.oled-off,.oled-img){ animation:oled-wipe 1150ms var(--ease-in-out) forwards }
+.founder-hex.is-real .oled-scan{ animation:oled-scan 1150ms var(--ease-in-out) forwards }
+html.js .founder-hex.is-done :is(.oled-off,.oled-img,.oled-scan){ display:none }
+@keyframes oled-draw{ to{ clip-path:inset(0) } }
+@keyframes oled-flicker{ 0%{ opacity:.35 } 18%{ opacity:1 } 28%{ opacity:.6 } 40%{ opacity:1 } }
+@keyframes oled-wipe{ from{ clip-path:inset(0) } to{ clip-path:inset(100% 0 0 0) } }
+@keyframes oled-scan{ 0%{ opacity:1; transform:translateY(0) } 94%{ opacity:1 } 100%{ opacity:0; transform:translateY(100%) } }
+/* his story lights up as it is read (site.js 14): each word from dim to full, in order, the quote last */
+.founder-text.is-reading .w{ opacity:clamp(.18, calc((var(--p, 0) * var(--n) - var(--i)) / 1.4 + .18), 1); transition:opacity 160ms linear }
 .founder-text{
   grid-column:8 / span 5; grid-row:1 / span 2; align-self:start;
   display:grid; gap:64px; max-width:420px; padding-bottom:56px;
