@@ -361,6 +361,12 @@ async function robot() {
   const THREE = await import('three');
   const { RoomEnvironment } = await import('./vendor/three/addons/RoomEnvironment.js');
   const { RoundedBoxGeometry } = await import('./vendor/three/addons/RoundedBoxGeometry.js');
+  // with the boot screen up, build only once its bar is holding, so its typing never stutters
+  if (html.classList.contains('booting')) await new Promise((res) => {
+    if (window.__shezBootHold) return res();
+    document.addEventListener('shez:boot-hold', res, { once: true });
+    setTimeout(res, 3000);
+  });
 
   const phone = mq('(max-width: 767px)').matches;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: false });
@@ -792,6 +798,74 @@ async function robot() {
   }
   many(new THREE.BoxGeometry(0.01, 0.06, 0.01), M.brass, [0, 1, 2, 3].map((i) => [-0.038 + i * 0.0254, -0.13, 0]), eyes);
 
+  // a 16×2 character LCD on an acrylic stand at the back: it shows what the sensor measures
+  const GLYPHS = {
+    ' ': '00000000000000', '0': '0e11131519110e', '1': '040c040404040e', '2': '0e11010204081f',
+    '3': '1f02040201110e', '4': '02060a121f0202', '5': '1f101e0101110e', '6': '0608101e11110e',
+    '7': '1f010204080808', '8': '0e11110e11110e', '9': '0e11110f01020c', 'A': '0e1111111f1111',
+    'B': '1e11111e11111e', 'C': '0e11101010110e', 'D': '1c12111111121c', 'E': '1f10101e10101f',
+    'G': '0e11101711110f', 'H': '1111111f111111', 'I': '0e04040404040e', 'K': '11121418141211',
+    'L': '1010101010101f', 'M': '111b1515111111', 'N': '11111915131111', 'O': '0e11111111110e',
+    'R': '1e11111e141211', 'S': '0f10100e01011e', 'T': '1f040404040404', 'Z': '1f01020408101f',
+    'c': '00000e1010110e', 'm': '00001a15151111', ',': '000000000c0408', '.': '00000000000c0c', '-': '0000001f000000',
+  };
+  const DOT = 10, PITCH = 12, CELL_W = 5 * PITCH + 6, CELL_H = 8 * PITCH + 8, PADX = 30, PADY = 24;
+  const LW = PADX * 2 + 16 * CELL_W - 6, LH = PADY * 2 + 2 * CELL_H - 8;
+  const lcdCanvas = document.createElement('canvas'); lcdCanvas.width = LW; lcdCanvas.height = LH;
+  const lcdCtx = lcdCanvas.getContext('2d');
+  const lcdTex = new THREE.CanvasTexture(lcdCanvas); lcdTex.colorSpace = THREE.SRGBColorSpace; lcdTex.anisotropy = maxAniso;
+  const LCD_BLUE = ['#1f4fd8', '#2b5de8', '#eef6ff'], LCD_RED = ['#d1382b', '#df4a3c', '#fff3ec'];
+  const lcdDots = new Uint8Array(80 * 16);          // 16 cells × 5 dots across, 2 rows × 8 dots down
+  const rows = (ch) => { const g = GLYPHS[ch] || GLYPHS[' ']; return Array.from({ length: 7 }, (_, y) => parseInt(g.substr(y * 2, 2), 16)); };
+  const putText = (row, col, str) => [...str].forEach((ch, i) => {
+    const c = col + i; if (c < 0 || c > 15) return;
+    rows(ch).forEach((bits, y) => { for (let x = 0; x < 5; x++) if (bits & (16 >> x)) lcdDots[(row * 8 + y) * 80 + c * 5 + x] = 1; });
+  });
+  // big digits, three cells wide and both rows tall, the way LCD clocks draw them
+  const putBig = (col, ch) => rows(ch).forEach((bits, y) => {
+    for (let x = 0; x < 5; x++) if (bits & (16 >> x)) for (let sy = 0; sy < 2; sy++) for (let sx = 0; sx < 3; sx++) {
+      const Y = y * 2 + sy; lcdDots[(Y < 7 ? Y : Y + 1) * 80 + col * 5 + x * 3 + sx] = 1;
+    }
+  });
+  const centred = (t) => ' '.repeat(Math.max(0, Math.floor((16 - t.length) / 2))) + t;
+  let lcdKey = '';
+  const lcdShow = (mode, n, now) => {
+    const dots = '.'.repeat(Math.floor(now * 2.5) % 4);
+    const key = mode === 'scan' ? mode + dots : mode + n;
+    if (key === lcdKey) return;
+    lcdKey = key; lcdDots.fill(0);
+    if (mode === 'dist' || mode === 'near') {
+      const t = String(Math.min(n, 999)), c0 = 11 - (t.length * 4 - 1);
+      [...t].forEach((ch, i) => putBig(c0 + i * 4, ch));
+      putText(0, 12, mode === 'near' ? 'TOO ' : 'DIST'); putText(1, 12, mode === 'near' ? 'NEAR' : ' cm ');
+    } else if (mode === 'far') { putText(0, 0, centred('NO OBSTACLE')); putText(1, 0, centred('IN RANGE')); }
+    else if (mode === 'kit') { putText(0, 0, centred('HELLO, MAKER')); putText(1, 0, centred('SHEZBOTICS')); }
+    else { putText(0, 0, centred('SHEZBOTICS')); putText(1, 3, 'SCANNING' + dots); }
+    const [bg, off, on] = mode === 'near' ? LCD_RED : LCD_BLUE;
+    lcdCtx.fillStyle = bg; lcdCtx.fillRect(0, 0, LW, LH);
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 16; c++) for (let dy = 0; dy < 8; dy++) for (let dx = 0; dx < 5; dx++) {
+      lcdCtx.fillStyle = lcdDots[(r * 8 + dy) * 80 + c * 5 + dx] ? on : off;
+      lcdCtx.fillRect(PADX + c * CELL_W + dx * PITCH, PADY + r * CELL_H + dy * PITCH, DOT, DOT);
+    }
+    lcdTex.needsUpdate = true;
+    canvas.dataset.lcd = mode === 'dist' || mode === 'near' ? `${mode} ${n}` : mode;
+  };
+  lcdShow('scan', 0, 0);
+
+  const lcd = part('lcd', [0.35, 0.95, -0.45]);
+  const screenBox = new THREE.Group(); screenBox.position.set(0.36, 1.15, -0.8); screenBox.rotation.set(-0.14, 0.32, 0); lcd.add(screenBox);
+  box(0.8, 0.36, 0.016, new THREE.MeshStandardMaterial({ color: 0x1d7a3e, roughness: 0.45 }), 0, 0, -0.03, screenBox);
+  box(0.71, 0.25, 0.032, M.sink, 0, -0.005, -0.006, screenBox, 0.006);
+  mesh(new THREE.PlaneGeometry(0.62, 0.62 * LH / LW), new THREE.MeshBasicMaterial({ map: lcdTex, toneMapped: false }), 0, -0.005, 0.0105, screenBox);
+  mesh(new THREE.PlaneGeometry(0.64, 0.17), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.06, metalness: 1, transparent: true, opacity: 0.1, depthWrite: false }), 0, -0.005, 0.012, screenBox);
+  [[-0.37, 0.155], [0.37, 0.155], [-0.37, -0.155], [0.37, -0.155]].forEach(([x, y]) => cyl(0.018, 0.018, 0.006, M.silver, x, y, -0.02, screenBox, 16).rotation.x = Math.PI / 2);
+  many(new THREE.CylinderGeometry(0.009, 0.009, 0.005, 10), M.brass, Array.from({ length: 16 }, (_, i) => [-0.29 + i * 0.0254, 0.158, -0.02, Math.PI / 2]), screenBox);
+  box(0.42, 0.2, 0.012, M.chip, 0.05, 0, -0.046, screenBox);
+  // the stand: one black acrylic upright, screwed to the deck
+  box(0.13, 0.43, 0.025, M.bracket, 0.57, 0.895, -0.93, lcd, 0.008).rotation.y = 0.32;
+  box(0.18, 0.025, 0.12, M.bracket, 0.57, 0.692, -0.93, lcd, 0.008).rotation.y = 0.32;
+  screws([[0.53, 0.708, -0.91], [0.62, 0.708, -0.95]], lcd);
+
   // wires with their plugs (they belong to the assembled robot and fade as it comes apart)
   const wireMats = [0xd7263d, 0x16181b, 0xffc400, 0x2bb673, 0x2f80ed, 0xff7a00, 0xf2f2f2, 0x0e0f11].map(
     (c) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.45, transparent: true, opacity: 1 }));
@@ -819,6 +893,9 @@ async function robot() {
   wire([[-0.05, 0.9, 0.06], [-0.12, 0.98, -0.12], [-0.22, 0.9, -0.55], [-0.4, 0.84, -0.86]], 1, false);
   wire([[-0.18, 0.79, -0.36], [-0.45, 0.82, -0.36], [-0.6, 0.7, 0.1], [-0.6, 0.5, 0.31]], 0, false);
   wire([[0.18, 0.79, -0.36], [0.45, 0.82, -0.36], [0.6, 0.7, 0.1], [0.6, 0.5, 0.31]], 1, false);
+  // the screen's two I2C leads run under it to the backpack on its back
+  wire([[0.3, 0.9, 0.07], [0.42, 0.95, -0.35], [0.5, 0.94, -0.84], [0.45, 1.08, -0.9]], 4);
+  wire([[0.33, 0.9, 0.07], [0.45, 0.95, -0.35], [0.53, 0.94, -0.85], [0.48, 1.08, -0.91]], 3);
 
   // every solid part casts and catches the key light's shadows
   body.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
@@ -974,8 +1051,6 @@ async function robot() {
   const lerp = THREE.MathUtils.lerp;
 
   // the sensor: finds the cursor, pings it, measures it, and backs off when it gets too close
-  const sonar = spotHero.querySelector('[data-sonar]');
-  const sonarVal = sonar && sonar.querySelector('b');
   const aimRay = new THREE.Raycaster();
   const aimPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
   const aimHit = new THREE.Vector3(), neckW = new THREE.Vector3(), v3 = new THREE.Vector3(), ndc = new THREE.Vector2();
@@ -1093,13 +1168,10 @@ async function robot() {
     pupilMat.emissiveIntensity = glow;
     pupilMat.emissive.setHex(avoiding ? 0xff6a5a : 0x5fffd7);
 
-    // the reading on the hero, ten times a second
-    if (sonarVal && now - hudAt > 0.1) {
+    // the robot's own screen, ten times a second
+    if (now - hudAt > 0.1) {
       hudAt = now;
-      const txt = !tracking ? 'scanning' : cm > 400 ? 'out of range' : avoiding ? `${Math.round(cm)} cm, backing off` : `${Math.round(cm)} cm`;
-      if (sonarVal.textContent !== txt) sonarVal.textContent = txt;
-      sonar.classList.toggle('is-alert', avoiding);
-      sonar.classList.toggle('is-locked', tracking && !avoiding);
+      lcdShow(travel >= 0.5 ? 'kit' : !tracking ? 'scan' : cm > 400 ? 'far' : avoiding ? 'near' : 'dist', Math.round(cm), now);
     }
 
     // parts move out along their own directions; the active chapter lifts a little more
@@ -1129,7 +1201,7 @@ async function robot() {
   }
 
   html.classList.add('has-3d');
-  requestAnimationFrame(frame);
+  frame();                                   // the first frame now, shaders and all, while the boot screen is still up
 
   // still frames for the no-WebGL fallback images (used once by the build, harmless otherwise)
   window.__shezStill = (mode) => {
@@ -1142,13 +1214,16 @@ async function robot() {
     const e = mode === 'parts' ? 1 : 0;
     Object.values(parts).forEach((pt) => pt.g.position.copy(pt.home).addScaledVector(pt.out, e));
     wires.visible = !e; floorBlob.visible = floor.visible = !e;
+    lcdShow('kit', 0, 0);
+    lcdShow('kit', 0, 0);
     robotRoot.updateMatrixWorld(true); aimKey(robotRoot.scale.x);
     renderer.render(scene, camera);
     return canvas.toDataURL('image/png');
   };
 }
 
-robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classList.remove('has-3d'); });
+robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classList.remove('has-3d'); })
+  .finally(() => { window.__shez3d = true; document.dispatchEvent(new Event('shez:3d')); });   // the boot screen waits for this
 
 /* ===== 09 · THE DEMO PASS: the ticket beside the booking form prints itself as it is filled ===== */
 (() => {

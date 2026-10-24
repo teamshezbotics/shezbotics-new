@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#00E5FF">
 <title>ShezBotics | Live Online AI &amp; Robotics Classes, Five to a Batch</title>
 <meta name="description" content="Live online AI and robotics classes in batches of five, for ages 8-20 anywhere in India. Weekend sessions taught by the founder. Book a free 60-minute demo.">
-<script>document.documentElement.classList.add('js')</script>
+<script>(function(d){d.classList.add('js');try{var n=performance.getEntriesByType('navigation')[0];if(!sessionStorage.getItem('shez-boot')||(n&&n.type==='reload')){d.classList.add('booting');window.__bootFs=setTimeout(function(){d.classList.remove('booting')},9000)}}catch(e){}})(document.documentElement)</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +17,8 @@
 </head>
 
 <body>
+<div class="boot" data-boot aria-hidden="true"><canvas class="boot-lcd" width="800" height="360"></canvas><p class="boot-skip" data-boot-skip>Tap to skip</p></div>
+<script src="boot.js" async></script>
 <a href="#main" class="skip">Skip to content</a>
 
 <header class="bar" data-bar>
@@ -60,7 +62,6 @@
     </figure>
 
     <div class="robot-spot robot-spot--hero" data-spot="hero">
-      <p class="sonar" data-sonar data-ui aria-hidden="true"><span>Ultrasonic sensor</span><b>scanning</b></p>
       <img class="robot-still" src="assets/web/robot.webp" width="900" height="700"
            alt="The obstacle-avoiding robot car students build in the Basic course">
     </div>

@@ -171,6 +171,24 @@ h3{ font-size:var(--step-lead); font-weight:700; line-height:1.2; letter-spacing
 }
 
 /* ==========================================================================
+   BOOT SCREEN , a 1602 LCD that powers on while the page loads (boot.js)
+   ========================================================================== */
+.boot{ display:none }
+html.booting{ overflow:hidden }
+html.booting .boot, .boot.is-leaving{
+  position:fixed; inset:0; z-index:1000; display:grid; place-content:center; justify-items:center; gap:22px;
+  background:var(--navy); color:var(--paper);
+}
+.boot.is-leaving{ opacity:0; transition:opacity 500ms var(--ease-out) }
+.boot-lcd{ width:min(620px, 88vw); height:auto; animation:boot-in 500ms var(--ease-out) both }
+.boot-skip{ font-size:var(--step-small); opacity:.55 }
+@keyframes boot-in{ from{ opacity:0; transform:translateY(10px) scale(.98) } }
+/* the hero waits for the screen, then makes its entrance */
+html.booting .hero [data-line], html.booting .hero [data-load],
+html.booting .hero [data-open], html.booting .hero [data-open] img{ animation-play-state:paused }
+@media (prefers-reduced-motion:reduce){ .boot-lcd{ animation:none } .boot.is-leaving{ transition-duration:150ms } }
+
+/* ==========================================================================
    THE ROBOT CANVAS (fixed; home.js places the robot over the spots)
    ========================================================================== */
 .robot-canvas{
@@ -208,18 +226,6 @@ html.has-3d .robot-still{ visibility:hidden }
   position:absolute; z-index:1; left:17vw; bottom:-3%;
   width:min(34vw, 620px); aspect-ratio:9/7;
 }
-/* the sensor's live reading, pinned to the robot */
-.sonar{
-  position:absolute; z-index:2; right:2%; top:18%; display:grid; gap:2px; min-width:150px;
-  padding:8px 12px; background:var(--navy); color:var(--paper); font-size:var(--step-small); line-height:1.25;
-  font-variant-numeric:tabular-nums; transition:background-color 200ms ease, color 200ms ease;
-}
-.sonar span{ font-weight:500; opacity:.8 }
-.sonar b{ font-weight:800; color:var(--mint) }
-.sonar.is-alert{ background:#ff8a7a; color:var(--navy) }
-.sonar.is-alert b{ color:var(--navy) }
-html:not(.has-3d) .sonar{ display:none }
-@media (max-width:767px){ .sonar{ right:4%; top:6%; min-width:0; padding:6px 10px } }
 /* phones: the ball that tilting rolls, which the sensor tracks */
 .tilt-ball{
   position:absolute; left:0; top:0; z-index:3; width:22px; height:22px; margin:-11px 0 0 -11px;
