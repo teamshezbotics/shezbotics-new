@@ -73,10 +73,6 @@ browsers that can't draw 3D.
 ## 5. Still open
 
 - **Weekend session times** on the homepage (15, 40, 15 min…) are placeholders. Send the real ones.
-- **Advanced kit price**: the kit sheet says ₹2,499 (the same as Intermediate); the site shows ₹3,000.
-  Confirm which is right. (Basic ₹1,599 and Intermediate ₹2,499 are taken from the kit sheet.)
-- **Advanced course text** mentions Raspberry Pi and computer vision; the Advanced kit sheet lists an
-  Arduino Nano, RFID, a 16×2 LCD with I2C and a joystick. Confirm the course description.
 - **Advanced price** — site says ₹9,499. Your bundle maths implied ₹9,999. Four numbers change if it's the latter.
 - **Testimonials** are still anonymous ("A parent, Mumbai"). Named ones convert far better.
 - **Project images** are the AI-generated renders. Swap for real build photos when you can.
