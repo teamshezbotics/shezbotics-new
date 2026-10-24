@@ -3,626 +3,579 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#071423">
-<title>ShezBotics | Live Online AI &amp; Robotics Training, Batches of Five</title>
-<meta name="description" content="Live online AI and robotics training in batches of five, for ages 8-20 anywhere in India. Taught by the founder. Weekend classes. Book a free 60-minute demo.">
+<meta name="theme-color" content="#00E5FF">
+<title>ShezBotics | Live Online AI &amp; Robotics Classes, Five to a Batch</title>
+<meta name="description" content="Live online AI and robotics classes in batches of five, for ages 8-20 anywhere in India. Weekend sessions taught by the founder. Book a free 60-minute demo.">
+<script>document.documentElement.classList.add('js')</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=TikTok+Sans:wdth,wght@75..150,300..900&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/web/certificate-2.webp" fetchpriority="high">
+<link rel="stylesheet" href="home.css">
+<link rel="icon" href="assets/web/logo-navy.png">
 </head>
 
 <body>
 <a href="#main" class="skip">Skip to content</a>
 
-<!-- ================= PRELOADER ================= -->
-<div id="preloader" role="status" aria-label="Loading ShezBotics">
-
-  <div class="loader-wave" aria-hidden="true">
-    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-      <path class="wave-glow" d="M0 60 Q 75 32 150 60 T 300 60 T 450 60 T 600 60 T 750 60 T 900 60 T 1050 60 T 1200 60 T 1350 60 T 1500 60 T 1650 60 T 1800 60"/>
-      <path class="wave-a"    d="M0 60 Q 75 32 150 60 T 300 60 T 450 60 T 600 60 T 750 60 T 900 60 T 1050 60 T 1200 60 T 1350 60 T 1500 60 T 1650 60 T 1800 60"/>
-      <path class="wave-b"    d="M0 84 Q 75 58 150 84 T 300 84 T 450 84 T 600 84 T 750 84 T 900 84 T 1050 84 T 1200 84 T 1350 84 T 1500 84 T 1650 84 T 1800 84"/>
-    </svg>
-  </div>
-
-  <div class="loader-content">
-    <div class="mark" data-mark>
-      <img src="assets/logo.png" alt="">
-      <svg class="mark-fallback" viewBox="0 0 48 48" aria-hidden="true">
-        <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="#00E5FF" stroke-width="1.6"/>
-        <path d="M24 14v10l8 5" fill="none" stroke="#5fffd7" stroke-width="1.6" stroke-linecap="round"/>
-        <circle cx="24" cy="24" r="2.6" fill="#00E5FF"/>
-      </svg>
-    </div>
-    <div class="loader-brand">SHEZBOTICS</div>
-    <div class="loader-seats" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <p class="loader-note">Initializing AI &amp; Robotics</p>
-  </div>
-
-</div>
-
-<header class="site-header">
-  <a href="#home" class="brand">
-    <span class="mark" data-mark>
-      <img src="assets/logo.png" alt="">
-      <svg class="mark-fallback" viewBox="0 0 48 48" aria-hidden="true">
-        <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="#00E5FF" stroke-width="2"/>
-        <circle cx="24" cy="24" r="3" fill="#00E5FF"/>
-      </svg>
-    </span>
-    <b>ShezBotics</b>
+<header class="bar" data-bar>
+  <a href="#home" class="wordmark" aria-label="ShezBotics, back to top">
+    <img src="assets/web/logo-navy.png" width="26" height="28" alt="" class="wordmark-ink-dark">
+    <img src="assets/web/logo-paper.png" width="26" height="28" alt="" class="wordmark-ink-light">
+    <span>ShezBotics</span>
   </a>
 
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#about">About</a></li>
-    <li><a href="#courses">Courses</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="schools.html">For Schools</a></li>
-    <li><a href="corporate.html">For Business</a></li>
-    <li><a href="#founder">Founder</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <nav class="bar-nav" aria-label="Main">
+    <ul id="navLinks">
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#founder">Founder</a></li>
+      <li><a href="schools.html">For schools</a></li>
+      <li><a href="corporate.html">For business</a></li>
+      <li class="only-menu"><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-  <a href="demo.html" class="nav-cta">Free demo</a>
+  <a href="demo.html" class="bar-cta">Free demo</a>
 
-  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-    <i></i><i></i><i></i>
-  </button>
-
-  <div class="progress" aria-hidden="true"></div>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">Menu</button>
 </header>
+
+<canvas class="robot-canvas" aria-hidden="true"></canvas>
 
 <main id="main">
 
 <!-- ================= HERO ================= -->
-<section class="hero" id="home">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <p class="eyebrow lift">Live online &middot; Pan India</p>
-      <h1 class="lift">
-        Build the future
-        <em>with AI &amp; robotics</em>
-      </h1>
-      <p class="hero-lead lift">
-        Live online robotics and AI training in <b>batches of five</b>, for ages 8&ndash;20
-        anywhere in India. Taught by the founder &mdash; 120+ projects built,
-        represented India in Dubai.
-      </p>
-      <div class="hero-actions lift">
-        <a href="demo.html" class="btn-primary">Book a free demo</a>
-        <a href="#courses" class="btn-ghost">Explore courses</a>
-      </div>
-    </div>
+<section class="hero" id="home" data-tone="cyan">
+  <div class="hero-field">
+    <h1 class="hero-title lines">
+      <span class="line"><span data-line style="--i:0">Build</span></span>
+      <span class="line"><span data-line style="--i:1">robots</span></span>
+    </h1>
 
-    <div class="hero-visual" aria-hidden="true">
-      <svg viewBox="0 0 400 400">
-        <defs>
-          <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%"   stop-color="#00E5FF" stop-opacity=".85"/>
-            <stop offset="100%" stop-color="#5fffd7" stop-opacity=".15"/>
-          </linearGradient>
-        </defs>
-        <circle cx="200" cy="200" r="150" fill="none" stroke="url(#ringGrad)" stroke-width="1"/>
-        <circle cx="200" cy="200" r="104" fill="none" stroke="#4be7ff" stroke-opacity=".14" stroke-width="1"/>
-        <circle cx="200" cy="200" r="58"  fill="none" stroke="#4be7ff" stroke-opacity=".10" stroke-width="1"/>
-        <g class="ring-spin">
-          <circle cx="200"   cy="50"    r="5" fill="#00E5FF"/>
-          <circle cx="342.7" cy="153.6" r="5" fill="#00E5FF"/>
-          <circle cx="288.2" cy="321.4" r="5" fill="#00E5FF"/>
-          <circle cx="111.8" cy="321.4" r="5" fill="#00E5FF"/>
-          <circle cx="57.3"  cy="153.6" r="5" fill="#00E5FF"/>
-        </g>
-        <circle class="node-live" cx="200" cy="200" r="9" fill="#5fffd7"/>
-        <circle cx="200" cy="200" r="20" fill="none" stroke="#5fffd7" stroke-opacity=".3" stroke-width="1"/>
-      </svg>
+    <figure class="hero-print" data-open>
+      <img src="assets/web/certificate-2.webp" width="720" height="1086"
+           alt="A ShezBotics student holding his completion certificate" fetchpriority="high">
+    </figure>
+
+    <div class="robot-spot robot-spot--hero" data-spot="hero">
+      <img class="robot-still" src="assets/web/robot.webp" width="900" height="700"
+           alt="The obstacle-avoiding robot car students build in the Basic course">
     </div>
+    <p class="hero-hint" data-load style="--d:900ms">This is the Basic build. Point at it, or tap it.</p>
   </div>
 
-  <div class="hero-rail">
-    <span class="seat-chip">
-      <span class="seat-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-      5 students per batch
-    </span>
-    <span>Ages 8&ndash;20</span>
-    <span>Sat &amp; Sun</span>
-    <span class="spacer">60-min demo, free</span>
+  <div class="hero-band">
+    <p class="hero-lead" data-load style="--d:420ms">
+      ShezBotics teaches AI and robotics live online to students aged 8&ndash;20, anywhere in India.
+      Five to a batch, on weekends, taught by the founder.
+    </p>
+    <a href="demo.html" class="btn btn-cyan" data-load style="--d:520ms">Book a free demo</a>
   </div>
 </section>
 
-<!-- ================= STATS ================= -->
-<section class="section section-alt">
-  <div class="wrap">
-    <div class="stat-grid reveal-stagger">
-      <div class="stat"><b data-count="150" data-suffix="+">0</b><span>Students trained</span></div>
-      <div class="stat"><b data-count="120" data-suffix="+">0</b><span>Projects built</span></div>
-      <div class="stat"><b data-count="10"  data-suffix="+">0</b><span>Workshops run</span></div>
-      <div class="stat"><b data-count="6"  data-suffix="+">0</b><span>Years of experience</span></div>
-    </div>
-  </div>
-</section>
+<!-- ================= THE KIT (3D exploded view) ================= -->
+<section class="kit scene" id="kit" data-tone="navy" data-kit>
+  <div class="kit-stage">
+    <h2 class="kit-title">Your first robot, in parts</h2>
 
-<!-- ================= ABOUT ================= -->
-<section class="section" id="about">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Who we are</p>
-      <h2>Small batches, <em>real builds</em></h2>
-      <p>
-        ShezBotics is live online robotics and AI training, run in batches of five.
-        Students don't watch recordings &mdash; they build on their own kit, on camera,
-        with the founder watching the wiring.
-      </p>
+    <div class="robot-spot robot-spot--kit" data-spot="kit">
+      <img class="robot-still" src="assets/web/robot-parts.webp" width="900" height="700" loading="lazy"
+           alt="The Basic robot kit laid out: board, ultrasonic sensor, servo, motors, wheels and battery">
     </div>
 
-    <div class="why-grid reveal-stagger">
-      <div class="why-item">
-        <h3>Five to a batch</h3>
-        <p>Small enough that every student is asked a question and shows their build every session.</p>
-      </div>
-      <div class="why-item">
-        <h3>Live, never recorded</h3>
-        <p>Sessions run on Saturday and Sunday. When something doesn't work, it gets debugged there and then.</p>
-      </div>
-      <div class="why-item">
-        <h3>Kits at cost</h3>
-        <p>Hardware is passed on at what it costs us. No markup, and the components stay with the student.</p>
-      </div>
-      <div class="why-item">
-        <h3>Anywhere in India</h3>
-        <p>Everything runs online, so a student in any city joins the same batch as everyone else.</p>
-      </div>
-      <div class="why-item">
-        <h3>Ages 8&ndash;20</h3>
-        <p>Batches are grouped by age and experience so the pace suits the room.</p>
-      </div>
-      <div class="why-item">
-        <h3>Taught by the founder</h3>
-        <p>Every session is run by Shehzad &mdash; 120+ projects built, represented India in Dubai.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <ul class="kit-parts">
+      <li data-part="board">
+        <h3>Arduino Uno</h3>
+        <p>The brain. Students program it from the first session, on their own laptop.</p>
+      </li>
+      <li data-part="sensor">
+        <h3>Ultrasonic sensor</h3>
+        <p>The eyes. It measures how far away the wall is, so the robot turns before it hits it.</p>
+      </li>
+      <li data-part="servo">
+        <h3>Servo motor</h3>
+        <p>The neck. It swings the sensor left and right to look for a way through.</p>
+      </li>
+      <li data-part="motors">
+        <h3>Motors and driver</h3>
+        <p>Two geared motors and a driver board turn a line of code into movement.</p>
+      </li>
+      <li data-part="power">
+        <h3>Battery and chassis</h3>
+        <p>Everything bolts to one plate and runs on two rechargeable cells.</p>
+      </li>
+    </ul>
 
-<!-- ================= COURSES + BUNDLE ================= -->
-<section class="section section-alt" id="courses">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Courses</p>
-      <h2>Three levels, <em>one path</em></h2>
-      <p>Every level is live online, weekends only, five students to a batch. Kits are sold separately at cost.</p>
-    </div>
-
-    <div class="course-grid reveal-stagger">
-
-      <article class="card course" id="basic">
-        <h3>Basic</h3>
-        <div class="price">&#8377;3,499</div>
-        <p class="meta">10 sessions &middot; 5 weeks</p>
-        <ul>
-          <li>Electronics and circuits from scratch</li>
-          <li>Arduino programming</li>
-          <li>Sensors, motors and outputs</li>
-          <li>5 working builds</li>
-          <li>Completion certificate</li>
-        </ul>
-        <p class="kit">Kit &#8377;1,600 &mdash; at cost, optional</p>
-        <a href="javascript:void(0)" class="course-btn" data-enrol="Basic">Enrol in Basic</a>
-      </article>
-
-      <article class="card course" id="intermediate">
-        <h3>Intermediate</h3>
-        <div class="price">&#8377;4,999</div>
-        <p class="meta">14 sessions &middot; 7 weeks</p>
-        <ul>
-          <li>ESP32 and WiFi</li>
-          <li>IoT dashboards and control</li>
-          <li>Bluetooth-controlled robot</li>
-          <li>Home automation build</li>
-          <li>Completion certificate</li>
-        </ul>
-        <p class="kit">Kit &#8377;2,500 &mdash; at cost, optional</p>
-        <a href="javascript:void(0)" class="course-btn" data-enrol="Intermediate">Enrol in Intermediate</a>
-      </article>
-
-      <article class="card course" id="advanced">
-        <h3>Advanced</h3>
-        <div class="price">&#8377;9,499</div>
-        <p class="meta">18 sessions &middot; 9 weeks</p>
-        <ul>
-          <li>AI on hardware</li>
-          <li>Raspberry Pi</li>
-          <li>Computer vision</li>
-          <li>Final innovation project</li>
-          <li>Completion certificate</li>
-        </ul>
-        <p class="kit">Kit &#8377;3,000 &mdash; at cost, optional</p>
-        <a href="javascript:void(0)" class="course-btn" data-enrol="Advanced">Enrol in Advanced</a>
-      </article>
-
-    </div>
-
-    <!-- BUNDLE — the focal element of this section -->
-    <div class="bundle reveal" id="full-track">
-      <div>
-        <p class="eyebrow">All three together</p>
-        <h3>The full track, kit included</h3>
-        <ul>
-          <li>26 sessions, plus up to 4 catch-up sessions</li>
-          <li>13 weeks instead of 21</li>
-          <li>All three kits included &mdash; nothing more to buy</li>
-          <li>Same batch of five, start to finish</li>
-        </ul>
-      </div>
-      <div>
-        <p class="was">&#8377;25,097 separately</p>
-        <p class="now">&#8377;15,999</p>
-        <p class="save">Save &#8377;9,098</p>
-        <p class="note" style="margin-top:1.2rem">
-          Separately: &#8377;17,997 in course fees plus &#8377;7,100 in kits.
-          The full track also covers the same ground in 16 fewer sessions.
-        </p>
-        <a href="javascript:void(0)" class="btn-primary" data-enrol="All three (full track)" style="display:inline-block;margin-top:1.4rem">Enrol in the full track</a>
-      </div>
-    </div>
-
-    <p class="note reveal">
-      Kits are supplied at cost with no markup and are optional &mdash; students with their own
-      components can use those instead. All classes are live online, Saturday and Sunday,
-      five students per batch. Prices are in Indian rupees.
+    <p class="kit-foot">
+      The Basic kit costs &#8377;1,600, passed on at cost, and it stays with the student.
+      The five lights on the board are the five seats in every batch.
     </p>
   </div>
 </section>
 
-<!-- ================= PROJECTS ================= -->
-<section class="section" id="projects">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Projects</p>
-      <h2>What students <em>actually build</em></h2>
-      <p>Each course is built around finished, working projects that go home with the student.</p>
+<!-- ================= RECORD (stepped tiles) ================= -->
+<section class="record" data-tone="paper">
+  <div class="record-grid">
+    <div class="tile tile-tall">
+      <p class="tile-fig"><span data-roll>150</span>+</p>
+      <p class="tile-cap">students trained, online and in school workshops</p>
     </div>
-
-    <div class="project-grid reveal-stagger">
-      <button class="card project" data-project="aiProject">
-        <img src="assets/project1.png" alt="Obstacle-avoiding AI robot built by a student">
-        <span class="body">
-          <h3>AI Robot</h3>
-          <p>A robot that senses its surroundings and reacts. Sensors, servos and Arduino.</p>
-          <span class="more">View project</span>
-        </span>
-      </button>
-
-      <button class="card project" data-project="homeProject">
-        <img src="assets/project2.png" alt="Smart home automation build using ESP32">
-        <span class="body">
-          <h3>Smart Home</h3>
-          <p>Switch lights and appliances from a phone using ESP32 over home WiFi.</p>
-          <span class="more">View project</span>
-        </span>
-      </button>
-
-      <button class="card project" data-project="droneProject">
-        <img src="assets/project3.png" alt="Drone assembly showing frame, motors and flight controller">
-        <span class="body">
-          <h3>Drone Technology</h3>
-          <p>Flight controllers, ESCs and power budgets — assembled and tuned from parts.</p>
-          <span class="more">View project</span>
-        </span>
-      </button>
-
-      <button class="card project" data-project="iotProject">
-        <img src="assets/project4.png" alt="IoT sensor dashboard reading live data">
-        <span class="body">
-          <h3>IoT Systems</h3>
-          <p>Put a sensor on the internet and read it from anywhere. MQTT and dashboards.</p>
-          <span class="more">View project</span>
-        </span>
-      </button>
+    <h2 class="record-title">The record so far</h2>
+    <div class="tile tile-mid">
+      <p class="tile-fig"><span data-roll>120</span>+</p>
+      <p class="tile-cap">projects built by the founder, 40 of them working prototypes</p>
+    </div>
+    <div class="tile tile-low">
+      <img src="assets/web/dubai-team.webp" width="751" height="1086" loading="lazy"
+           alt="Shehzad Dobariya at the Team India wall, Global Encounters, Dubai">
+      <p class="tile-fig">Dubai</p>
+      <p class="tile-cap">represented India at Global Encounters, 2025</p>
     </div>
   </div>
 </section>
 
-<!-- ================= FOUNDER ================= -->
-<section class="section section-alt" id="founder">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">The founder</p>
-      <h2>Every session is taught by <em>one person</em></h2>
+<!-- ================= A WEEKEND (itinerary slip) ================= -->
+<section class="weekend" id="about" data-tone="navy">
+  <div class="weekend-copy">
+    <h2>A weekend in the batch</h2>
+    <p>
+      Two live sessions, Saturday and Sunday. Five cameras on, one kit each, and the founder
+      watching every wire. Nothing is recorded, so when something doesn't work it gets fixed
+      there and then.
+    </p>
+    <p>
+      Batches are grouped by age and experience, so a 9-year-old and a 19-year-old are never
+      in the same room. Everything runs online, so a student in Pune joins the same batch as one in Patna.
+    </p>
+    <figure class="weekend-photo">
+      <img src="assets/web/arduino-hands.webp" width="1448" height="539" loading="lazy"
+           alt="A student plugging a USB cable into an Arduino board">
+    </figure>
+  </div>
+
+  <div class="slip" role="table" aria-label="What happens in a weekend">
+    <div role="rowgroup">
+      <p class="slip-day" role="row"><span role="columnheader">Saturday</span></p>
+      <p class="slip-row" role="row"><span role="cell">This week's build, explained</span><i aria-hidden="true"></i><span role="cell">15 min</span></p>
+      <p class="slip-row" role="row"><span role="cell">Wire it on your own kit, on camera</span><i aria-hidden="true"></i><span role="cell">40 min</span></p>
+      <p class="slip-row" role="row"><span role="cell">Debug it live, together</span><i aria-hidden="true"></i><span role="cell">15 min</span></p>
     </div>
+    <div role="rowgroup">
+      <p class="slip-day" role="row"><span role="columnheader">Sunday</span></p>
+      <p class="slip-row" role="row"><span role="cell">Write the code that runs it</span><i aria-hidden="true"></i><span role="cell">35 min</span></p>
+      <p class="slip-row" role="row"><span role="cell">Show your build to the batch</span><i aria-hidden="true"></i><span role="cell">20 min</span></p>
+      <p class="slip-row" role="row"><span role="cell">Questions, and next week's parts</span><i aria-hidden="true"></i><span role="cell">15 min</span></p>
+    </div>
+    <p class="slip-total" role="row"><span role="cell">One working build</span><span role="cell">every weekend</span></p>
+  </div>
+</section>
 
-    <div class="founder reveal">
-      <div class="founder-photo">
-        <img src="assets/founder.png" alt="Shehzad Dobariya, founder of ShezBotics">
+<!-- ================= COURSES (poster lines + live picker) ================= -->
+<section class="courses" id="courses" data-tone="paper">
+  <div class="courses-head">
+    <h2>Three levels, one path</h2>
+    <p>Live online, weekends only, five to a batch. Tap the levels you want and the total adds itself up below.</p>
+  </div>
+
+  <div class="levels" data-picker>
+    <article class="level" id="basic">
+      <h3 class="level-name"><button type="button" aria-pressed="false"
+          data-level="Basic" data-fee="3499" data-kit="1600" data-sessions="10" data-weeks="5">Basic</button></h3>
+      <div class="level-facts">
+        <p class="level-price">&#8377;3,499 <span>10 sessions, 5 weeks</span></p>
+        <p>Electronics and circuits from scratch, Arduino programming, sensors, motors and outputs. Five working builds and a certificate.</p>
+        <p class="level-kit">Kit &#8377;1,600 at cost, optional</p>
       </div>
+    </article>
 
-      <div class="founder-body">
+    <article class="level" id="intermediate">
+      <h3 class="level-name"><button type="button" aria-pressed="false"
+          data-level="Intermediate" data-fee="4999" data-kit="2500" data-sessions="14" data-weeks="7">Intermediate</button></h3>
+      <div class="level-facts">
+        <p class="level-price">&#8377;4,999 <span>14 sessions, 7 weeks</span></p>
+        <p>ESP32 and WiFi, IoT dashboards and control, a Bluetooth-controlled robot and a home automation build. Certificate on completion.</p>
+        <p class="level-kit">Kit &#8377;2,500 at cost, optional</p>
+      </div>
+    </article>
+
+    <article class="level" id="advanced">
+      <h3 class="level-name"><button type="button" aria-pressed="false"
+          data-level="Advanced" data-fee="9499" data-kit="3000" data-sessions="18" data-weeks="9">Advanced</button></h3>
+      <div class="level-facts">
+        <p class="level-price">&#8377;9,499 <span>18 sessions, 9 weeks</span></p>
+        <p>AI on hardware, Raspberry Pi, computer vision, and a final innovation project of the student's own. Certificate on completion.</p>
+        <p class="level-kit">Kit &#8377;3,000 at cost, optional</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="tally" data-tally>
+    <div class="tally-sum" aria-live="polite">
+      <p class="tally-pick" data-tally-pick>Nothing picked yet.</p>
+      <p class="tally-total" data-tally-total>Tap a level above to see the total.</p>
+      <p class="tally-note" data-tally-note>Fees are per student. Kits are optional and passed on at cost.</p>
+    </div>
+    <div class="tally-act">
+      <label class="tally-kits"><input type="checkbox" data-tally-kits checked> Include kits</label>
+      <a href="#contact" class="btn btn-navy" data-tally-enrol>Enrol</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FULL TRACK (the ticket) ================= -->
+<section class="track" id="full-track" data-tone="mint">
+  <div class="ticket" data-reveal>
+    <div class="ticket-main">
+      <h2>The full track</h2>
+      <ul>
+        <li>All three levels, Basic to Advanced</li>
+        <li>26 sessions, plus up to 4 catch-ups</li>
+        <li>13 weeks instead of 21</li>
+        <li>All three kits included</li>
+        <li>The same batch of five, start to finish</li>
+        <li>Saturday and Sunday, live online</li>
+      </ul>
+    </div>
+    <div class="ticket-stub">
+      <p class="ticket-price">&#8377;15,999</p>
+      <p class="ticket-was">&#8377;25,097 separately</p>
+      <p class="ticket-save">You save &#8377;9,098</p>
+      <a href="#contact" class="ticket-btn" data-enrol="All three (full track)">Enrol in the full track</a>
+    </div>
+    <i class="ticket-notch ticket-notch--top" aria-hidden="true"></i>
+    <i class="ticket-notch ticket-notch--bottom" aria-hidden="true"></i>
+  </div>
+  <p class="track-note">
+    Separately: &#8377;17,997 in course fees plus &#8377;7,100 in kits. The full track covers the same ground
+    in 16 fewer sessions. Students with their own components can skip the kits. Prices are in Indian rupees.
+  </p>
+</section>
+
+<!-- ================= PROJECTS (full panels) ================= -->
+<section class="work" id="projects" data-tone="navy">
+  <article class="panel">
+    <img src="assets/web/project1.webp" width="1536" height="1024" loading="lazy" alt="A humanoid robot in a lab, standing for the AI Robot project">
+    <h2 class="panel-head">What students build</h2>
+    <div class="panel-row">
+      <span>Arduino, sensors, servos</span>
+      <h3><button type="button" data-project="aiProject">AI Robot</button></h3>
+      <span>Senses the room and reacts</span>
+    </div>
+  </article>
+  <article class="panel">
+    <img src="assets/web/project2.webp" width="1672" height="941" loading="lazy" alt="A connected living room, standing for the Smart Home project">
+    <div class="panel-row">
+      <span>ESP32 over home WiFi</span>
+      <h3><button type="button" data-project="homeProject">Smart Home</button></h3>
+      <span>Lights switched from a phone</span>
+    </div>
+  </article>
+  <article class="panel">
+    <img src="assets/web/project3.webp" width="1672" height="941" loading="lazy" alt="A drone on a workbench, standing for the Drone Technology project">
+    <div class="panel-row">
+      <span>Flight controller, ESCs</span>
+      <h3><button type="button" data-project="droneProject">Drone Technology</button></h3>
+      <span>Assembled and tuned from parts</span>
+    </div>
+  </article>
+  <article class="panel">
+    <img src="assets/web/project4.webp" width="1672" height="941" loading="lazy" alt="A robot arm and live data screens, standing for the IoT Systems project">
+    <div class="panel-row">
+      <span>MQTT and dashboards</span>
+      <h3><button type="button" data-project="iotProject">IoT Systems</button></h3>
+      <span>A sensor you can read from anywhere</span>
+    </div>
+  </article>
+</section>
+
+<!-- ================= FOUNDER (inset panel, hex portrait) ================= -->
+<section class="founder" id="founder" data-tone="paper">
+  <div class="founder-panel">
+    <h2 class="founder-title">One teacher, every session</h2>
+
+    <figure class="founder-hex">
+      <img src="assets/web/founder.webp" width="1000" height="1333" loading="lazy"
+           alt="Shehzad Dobariya, founder of ShezBotics">
+    </figure>
+
+    <div class="founder-text">
+      <div>
         <h3>Shehzad Dobariya</h3>
-        <p style="margin-top:.4rem;color:var(--cyan-soft)">Founder &middot; AI &amp; Robotics Analyst</p>
-
-        <blockquote class="founder-quote">
-          The subject you study doesn't define your future.
-          <span>Your passion does.</span>
-        </blockquote>
-
         <p>
-          I started in the 9th standard, curious about how machines work. I went on to study
-          Commerce, and kept learning AI and robotics on my own &mdash; through projects,
-          failed builds and a lot of rewiring.
+          Founder, AI and robotics analyst. He started in 9th standard, pulling electronics apart to
+          see how they worked, then studied Commerce and kept teaching himself through projects,
+          failed builds and a lot of rewiring. 120+ projects later, he still teaches every batch himself.
         </p>
-        <p>
-          That took me from local competitions to national platforms, and eventually to
-          <strong>representing India at Global Encounters in Dubai</strong>.
-        </p>
-        <p>
-          I teach every ShezBotics batch myself. That is the reason batches are capped at five.
-        </p>
-
-        <div class="achieve">
-          <div><b>120+</b><span>Projects built</span></div>
-          <div><b>40+</b><span>Working Prototypes</span></div>
-          <div><b>150+</b><span>Students trained</span></div>
-          <div><b>Dubai</b><span>Represented India, 2025</span></div>
-        </div>
       </div>
+      <div>
+        <h3>From local contests to Dubai</h3>
+        <p>
+          School and regional competitions led to national platforms, and in 2025 to representing
+          India at Global Encounters in Dubai. Teaching every session himself is the reason batches stop at five.
+        </p>
+      </div>
+      <blockquote class="founder-quote">
+        <p>&ldquo;The subject you study doesn't define your future. Your passion does.&rdquo;</p>
+      </blockquote>
+      <a href="demo.html" class="btn btn-cyan">Book a demo with Shehzad</a>
     </div>
   </div>
 </section>
 
-<!-- ================= JOURNEY ================= -->
-<section class="section" id="journey">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">The journey</p>
-      <h2>How ShezBotics <em>got here</em></h2>
-    </div>
-
-    <div class="timeline reveal-stagger">
-      <div class="tl-item">
-        <p class="year">2018</p><h3>Curiosity begins</h3>
+<!-- ================= JOURNEY (sideways track) ================= -->
+<section class="journey" id="journey" data-tone="navy">
+  <div class="journey-stage">
+    <h2 class="journey-title">From 2018 to Dubai</h2>
+    <ul class="journey-track">
+      <li class="stop">
+        <p class="stop-year">2018</p>
+        <h3>Curiosity begins</h3>
         <p>Started pulling apart electronics to work out how they functioned.</p>
-      </div>
-      <div class="tl-item">
-        <p class="year">2019-2020</p><h3>First Arduino build</h3>
-        <p>The first project that actually worked. Everything followed from that.</p>
-      </div>
-      <div class="tl-item">
-        <p class="year">2021-2023</p><h3>Competitions</h3>
-        <p>School, local and regional innovation competitions.</p>
-      </div>
-      <div class="tl-item">
-        <p class="year">2024</p><h3>120+ projects</h3>
+      </li>
+      <li class="stop">
+        <p class="stop-year">2019</p>
+        <h3>First Arduino build</h3>
+        <p>The first project that actually worked, in 2019&ndash;20. Everything followed from that.</p>
+      </li>
+      <li class="stop stop--photo">
+        <img src="assets/web/naf-stage.webp" width="1600" height="900" loading="lazy" alt="On stage at the National Arts Festival of the Aga Khan Youth and Sports Board">
+        <p class="stop-year">2021</p>
+        <h3>Competitions</h3>
+        <p>School, local and regional innovation competitions, 2021&ndash;23.</p>
+      </li>
+      <li class="stop">
+        <p class="stop-year">2024</p>
+        <h3>120+ projects</h3>
         <p>AI, IoT and robotics builds, alongside continuous self-teaching.</p>
-      </div>
-      <div class="tl-item">
-        <p class="year">2025</p><h3>Represented India in Dubai</h3>
+      </li>
+      <li class="stop stop--photo">
+        <img src="assets/web/dubai-arrival.webp" width="691" height="1086" loading="lazy" alt="Arriving in Dubai for the 2025 GE Festival with Team India luggage">
+        <p class="stop-year">2025</p>
+        <h3>Team India, Dubai</h3>
         <p>Selected for Global Encounters, showing work on an international stage.</p>
-      </div>
-      <div class="tl-item">
-        <p class="year">2026</p><h3>ShezBotics opens</h3>
+      </li>
+      <li class="stop stop--photo">
+        <img src="assets/web/founder-teaching.webp" width="1600" height="919" loading="lazy" alt="Shehzad teaching a robotics workshop">
+        <p class="stop-year">2026</p>
+        <h3>ShezBotics opens</h3>
         <p>Live online batches of five, plus school workshops and corporate training.</p>
-      </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= FEEDBACK (paper slips) ================= -->
+<section class="voices" id="testimonials" data-tone="cyan">
+  <h2>What families say</h2>
+  <div class="slips">
+    <blockquote class="voice">
+      <p class="voice-who">A parent</p>
+      <p class="voice-role">Mumbai, after a workshop</p>
+      <p>&ldquo;The workshop completely changed my son's interest in technology. He now builds projects confidently at home.&rdquo;</p>
+    </blockquote>
+    <blockquote class="voice">
+      <p class="voice-who">A student</p>
+      <p class="voice-role">AI workshop</p>
+      <p>&ldquo;This isn't a normal coaching class. Students don't just learn code, they finish with something that works.&rdquo;</p>
+    </blockquote>
+    <blockquote class="voice">
+      <p class="voice-who">A school</p>
+      <p class="voice-role">Holiday club feedback</p>
+      <p>&ldquo;Clear guidance, practical sessions and a mentor who stays until the build runs. Recommended.&rdquo;</p>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ================= GALLERY (cylinder) ================= -->
+<section class="gallery" id="gallery" data-tone="navy">
+  <div class="gallery-head">
+    <h2>Workshops, builds and Dubai</h2>
+    <p>Drag the ring, or use the arrows. Every photo is from a real ShezBotics session or trip.</p>
+  </div>
+
+  <div class="cyl" data-cylinder aria-roledescription="carousel" aria-label="Gallery photos">
+    <div class="cyl-ring">
+      <figure class="cyl-card"><img src="assets/web/school-kits.webp" alt="Students opening their robotics kits at a school workshop" loading="lazy" draggable="false"><figcaption>Kits open, school workshop</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/car-build.webp" alt="A student wiring a robot car with yellow wheels" loading="lazy" draggable="false"><figcaption>The Basic robot car</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/founder-teaching.webp" alt="Shehzad explaining a circuit to a group of students" loading="lazy" draggable="false"><figcaption>Explaining the circuit</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/certificate-1.webp" alt="A young student with his completion certificate" loading="lazy" draggable="false"><figcaption>Certificate day</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/dubai-team.webp" alt="Shehzad at the Team India wall in Dubai" loading="lazy" draggable="false"><figcaption>Team India, Dubai</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/pair-build.webp" alt="Two students working on a circuit together" loading="lazy" draggable="false"><figcaption>Two on one board</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/classroom.webp" alt="Students seated on mats at an AI and robotics workshop" loading="lazy" draggable="false"><figcaption>AI &amp; robotics workshop</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/car-solder.webp" alt="A student working on a robot car in a cardboard tray" loading="lazy" draggable="false"><figcaption>Fixing the wiring</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/founder-helping.webp" alt="Shehzad helping students at a workshop table" loading="lazy" draggable="false"><figcaption>Every table, every build</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/wiring.webp" alt="A student fitting a jumper wire to an Arduino" loading="lazy" draggable="false"><figcaption>First wires</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/dubai-arrival.webp" alt="Arriving in Dubai for Global Encounters" loading="lazy" draggable="false"><figcaption>Landing in Dubai</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/school-laptop.webp" alt="Students coding at a laptop during a workshop" loading="lazy" draggable="false"><figcaption>Code meets hardware</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/hands-wires.webp" alt="Hands holding a bundle of coloured jumper wires over a board" loading="lazy" draggable="false"><figcaption>Jumper wires</figcaption></figure>
+      <figure class="cyl-card"><img src="assets/web/naf-stage.webp" alt="On stage at the National Arts Festival" loading="lazy" draggable="false"><figcaption>National Arts Festival</figcaption></figure>
+    </div>
+    <div class="cyl-ctrl">
+      <button type="button" class="cyl-btn" data-cyl-prev aria-label="Previous photo">&#8249;</button>
+      <button type="button" class="cyl-btn" data-cyl-next aria-label="Next photo">&#8250;</button>
     </div>
   </div>
 </section>
 
-<!-- ================= TESTIMONIALS ================= -->
-<section class="section section-alt" id="testimonials">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Feedback</p>
-      <h2>What students and <em>parents say</em></h2>
-    </div>
-
-    <div class="quote-grid reveal-stagger">
-      <blockquote class="card quote">
-        <p>The workshop completely changed my son's interest in technology. He now builds projects confidently at home.</p>
-        <footer class="who"><b>Parent</b>Mumbai &middot; Workshop</footer>
-      </blockquote>
-      <blockquote class="card quote">
-        <p>This isn't a normal coaching class. Students don't just learn code &mdash; they finish with something that works.</p>
-        <footer class="who"><b>Student</b>AI workshop</footer>
-      </blockquote>
-      <blockquote class="card quote">
-        <p>Clear guidance, practical sessions and a mentor who stays until the build runs. Recommended.</p>
-        <footer class="who"><b>School feedback</b>Holiday club</footer>
-      </blockquote>
-    </div>
+<!-- ================= SCHOOLS + BUSINESS ================= -->
+<section class="beyond" data-tone="paper">
+  <h2 class="beyond-title">Bring it to your school or team</h2>
+  <div class="beyond-split">
+    <a href="schools.html" class="beyond-link beyond-link--schools">
+      <img src="assets/web/school-kits.webp" width="1400" height="1005" loading="lazy" alt="">
+      <h3>For schools</h3>
+      <p>Two-hour intro sessions from &#8377;18,000, full workshop days from &#8377;45,000, and term-long programmes, on site or online.</p>
+      <span class="beyond-go">See school programmes</span>
+    </a>
+    <a href="corporate.html" class="beyond-link beyond-link--teams">
+      <h3>For business</h3>
+      <p>Practical AI tool training for working teams: half day, full day, or an ongoing partnership built around your team's real work.</p>
+      <span class="beyond-go">See corporate training</span>
+    </a>
   </div>
 </section>
 
-<!-- ================= GALLERY ================= -->
-<section class="section" id="gallery">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Gallery</p>
-      <h2>Workshops, builds <em>and competitions</em></h2>
-    </div>
-
-    <div class="cyl reveal" data-cylinder aria-roledescription="carousel" aria-label="Gallery photos">
-      <div class="cyl-ring">
-        <figure class="cyl-card"><img src="assets/gallery1.jpeg" alt="Students at an AI and robotics workshop" loading="lazy" draggable="false"><figcaption>AI &amp; robotics workshop</figcaption></figure>
-        <figure class="cyl-card"><img src="assets/gallery2.png" alt="Students assembling a robot" loading="lazy" draggable="false"><figcaption>Students building</figcaption></figure>
-        <figure class="cyl-card"><img src="assets/gallery3.png" alt="Global Encounters event in Dubai" loading="lazy" draggable="false"><figcaption>Global Encounters, Dubai</figcaption></figure>
-        <figure class="cyl-card"><img src="assets/gallery4.jpeg" alt="Finished innovation projects on display" loading="lazy" draggable="false"><figcaption>Innovation projects</figcaption></figure>
-        <figure class="cyl-card"><img src="assets/gallery5.png" alt="Award presentation" loading="lazy" draggable="false"><figcaption>Award moment</figcaption></figure>
-        <figure class="cyl-card"><img src="assets/gallery6.png" alt="Group photo of students" loading="lazy" draggable="false"><figcaption>Future innovators</figcaption></figure>
-      </div>
-      <div class="cyl-ctrl">
-        <button type="button" class="cyl-btn" data-cyl-prev aria-label="Previous photo">&#8249;</button>
-        <button type="button" class="cyl-btn" data-cyl-next aria-label="Next photo">&#8250;</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= SCHOOLS / BUSINESS BAND ================= -->
-<section class="section section-alt">
-  <div class="wrap">
-    <div class="band-grid reveal-stagger">
-      <a href="schools.html" class="band">
-        <p class="eyebrow">For schools</p>
-        <h3>Run robotics in your school</h3>
-        <p>Intro sessions, full workshop days and term-long programmes, delivered on site or online. Indicative pricing published.</p>
-        <span class="more">See school programmes</span>
-      </a>
-      <a href="corporate.html" class="band">
-        <p class="eyebrow">For business</p>
-        <h3>AI upskilling for your team</h3>
-        <p>Practical AI tool training for working teams — half day, full day, or an ongoing partnership.</p>
-        <span class="more">See corporate training</span>
-      </a>
-    </div>
-  </div>
+<!-- ================= CTA (one word) ================= -->
+<section class="cta" data-tone="cyan">
+  <a href="demo.html" class="cta-link">
+    <span class="cta-say">A free 60-minute live demo with Shehzad. No experience needed, nothing to buy.</span>
+    <svg class="cta-arrow" viewBox="0 0 48 48" aria-hidden="true"><path d="M12 36 36 12M16 12h20v20" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="square"/></svg>
+    <h2 class="cta-word"><span data-fit>Book</span></h2>
+  </a>
 </section>
 
 <!-- ================= CONTACT ================= -->
-<section class="section" id="contact">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Get in touch</p>
-      <h2>Ask a question or <em>reserve a seat</em></h2>
-      <p>Five seats a batch means they go quickly. Tell us which course and we'll confirm the next start date.</p>
+<section class="contact" id="contact" data-tone="navy">
+  <h2 class="contact-title">Ask, or reserve a seat</h2>
+
+  <ul class="rows">
+    <li class="row">Live online, Pan India</li>
+    <li class="row">Based in Mumbai</li>
+    <li class="row">Saturday and Sunday</li>
+    <li class="row"><a href="tel:+919545797867">+91 95457 97867</a></li>
+    <li class="row row-hello">
+      <a href="mailto:team.shezbotics@gmail.com?subject=ShezBotics%20course%20enquiry">Hello
+        <span class="row-go" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 36 36 12M16 12h20v20" fill="none" stroke="currentColor" stroke-width="5"/></svg></span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="contact-grid">
+    <div class="contact-copy">
+      <p>Five seats a batch means they go quickly. Tell us which course and we'll confirm the next start date, usually within one working day.</p>
+      <p>Prefer to talk? Call or WhatsApp <a href="tel:+919545797867">+91 95457 97867</a>, or write to <a href="mailto:team.shezbotics@gmail.com">team.shezbotics@gmail.com</a>.</p>
     </div>
 
-    <div class="contact-grid reveal">
-      <dl class="info-list">
-        <div><dt>Classes</dt><dd>Live online, Pan India</dd></div>
-        <div><dt>Based in</dt><dd>Mumbai, Maharashtra</dd></div>
-        <div><dt>Phone &amp; WhatsApp</dt><dd><a href="tel:+919545797867">+91 95457 97867</a></dd></div>
-        <div><dt>Email</dt><dd><a href="mailto:team.shezbotics@gmail.com">team.shezbotics@gmail.com</a></dd></div>
-        <div><dt>Class days</dt><dd>Saturday &amp; Sunday</dd></div>
-        <div><dt>Ages</dt><dd>8&ndash;20 &middot; 5 students per batch</dd></div>
-      </dl>
+    <form id="contactForm"
+          data-sheet="Contact"
+          data-success-title="Enquiry received"
+          data-success-body="We usually reply within one working day.">
+      <input type="hidden" name="_subject" value="ShezBotics: course enquiry">
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-      <form id="contactForm"
-            data-sheet="Contact"
-            data-success-title="Enquiry received"
-            data-success-body="We usually reply within one working day.">
-        <input type="hidden" name="_subject" value="ShezBotics — course enquiry">
-        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="field">
+        <label for="selectedCourse">Course</label>
+        <select id="selectedCourse" name="course" required>
+          <option value="">Select a course</option>
+          <option value="Basic">Basic · ₹3,499</option>
+          <option value="Intermediate">Intermediate · ₹4,999</option>
+          <option value="Advanced">Advanced · ₹9,499</option>
+          <option value="All three (full track)">All three · ₹15,999, kit included</option>
+          <option value="AI Robot">AI Robot</option>
+          <option value="Smart Home">Smart Home</option>
+          <option value="Drone Technology">Drone Technology</option>
+          <option value="IoT Systems">IoT Systems</option>
+          <option value="Not sure yet">Not sure yet</option>
+        </select>
+      </div>
 
+      <div class="field-row">
         <div class="field">
-          <label for="selectedCourse">Course</label>
-          <select id="selectedCourse" name="course" required>
-            <option value="">Select a course</option>
-            <option value="Basic">Basic — ₹3,499</option>
-            <option value="Intermediate">Intermediate — ₹4,999</option>
-            <option value="Advanced">Advanced — ₹9,499</option>
-            <option value="All three (full track)">All three — ₹15,999, kit included</option>
-            <option value="AI Robot">AI Robot</option>
-            <option value="Smart Home">Smart Home</option>
-            <option value="Drone Technology">Drone Technology</option>
-            <option value="IoT Systems">IoT Systems</option>
-            <option value="Not sure yet">Not sure yet</option>
-          </select>
+          <label for="cName">Full name</label>
+          <input id="cName" name="name" type="text" required autocomplete="name">
         </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label for="cName">Full name</label>
-            <input id="cName" name="name" type="text" required autocomplete="name">
-          </div>
-          <div class="field">
-            <label for="cAge">Student's age</label>
-            <input id="cAge" name="age" type="number" min="8" max="60" inputmode="numeric">
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label for="cPhone">Phone / WhatsApp</label>
-            <input id="cPhone" name="phone" type="tel" required autocomplete="tel" inputmode="tel">
-          </div>
-          <div class="field">
-            <label for="cCity">City</label>
-            <input id="cCity" name="city" type="text" autocomplete="address-level2">
-          </div>
-        </div>
-
         <div class="field">
-          <label for="cEmail">Email</label>
-          <input id="cEmail" name="email" type="email" required autocomplete="email">
+          <label for="cAge">Student's age</label>
+          <input id="cAge" name="age" type="number" min="8" max="60" inputmode="numeric">
         </div>
+      </div>
 
+      <div class="field-row">
         <div class="field">
-          <label for="cMsg">Anything you'd like us to know</label>
-          <textarea id="cMsg" name="message" placeholder="Experience so far, preferred timings, questions…"></textarea>
+          <label for="cPhone">Phone / WhatsApp</label>
+          <input id="cPhone" name="phone" type="tel" required autocomplete="tel" inputmode="tel">
         </div>
+        <div class="field">
+          <label for="cCity">City</label>
+          <input id="cCity" name="city" type="text" autocomplete="address-level2">
+        </div>
+      </div>
 
-        <button type="submit" class="btn-primary">Send enquiry</button>
-        <p class="form-note">
-          We use your details only to reply to this enquiry.
-          If the student is under 18, please have a parent or guardian submit this form.
-          <a href="privacy.html" style="color:var(--cyan-soft)">Privacy policy</a>.
-        </p>
-      </form>
-    </div>
+      <div class="field">
+        <label for="cEmail">Email</label>
+        <input id="cEmail" name="email" type="email" required autocomplete="email">
+      </div>
+
+      <div class="field">
+        <label for="cMsg">Anything you'd like us to know</label>
+        <textarea id="cMsg" name="message" placeholder="Experience so far, preferred timings, questions…"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-cyan">Send enquiry</button>
+      <p class="form-note">
+        We use your details only to reply to this enquiry. If the student is under 18, please have a
+        parent or guardian submit this form. <a href="privacy.html">Privacy policy</a>.
+      </p>
+    </form>
   </div>
 </section>
 
 </main>
 
 <!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <span class="brand">
-          <span class="mark" data-mark>
-            <img src="assets/logo.png" alt="">
-            <svg class="mark-fallback" viewBox="0 0 48 48" aria-hidden="true">
-              <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="#00E5FF" stroke-width="2"/>
-              <circle cx="24" cy="24" r="3" fill="#00E5FF"/>
-            </svg>
-          </span>
-          <b>ShezBotics</b>
-        </span>
-        <p>Live online AI and robotics training in batches of five, for students aged 8&ndash;20 anywhere in India.</p>
-        <div class="social">
-          <a href="https://www.instagram.com/team_shezbotics" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://www.linkedin.com/in/shehzad-dobariya-178531250" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://youtube.com/@shezbotics" target="_blank" rel="noopener">YouTube</a>
-        </div>
-      </div>
+<footer class="footer" data-tone="navy">
+  <div class="blocks" aria-label="ShezBotics" role="img">
+    <span style="--h:.92">S</span><span style="--h:.7">H</span><span style="--h:1">E</span><span style="--h:.62">Z</span><span style="--h:.84">B</span><span style="--h:.74">O</span><span style="--h:.96">T</span><span style="--h:.66">I</span><span style="--h:.88">C</span><span style="--h:.78">S</span>
+  </div>
 
-      <div class="footer-links">
-        <h4>Academy</h4>
-        <a href="#about">About</a>
-        <a href="#courses">Courses</a>
-        <a href="#projects">Projects</a>
-        <a href="#founder">Founder</a>
-        <a href="#gallery">Gallery</a>
-      </div>
-
-      <div class="footer-links">
-        <h4>Programmes</h4>
-        <a href="#basic">Basic &mdash; &#8377;3,499</a>
-        <a href="#intermediate">Intermediate &mdash; &#8377;4,999</a>
-        <a href="#advanced">Advanced &mdash; &#8377;9,499</a>
-        <a href="#full-track">All three &mdash; &#8377;15,999</a>
-        <a href="schools.html">For schools</a>
-        <a href="corporate.html">For business</a>
-      </div>
-
-      <div class="footer-links">
-        <h4>Contact</h4>
-        <p>Live online, Pan India</p>
-        <p>Based in Mumbai</p>
-        <a href="tel:+919545797867">+91 95457 97867</a>
-        <a href="mailto:team.shezbotics@gmail.com">team.shezbotics@gmail.com</a>
-        <a href="demo.html">Book a free demo</a>
-        <a href="privacy.html">Privacy policy</a>
-      </div>
+  <div class="footer-cols">
+    <nav aria-label="Academy">
+      <h3>Academy</h3>
+      <a href="#about">How it works</a>
+      <a href="#courses">Courses</a>
+      <a href="#projects">Projects</a>
+      <a href="#founder">Founder</a>
+      <a href="#gallery">Gallery</a>
+    </nav>
+    <nav aria-label="Programmes">
+      <h3>Programmes</h3>
+      <a href="#basic">Basic, &#8377;3,499</a>
+      <a href="#intermediate">Intermediate, &#8377;4,999</a>
+      <a href="#advanced">Advanced, &#8377;9,499</a>
+      <a href="#full-track">All three, &#8377;15,999</a>
+      <a href="schools.html">For schools</a>
+      <a href="corporate.html">For business</a>
+    </nav>
+    <nav aria-label="Elsewhere">
+      <h3>Elsewhere</h3>
+      <a href="https://www.instagram.com/team_shezbotics" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.linkedin.com/in/shehzad-dobariya-178531250" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://youtube.com/@shezbotics" target="_blank" rel="noopener">YouTube</a>
+      <a href="privacy.html">Privacy policy</a>
+    </nav>
+    <div class="footer-contact">
+      <h3>Contact</h3>
+      <p>Live online, Pan India. Based in Mumbai.</p>
+      <p><a href="tel:+919545797867">+91 95457 97867</a></p>
+      <p><a href="mailto:team.shezbotics@gmail.com">team.shezbotics@gmail.com</a></p>
     </div>
+  </div>
 
-    <div class="footer-bottom">
-      <p>&copy; 2026 ShezBotics. All rights reserved. &middot; <a href="privacy.html">Privacy</a></p>
-      <p class="credit">Site by Shehzad Dobariya</p>
-    </div>
+  <div class="footer-last">
+    <p>&copy; 2026 ShezBotics. All rights reserved.</p>
+    <a href="demo.html" class="btn btn-cyan btn-small">Book a free demo</a>
   </div>
 </footer>
 
@@ -636,15 +589,15 @@
 <div class="modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
   <div class="modal-box">
     <button class="modal-close" aria-label="Close">&times;</button>
-    <img id="pmImage" src="" alt="">
+    <img id="pmImage" src="assets/web/project1.webp" width="1536" height="1024" alt="" loading="lazy">
     <div class="modal-body">
       <h2 id="pmTitle"></h2>
       <p id="pmDesc"></p>
       <h3>What students learn</h3>
       <ul id="pmList"></ul>
       <div class="modal-actions">
-        <a href="javascript:void(0)" id="pmEnrol" class="btn-primary">Enrol now</a>
-        <a href="demo.html" class="btn-ghost">Book a free demo</a>
+        <a href="#contact" id="pmEnrol" class="btn btn-cyan">Enrol now</a>
+        <a href="demo.html" class="btn btn-line">Book a free demo</a>
       </div>
     </div>
   </div>
@@ -652,10 +605,14 @@
 
 <!-- ================= TOAST ================= -->
 <div class="toast" id="toast" role="status" aria-live="polite">
-  <i>&#10003;</i>
   <div><b>Enquiry received</b><span>We usually reply within one working day.</span></div>
 </div>
 
-<script src="script.js"></script>
+<script src="vendor/lenis/lenis.min.js" defer></script>
+<script src="script.js" defer></script>
+<script type="importmap">
+  { "imports": { "three": "./vendor/three/three.module.min.js" } }
+</script>
+<script type="module" src="home.js"></script>
 </body>
 </html>
