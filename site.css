@@ -991,6 +991,7 @@ html.js body.in-hero .whatsapp, html.js body.near-action .whatsapp{ opacity:0; v
 .mosaic{ display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); grid-auto-rows:clamp(120px,14vw,210px); gap:8px }
 .mosaic figure{ position:relative; margin:0; overflow:clip; background:var(--paper-2) }
 .mosaic img{ width:100%; height:100%; object-fit:cover; transition:transform 900ms var(--ease-soft) }
+.mosaic video{ display:block; width:100%; height:100%; object-fit:cover; object-position:15% 30% }
 .mosaic figcaption{ position:absolute; left:0; bottom:0; padding:.5rem .8rem; background:var(--navy); color:var(--paper); font-size:var(--step-small); font-weight:600 }
 @media (hover:hover){ .mosaic figure:hover img{ transform:scale(1.04) } }
 .m-big{ grid-column:1 / span 7; grid-row:span 3 }

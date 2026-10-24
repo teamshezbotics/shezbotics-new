@@ -1298,3 +1298,13 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
     n.focus(); show(n.dataset.team);
   });
 })();
+
+/* ===== 12 · CLASS CLIPS: they play only while on screen, and stay still for reduced motion ===== */
+(() => {
+  const clips = document.querySelectorAll('video[data-loop]');
+  if (!clips.length || reduced) return;
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) e.target.play().catch(() => {}); else e.target.pause();
+  }), { threshold: 0.25 });
+  clips.forEach((v) => io.observe(v));
+})();
