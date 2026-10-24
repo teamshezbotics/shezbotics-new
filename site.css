@@ -1220,7 +1220,11 @@ html.js body.in-hero .whatsapp, html.js body.near-action .whatsapp{ opacity:0; v
 .cyl--tools .tool img,.cyl--tools .tool .tool-word{ align-self:center; justify-self:center }
 .cyl--tools .tool img{ width:44%; height:auto; aspect-ratio:1 }
 .cyl--tools .tool img.tool-wordmark{ width:70%; aspect-ratio:auto }
-.cyl--tools .tool .tool-word{ font-size:clamp(1.5rem, 2.3vw, 2.1rem); font-weight:800; letter-spacing:-0.02em }
+.cyl--tools .tool img.tool-mark{ width:52%; aspect-ratio:auto }
+/* a card whose artwork is the whole card (Canva's gradient and script), with the name over it */
+.cyl--tools .tool--art{ position:relative }
+.cyl--tools .tool--art img.tool-art{ position:absolute; inset:0; width:100%; height:100%; aspect-ratio:auto; object-fit:cover }
+.cyl--tools .tool--art span{ position:relative; grid-row:2 }
 .cyl--tools .tool span{ font-size:var(--step-body); font-weight:800; line-height:1.15; letter-spacing:-0.01em }
 .toolkit-legal{ margin-top:.6rem; font-size:var(--step-small); opacity:.7 }
 .toolkit-note{ max-width:60ch; margin-top:clamp(16px,2vw,28px) }
