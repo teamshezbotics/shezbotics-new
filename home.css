@@ -29,9 +29,6 @@
   --g: clamp(8px, 1.2vw, 20px);            /* grid gutter */
   --sec: clamp(64px, 7.5vw, 112px);        /* each side of a section cut; two sides make the gap */
   --bar-h: 64px;
-}
-@media (max-width:767px){
-  :root{ --step-display: 15.5vw; --step-poster: 8.4vw }
 
   --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
   --ease-expo:  cubic-bezier(0.16, 1, 0.3, 1);
@@ -40,6 +37,9 @@
   --t-press: 140ms;
   --t-hover: 180ms;
   --t-ui: 240ms;
+}
+@media (max-width:767px){
+  :root{ --step-display: 15.5vw; --step-poster: 8.4vw }
 }
 
 /* ---------- base ---------- */
