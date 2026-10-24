@@ -1,7 +1,8 @@
 /* ==========================================================================
-   SHEZBOTICS , home.js  (homepage only, loaded as a module after script.js)
+   SHEZBOTICS · site.js  (every page, loaded as a module after script.js)
    01 smooth scroll · 02 bar ink by chapter · 03 entrances · 04 rolling figures
    05 course tally · 06 sideways journey · 07 kit stage · 08 the 3D robot
+   09 the demo pass. Each part does nothing on a page without its elements.
    script.js still runs the menu, modal, enrol links, forms, toast and gallery.
    ========================================================================== */
 
@@ -82,6 +83,12 @@ if (window.Lenis && !reduced && finePointer) {
     '.beyond-title, .beyond-link',
     '.contact-title, .row, .contact-copy, #contactForm',
     '.footer-cols > *, .footer-last',
+    '.facts-row li',
+    '.book-head > *, .pass, .book-form',
+    '.next h2, .poster-list li',
+    '.meet-pics, .meet-copy > *',
+    '.faq h2, .faq-item',
+    '.sub-head > *, .tier, .points > *, .shots > *, .legal > *',
   ];
   const items = [];
   for (const sel of groups) {
@@ -340,9 +347,9 @@ async function robot() {
   const canvas = document.querySelector('.robot-canvas');
   const spotHero = document.querySelector('[data-spot="hero"]');
   const spotKit = document.querySelector('[data-spot="kit"]');
-  const hero = document.querySelector('.hero');
+  const hero = spotHero && spotHero.closest('section');
   const kit = document.querySelector('[data-kit]');
-  if (!canvas || !spotHero || !spotKit) return;
+  if (!canvas || !spotHero) return;   // pages without a kit stage keep the robot in their hero
 
   const probe = document.createElement('canvas');
   if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) return;
@@ -577,15 +584,18 @@ async function robot() {
     const dt = Math.min(0.05, t - last); last = t;
 
     const heroR = hero.getBoundingClientRect();
-    const kitR = kit.getBoundingClientRect();
+    const kitR = kit ? kit.getBoundingClientRect() : { top: Infinity, bottom: -Infinity };
     const onScreen = heroR.bottom > 0 || (kitR.top < H && kitR.bottom > 0);
     canvas.style.visibility = onScreen ? 'visible' : 'hidden';
+    // the layer covers only the hero and the kit stage, never the sections after them
+    const lo = Math.min(H, Math.max(heroR.bottom, kitR.bottom));
+    canvas.style.clipPath = `inset(0 0 ${Math.max(0, H - lo).toFixed(0)}px 0)`;
     if (!onScreen) return;
 
     // travel from the hero spot to the kit spot as the kit section comes up
-    const travel = smooth(0, 1, 1 - kitR.top / H);
+    const travel = kit ? smooth(0, 1, 1 - kitR.top / H) : 0;
     const a = anchor(spotHero, 0.94, 0.92);
-    const b = anchor(spotKit, state.kitLive ? 0.74 : 0.8, phone ? 0.86 : 0.8);
+    const b = kit ? anchor(spotKit, state.kitLive ? 0.74 : 0.8, phone ? 0.86 : 0.8) : a;
     robotRoot.position.set(lerp(a.x, b.x, travel), lerp(a.y, b.y, travel), 0);
 
     // explode with the kit stage
@@ -669,3 +679,26 @@ async function robot() {
 }
 
 robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classList.remove('has-3d'); });
+
+/* ===== 09 · THE DEMO PASS: the ticket beside the booking form prints itself as it is filled ===== */
+(() => {
+  const pass = document.querySelector('[data-pass]');
+  const form = document.getElementById('demoForm');
+  if (!pass || !form) return;
+  const slots = [...pass.querySelectorAll('[data-fill]')];
+  const valueOf = (name) => {
+    const els = [...form.elements].filter((el) => el.name === name);
+    if (!els.length) return '';
+    if (els[0].type === 'radio') { const on = els.find((el) => el.checked); return on ? on.value : ''; }
+    return els[0].value.trim();
+  };
+  const paint = () => slots.forEach((dd) => {
+    const v = valueOf(dd.dataset.fill);
+    dd.textContent = v || dd.dataset.empty;
+    dd.classList.toggle('is-empty', !v);
+  });
+  form.addEventListener('input', paint);
+  form.addEventListener('change', paint);
+  form.addEventListener('reset', () => setTimeout(paint, 0));
+  paint();
+})();
