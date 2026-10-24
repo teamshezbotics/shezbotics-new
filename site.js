@@ -599,7 +599,7 @@ async function robot() {
   const aimPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
   const aimHit = new THREE.Vector3(), neckW = new THREE.Vector3(), v3 = new THREE.Vector3(), ndc = new THREE.Vector2();
   const TOO_CLOSE = 9;                     // cm, at the robot's own scale (1 unit = 10 cm)
-  let lastPing = 0, avoidAt = -10, hudAt = 0, glow = 0;
+  let lastPing = 0, avoidAt = -10, hudAt = 0, glow = 0, avoiding = false, retreat = 0, retreatPrev = 0;
 
   function frame() {
     requestAnimationFrame(frame);
@@ -646,10 +646,13 @@ async function robot() {
       v3.copy(neckW).project(camera);
       const sx = (v3.x + 1) / 2 * W, sy = (1 - v3.y) / 2 * H;
       cm = Math.hypot(pointer.px - sx, pointer.py - sy) / (s / worldPerPx()) * 10;
-      if (cm < TOO_CLOSE && now - avoidAt > 2.2) avoidAt = now;
     }
-    const av = now - avoidAt, avoiding = av < 1.3 && travel < 0.5;
-    const back = avoiding && !reduced ? Math.sin((av / 1.3) * Math.PI) : 0;
+    // too close: back off and stay back while the cursor stays near (a little slack so it doesn't flicker)
+    const near = tracking && cm < (avoiding ? TOO_CLOSE + 5 : TOO_CLOSE);
+    if (near && !avoiding) avoidAt = now;
+    avoiding = travel < 0.5 && (near || now - avoidAt < 1.1);
+    retreat = lerp(retreat, avoiding && !reduced ? 1 : 0, Math.min(1, dt * (avoiding ? 5 : 2.2)));
+    const back = retreat;
     const heroYaw = (tracking ? clamp(-0.38 + az * 0.3, -1.1, 0.7) : -0.38) - back * 0.45 * Math.sign(az || 1);
     const kitYaw = state.kitLive ? 0.65 - p * Math.PI * 2 : 0.5;   // one full turn, ending where it began
     const yawT = lerp(heroYaw, kitYaw, travel);
@@ -664,8 +667,8 @@ async function robot() {
     body.position.y = hop + (reduced ? 0 : Math.sin(now * 2.2) * 0.008);
     body.position.x = -Math.sin(yaw) * back * 0.6;
     body.position.z = -Math.cos(yaw) * back * 0.6;
-    spin += (travel - travelPrev) * 28 + (h < 1.4 ? dt * 14 : 0) - (back > 0 ? dt * 20 : 0);
-    travelPrev = travel;
+    spin += (travel - travelPrev) * 28 + (h < 1.4 ? dt * 14 : 0) - (retreat - retreatPrev) * 30;
+    travelPrev = travel; retreatPrev = retreat;
     wheels.forEach((w, i) => { w.rotation.x = spin * (i ? 1 : 1); });
 
     robotRoot.updateMatrixWorld(true);
