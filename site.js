@@ -90,6 +90,7 @@ if (window.Lenis && !reduced && finePointer) {
     '.sub-head > *, .mosaic > *, .format, .formats-note',
     '.report-copy > *, .card-slip',
     '.proposal-copy > *, .proposal-form',
+    '.toolkit-note, .duo, .stage-photo',
     '.legal > *',
   ];
   const items = [];
@@ -719,4 +720,41 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
     const first = target.querySelector('input:not([type=hidden]):not(.hp)');
     if (first) setTimeout(() => first.focus({ preventScroll: true }), 800);
   }));
+})();
+
+/* ===== 11 · TEAM TASKS: the chat window shows the kind of task each team brings ===== */
+(() => {
+  const root = document.querySelector('[data-chat]');
+  if (!root) return;
+  const tasks = {
+    ops: { ask: "Here are this week's 38 customer emails. Group them by problem, count each group, and draft one reply per group in our tone.",
+      rows: [['Late delivery', 14], ['Billing questions', 11], ['Login trouble', 8], ['Feature requests', 5]],
+      end: 'Four draft replies follow, one per group, ready to edit.' },
+    hr: { ask: "Here's our job description for a sales executive and 12 CVs. Shortlist the closest matches, say why in one line each, and suggest three interview questions per person.",
+      rows: [['Shortlisted', 5], ['Worth a call first', 4], ['Not a match', 3]],
+      end: 'Fifteen interview questions follow, three for each shortlisted candidate.' },
+    fin: { ask: "Here are last month's 64 vendor invoices as a spreadsheet. Flag possible duplicates, anything over budget, and anything missing a GST number.",
+      rows: [['Possible duplicates', 3], ['Over budget', 6], ['Missing GST number', 2], ['Clean', 53]],
+      end: 'The eleven flagged invoices follow, each with its reason.' },
+  };
+  const tabs = [...root.querySelectorAll('[data-team]')];
+  const ask = root.querySelector('[data-chat-ask]');
+  const reply = root.querySelector('[data-chat-reply]');
+  const ai = root.querySelector('.msg-ai');
+  const show = (key) => {
+    const t = tasks[key];
+    tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.team === key)));
+    ask.textContent = t.ask;
+    reply.innerHTML = '<ul class="chat-list">' + t.rows.map(([k, v], i) => `<li style="--k:${i}"><span>${k}</span><span>${v}</span></li>`).join('') +
+      `</ul><p style="--k:${t.rows.length}">${t.end}</p>`;
+    ai.classList.add('is-typing');
+    requestAnimationFrame(() => requestAnimationFrame(() => ai.classList.remove('is-typing')));
+  };
+  tabs.forEach((b) => b.addEventListener('click', () => show(b.dataset.team)));
+  root.querySelector('[role="tablist"]').addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const i = tabs.findIndex((b) => b.getAttribute('aria-selected') === 'true');
+    const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+    n.focus(); show(n.dataset.team);
+  });
 })();

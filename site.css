@@ -1046,6 +1046,76 @@ html.js body.in-hero .whatsapp, html.js body.near-action .whatsapp{ opacity:0; v
 }
 @media (max-width:767px){ .proposal-form .btn{ width:100% } }
 
+/* ---------- corporate ---------- */
+.hero--corp{ background:var(--paper) }
+.hero--corp .hero-title{ font-size:min(8vw, 128px) }
+.hero--corp .hero-field{ min-height:max(560px, 82svh, calc(min(8vw, 128px) * 1.9 + 500px)) }
+.hero--corp .hero-print{ left:6vw; width:17vw; bottom:-3svh; transform:rotate(-4deg); background:var(--paper-2) }
+.chatui{
+  position:absolute; z-index:3; left:44vw; bottom:-2svh; width:min(40vw, 620px);
+  background:#fff; color:var(--navy); border:2px solid var(--navy); font-size:var(--step-ui);
+  box-shadow:10px 10px 0 var(--navy); /* taste-skill-ignore: interface fragment, data-ui */
+}
+.chat-tabs{ display:flex; border-bottom:2px solid var(--navy) }
+.chat-tabs button{
+  flex:1; min-height:44px; border:0; background:transparent; cursor:pointer; font-weight:700; font-size:var(--step-ui);
+  transition:background-color var(--t-hover) ease, color var(--t-hover) ease;
+}
+.chat-tabs button + button{ border-left:2px solid var(--navy) }
+.chat-tabs button[aria-selected="true"]{ background:var(--navy); color:var(--cyan) }
+@media (hover:hover){ .chat-tabs button[aria-selected="false"]:hover{ background:var(--paper) } }
+.chat-body{ display:grid; gap:12px; padding:16px }
+.msg{ display:grid; gap:4px; max-width:92% }
+.msg b{ font-size:var(--step-small) }
+.msg p{ line-height:1.45 }
+.msg-you{ justify-self:end; text-align:left }
+.msg-you p{ background:var(--paper); padding:10px 12px }
+.msg-ai > div{ background:var(--navy); color:var(--paper); padding:10px 12px; display:grid; gap:8px }
+.chat-list{ display:grid; gap:2px; font-variant-numeric:tabular-nums }
+.chat-list li{ display:flex; justify-content:space-between; gap:1rem; padding:4px 0 }
+.chat-list li span:last-child{ font-weight:800; color:var(--mint) }
+.chat-note{ padding:0 16px 14px; font-size:var(--step-small); color:#46627d }
+@media (min-width:1024px){
+  .chatui{ font-size:var(--step-small) }
+  .chat-tabs button{ min-height:40px; font-size:var(--step-small) }
+  .chat-body{ padding:12px 14px; gap:8px }
+  .msg-you p{ padding:8px 10px }
+  .msg-ai > div{ padding:8px 12px; gap:4px }
+  .chat-list li{ padding:2px 0 }
+  .chat-note{ padding:0 14px 10px }
+}
+@media (prefers-reduced-motion:no-preference){
+  .js .msg-ai.is-typing .chat-list li,.js .msg-ai.is-typing p{ opacity:0; transform:translateY(8px) }
+  .js .msg-ai .chat-list li,.js .msg-ai p{ transition:opacity 300ms var(--ease-out), transform 300ms var(--ease-out); transition-delay:calc(var(--k, 0) * 120ms) }
+}
+@media (max-width:1023px){
+  .hero--corp .hero-field{ min-height:auto; padding:calc(var(--bar-h) + 40px) var(--m) 48px; display:grid; gap:28px }
+  .hero--corp .hero-title{ position:static; font-size:11vw }
+  .hero--corp .hero-print{ display:none }
+  .chatui{ position:relative; left:auto; bottom:auto; width:100%; max-width:560px }
+}
+
+.toolkit{ padding:var(--sec) var(--m) }
+.cyl--tools .tool{ display:flex; align-items:flex-end; padding:18px; background:var(--navy); color:var(--paper) }
+.cyl--tools .tool:nth-child(3n+2){ background:var(--paper); color:var(--navy) }
+.cyl--tools .tool:nth-child(3n){ background:var(--mint); color:var(--navy) }
+.cyl--tools .tool span{ font-size:var(--step-body); font-weight:800; line-height:1.15; letter-spacing:-0.01em }
+.toolkit-note{ max-width:60ch; margin-top:clamp(16px,2vw,28px) }
+.toolkit .cyl-btn{ background:var(--navy); color:var(--cyan) }
+@media (hover:hover){ .toolkit .cyl-btn:hover{ background:var(--paper); color:var(--navy) } }
+
+.duo{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:1.2rem; max-width:460px }
+.duo figure{ margin:0; background:var(--navy); color:var(--paper); padding:8px 8px 0 }
+.duo img{ aspect-ratio:3/4; width:100%; object-fit:cover }
+.duo figcaption{ font-size:var(--step-small); font-weight:600; padding:.45rem .1rem .55rem }
+.duo-a{ transform:rotate(-3deg) }
+.duo-b{ transform:rotate(3deg) translateY(18px) }
+
+.stage-band{ padding:0 }
+.stage-photo{ position:relative; margin:0; height:min(80svh, 720px); overflow:clip }
+.stage-photo img{ width:100%; height:100%; object-fit:cover; object-position:50% 40% }
+.stage-photo figcaption{ position:absolute; left:var(--m); bottom:var(--m); padding:.6rem .9rem; background:var(--navy); color:var(--paper); font-weight:600 }
+
 /* ==========================================================================
    MOTION (hidden states only with JS and motion allowed)
    ========================================================================== */
