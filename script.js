@@ -133,22 +133,22 @@
 
   var projects = {
     aiProject: {
-      image: 'assets/project1.png', title: 'AI Robot',
+      image: 'assets/web/project1.webp', title: 'AI Robot',
       desc: 'Build a robot that senses its surroundings and reacts — the project most students start with.',
       learn: ['Arduino programming', 'Ultrasonic sensors', 'Servo motors', 'Obstacle avoidance', 'Serial debugging']
     },
     homeProject: {
-      image: 'assets/project2.png', title: 'Smart Home',
+      image: 'assets/web/project2.webp', title: 'Smart Home',
       desc: 'Wire up lights and appliances you can switch from a phone, using ESP32 over your home WiFi.',
       learn: ['Relay modules', 'ESP32 setup', 'WiFi control', 'Mobile app control', 'Safe low-voltage wiring']
     },
     droneProject: {
-      image: 'assets/project3.png', title: 'Drone Technology',
+      image: 'assets/web/project3.webp', title: 'Drone Technology',
       desc: 'Understand what makes a drone fly, then assemble and tune one from parts.',
       learn: ['Frame and motors', 'Flight controller', 'ESCs', 'Battery and power budget', 'Assembly and balance']
     },
     iotProject: {
-      image: 'assets/project4.png', title: 'IoT Systems',
+      image: 'assets/web/project4.webp', title: 'IoT Systems',
       desc: 'Put a sensor on the internet and read it from anywhere — the foundation of every connected product.',
       learn: ['ESP32', 'WiFi and MQTT', 'Cloud dashboards', 'Sensor calibration', 'Real-time control']
     }
