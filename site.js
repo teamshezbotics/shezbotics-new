@@ -1,6 +1,6 @@
 /* ==========================================================================
    SHEZBOTICS · site.js  (every page, loaded as a module after script.js)
-   01 smooth scroll · 02 bar ink by chapter · 03 entrances · 04 rolling figures
+   01 scrolling · 02 bar ink by chapter · 03 entrances · 04 rolling figures
    05 course tally · 06 sideways journey · 07 kit stage · 08 the 3D robot
    09 the demo pass. Each part does nothing on a page without its elements.
    script.js still runs the menu, modal, enrol links, forms, toast and gallery.
@@ -9,43 +9,33 @@
 const html = document.documentElement;
 const mq = (q) => window.matchMedia(q);
 const reduced = mq('(prefers-reduced-motion: reduce)').matches;
-const finePointer = mq('(hover: hover) and (pointer: fine)').matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const smooth = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
 
 /* shared state the robot reads */
 const state = { kitP: 0, kitLive: false, part: -1 };
 
-/* ===== 01 · SMOOTH SCROLL (wheel only; touch and reduced motion keep native) ===== */
-let lenis = null;
-if (window.Lenis && !reduced && finePointer) {
-  lenis = new window.Lenis({ lerp: 0.12, smoothWheel: true, anchors: { offset: -64 } });
-  const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
-  requestAnimationFrame(raf);
-  html.classList.add('is-smooth');
-}
+/* ===== 01 · SCROLLING is the browser's own: it runs off the main thread, so it stays smooth whatever
+   else the page is doing. Anchor links glide (scroll-behavior) and clear the bar (scroll-padding-top). ===== */
 
 /* ===== 02 · BAR INK BY CHAPTER ===== */
 (() => {
   const bar = document.querySelector('[data-bar]');
   if (!bar) return;
   const toned = [...document.querySelectorAll('main [data-tone], footer[data-tone]')];
-  let queued = false;
-  const paint = () => {
-    queued = false;
-    const y = 40;
-    for (const el of toned) {
-      const r = el.getBoundingClientRect();
-      if (r.top <= y && r.bottom > y) {
-        const tone = el.dataset.tone;
-        if (bar.dataset.tone !== tone) bar.dataset.tone = tone;
-        break;
-      }
-    }
+  // the chapter under the bar, from an observer on a 1px band at y = 40 (nothing is measured on scroll)
+  let band = null, bandH = 0;
+  const watch = () => {
+    if (band && bandH === innerHeight) return;
+    if (band) band.disconnect();
+    bandH = innerHeight;
+    band = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting && bar.dataset.tone !== e.target.dataset.tone) bar.dataset.tone = e.target.dataset.tone;
+    }, { rootMargin: `-40px 0px ${41 - bandH}px 0px` });
+    toned.forEach((el) => band.observe(el));
   };
-  addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
-  addEventListener('resize', paint);
-  paint();
+  addEventListener('resize', watch);
+  watch();
 
   const hero = document.querySelector('.hero');
   if (hero && 'IntersectionObserver' in window) {
@@ -64,7 +54,6 @@ if (window.Lenis && !reduced && finePointer) {
   if (burger) burger.addEventListener('click', () => {
     const open = burger.getAttribute('aria-expanded') === 'true';
     burger.textContent = open ? 'Close' : 'Menu';
-    if (lenis) open ? lenis.stop() : lenis.start();
   });
 })();
 
@@ -136,7 +125,11 @@ if (window.Lenis && !reduced && finePointer) {
     reveal.forEach((el) => { if (!el.classList.contains('is-in') && el.parentElement.getBoundingClientRect().top < edge) el.classList.add('is-in'); });
     if (!left.length) removeEventListener('scroll', onScroll);
   };
-  const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(sweep); } };
+  let lastY = scrollY;
+  const onScroll = () => {
+    const jump = Math.abs(scrollY - lastY) > innerHeight * 0.75; lastY = scrollY;
+    if (jump && !queued) { queued = true; requestAnimationFrame(sweep); }
+  };
   addEventListener('scroll', onScroll, { passive: true });
 })();
 
@@ -234,8 +227,7 @@ if (window.Lenis && !reduced && finePointer) {
       sel.value = on.length ? 'Not sure yet' : '';
       if (on.length && msg && !msg.value) msg.value = `Interested in ${on.join(' + ')}${kits.checked ? ', with kits' : ', without kits'}.`;
     }
-    if (lenis) lenis.scrollTo(contact, { offset: -64 });
-    else contact.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    contact.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
     setTimeout(() => sel.focus({ preventScroll: true }), 700);
   });
   paint();
@@ -310,18 +302,23 @@ if (window.Lenis && !reduced && finePointer) {
 (() => {
   const panels = [...document.querySelectorAll('.panel')];
   if (panels.length < 2) return;
+  const rows = panels.map((p) => [...p.querySelectorAll('.panel-row')]);
   let queued = false;
   const place = () => {
     queued = false;
+    // all the reading first, then all the writing, so the page is laid out once
+    const out = [];
     panels.forEach((p, i) => {
       const next = panels[i + 1];
       const top = next ? next.getBoundingClientRect().top : Infinity;
-      p.querySelectorAll('.panel-row').forEach((el) => {
-        // gone by the moment the next panel's edge reaches the bottom of this row
-        const o = clamp((top - el.getBoundingClientRect().bottom) / (innerHeight * 0.2));
-        el.style.opacity = o.toFixed(3);
-        el.style.visibility = o < 0.02 ? 'hidden' : '';
-      });
+      // gone by the moment the next panel's edge reaches the bottom of this row
+      rows[i].forEach((el) => out.push([el, clamp((top - el.getBoundingClientRect().bottom) / (innerHeight * 0.2))]));
+    });
+    out.forEach(([el, o]) => {
+      const v = o.toFixed(2);
+      if (el.style.opacity === v) return;
+      el.style.opacity = v;
+      el.style.visibility = o < 0.02 ? 'hidden' : '';
     });
   };
   addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(place); } }, { passive: true });
@@ -374,7 +371,6 @@ async function robot() {
   let pr = Math.min(devicePixelRatio || 1, 1.5);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: !phone, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: false });
   renderer.setPixelRatio(pr);
-  renderer.autoClear = false;                // frame() clears, then draws inside a scissor
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping;
   renderer.toneMappingExposure = 1.0;
@@ -957,51 +953,65 @@ async function robot() {
 
   Object.values(parts).forEach((p) => { p.home = p.g.position.clone(); });
 
-  /* ---------- placement on the page ---------- */
-  let W = innerWidth, H = innerHeight;
-  const resize = () => {
-    W = innerWidth; H = innerHeight;
-    renderer.setSize(W, H, false);
-    camera.aspect = W / H; camera.updateProjectionMatrix();
-    canvas.style.height = H + 'px';
-  };
-  resize();
-  addEventListener('resize', resize);
+  /* ---------- placement: the canvas lives in the page (the hero, then the kit stage), so it scrolls with it ---------- */
+  const field = spotHero.parentElement;                         // the hero's picture area
+  const kitStage = spotKit ? spotKit.closest('.kit-stage') : null;
+  let W = 1, H = 1, mode = '', A = { x: 0, y: 0, s: 1 };
   const worldPerPx = () => (2 * camera.position.z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) / H;
-
-  // where the robot stands inside a spot: x centre, ground at fy of its height; width it should fill
-  const anchor = (el, fy, fill) => {
-    const r = el.getBoundingClientRect();
-    const k = worldPerPx();
-    return {
-      x: (r.left + r.width / 2 - W / 2) * k,
-      y: -(r.top + r.height * fy - H / 2) * k,
-      s: (r.width * fill * k) / 2.6,
-      visible: r.bottom > -H * 0.5 && r.top < H * 1.5,
-    };
+  // size the drawing to its box, and find where the robot stands in it: x centre, ground at fy of the spot, width it fills
+  const layout = () => {
+    const box = canvas.parentElement;
+    const w = Math.max(1, box.clientWidth), h = Math.max(1, box.clientHeight);
+    if (w !== W || h !== H) {
+      W = w; H = h;
+      renderer.setSize(W, H, false);
+      camera.aspect = W / H; camera.updateProjectionMatrix();
+    }
+    const inKit = mode === 'kit';
+    const spot = inKit ? spotKit : spotHero;
+    const b = box.getBoundingClientRect(), r = spot.getBoundingClientRect(), k = worldPerPx();
+    const fy = inKit ? (state.kitLive ? 0.74 : 0.8) : 0.83, fill = inKit ? (phone ? 0.86 : 0.8) : 0.9;
+    A = { x: (r.left - b.left + r.width / 2 - W / 2) * k, y: -(r.top - b.top + r.height * fy - H / 2) * k, s: (r.width * fill * k) / 2.6 };
+    renderer.shadowMap.needsUpdate = true;
   };
+  let pose = 0, poseFrom = 0, poseAt = -10, posePrev = 0;      // 0 the hero's pose, 1 the kit stage's
+  const place = (m) => {
+    if (m === mode || (m === 'kit' && !kitStage)) return;
+    mode = m;
+    (m === 'kit' ? kitStage : field).appendChild(canvas);
+    layout();
+    poseFrom = pose; poseAt = performance.now() / 1000;
+  };
+  place('hero');
+  pose = 0;
+  const sizes = new ResizeObserver(() => layout());
+  [field, spotHero, kitStage, spotKit].forEach((el) => { if (el) sizes.observe(el); });
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(layout);
+  // nothing is drawn while the box it sits in is off screen
+  const seen = { hero: true, kit: false };
+  new IntersectionObserver((es) => { seen.hero = es[es.length - 1].isIntersecting; }).observe(field);
+  if (kit && kitStage) {
+    new IntersectionObserver((es) => { seen.kit = es[es.length - 1].isIntersecting; }).observe(kit);
+    // it moves to the kit stage once the hero has scrolled away (the kit section's top passes 15% from the top)
+    new IntersectionObserver((es) => { place(es[es.length - 1].isIntersecting ? 'kit' : 'hero'); }, { rootMargin: '-15% 0px -84% 0px' }).observe(kit);
+  }
 
   /* ---------- input ---------- */
-  const pointer = { x: 0, y: 0, px: 0, py: 0, moved: -10 };
-  const aimAt = (e) => {
-    pointer.px = e.clientX; pointer.py = e.clientY;
-    pointer.x = (e.clientX / W) * 2 - 1;
-    pointer.y = -(e.clientY / H) * 2 + 1;
-    pointer.moved = performance.now() / 1000;
-  };
+  const pointer = { cx: 0, cy: 0, px: 0, py: 0, x: 0, y: 0, moved: -10 };   // client px, canvas px, -1..1
+  const aimAt = (e) => { pointer.cx = e.clientX; pointer.cy = e.clientY; pointer.moved = performance.now() / 1000; };
   addEventListener('pointermove', aimAt, { passive: true });
 
   const ray = new THREE.Raycaster();
   let happy = -10;
   addEventListener('pointerdown', (e) => {
     aimAt(e);
-    const v = new THREE.Vector2((e.clientX / W) * 2 - 1, -(e.clientY / H) * 2 + 1);
+    const c = canvas.getBoundingClientRect();
+    const v = new THREE.Vector2(((e.clientX - c.left) / W) * 2 - 1, -((e.clientY - c.top) / H) * 2 + 1);
     ray.setFromCamera(v, camera);
     if (ray.intersectObject(body, true).some((h) => h.object !== floorBlob && h.object !== floor)) happy = performance.now() / 1000;
   });
 
   // phones: tilt it and a ball rolls across the hero; the sensor tracks the ball, a tap drops it there
-  const field = spotHero.parentElement;
   const hint = field.querySelector('.hero-hint');
   const hintLead = hint ? hint.textContent.split('. ')[0] + '. ' : '';
   const ball = { on: false, x: 0, y: 0, vx: 0, vy: 0, gx: 0, gy: 0, g0: null, b0: null, el: null };
@@ -1044,22 +1054,22 @@ async function robot() {
       }
     });
   }
-  // one step of rolling: tilt pushes it, friction slows it, the walls and the robot bounce it
+  // one step of rolling, in the hero's own pixels (the canvas fills it): tilt pushes, friction slows, walls and robot bounce
   const sensPx = { x: -1e4, y: -1e4, ppu: 1 };
   const BALL_R = 11;
-  const roll = (dt, r) => {
+  const roll = (dt) => {
     ball.vx = clamp((ball.vx + ball.gx * 2400 * dt) * Math.pow(0.4, dt), -1400, 1400);
     ball.vy = clamp((ball.vy + ball.gy * 2400 * dt) * Math.pow(0.4, dt), -1400, 1400);
     ball.x += ball.vx * dt; ball.y += ball.vy * dt;
-    const L = 12 + BALL_R, R = r.width - 12 - BALL_R, T = 76 + BALL_R, B = r.height - 12 - BALL_R;
+    const L = 12 + BALL_R, R = W - 12 - BALL_R, T = 76 + BALL_R, B = H - 12 - BALL_R;
     if (ball.x < L) { ball.x = L; ball.vx = Math.abs(ball.vx) * 0.55; }
     if (ball.x > R) { ball.x = R; ball.vx = -Math.abs(ball.vx) * 0.55; }
     if (ball.y < T) { ball.y = T; ball.vy = Math.abs(ball.vy) * 0.55; }
     if (ball.y > B) { ball.y = B; ball.vy = -Math.abs(ball.vy) * 0.55; }
-    // the car: a box around its deck and wheels, in page pixels
+    // the car: a box around its deck and wheels
     const u = sensPx.ppu;
     v3.copy(robotRoot.position).project(camera);
-    const gx = (v3.x + 1) / 2 * W - r.left, gy = (1 - v3.y) / 2 * H - r.top;
+    const gx = (v3.x + 1) / 2 * W, gy = (1 - v3.y) / 2 * H;
     const cl = gx - 1.2 * u - BALL_R, cr = gx + 1.2 * u + BALL_R, ct = gy - 0.95 * u - BALL_R, cb = gy + 0.15 * u + BALL_R;
     if (ball.x > cl && ball.x < cr && ball.y > ct && ball.y < cb) {
       const m = Math.min(ball.x - cl, cr - ball.x, ball.y - ct, cb - ball.y);
@@ -1069,26 +1079,19 @@ async function robot() {
       else { ball.y = cb; ball.vy = Math.abs(ball.vy) * 0.5; }
     }
     // the sensor head: a circle that knocks the ball away
-    const hx = sensPx.x - r.left, hy = sensPx.y - r.top, dx = ball.x - hx, dy = ball.y - hy, d = Math.hypot(dx, dy) || 1;
+    const dx = ball.x - sensPx.x, dy = ball.y - sensPx.y, d = Math.hypot(dx, dy) || 1;
     const reach = 0.6 * u + BALL_R;          // touching it reads under TOO_CLOSE, so it backs off
     if (d < reach) {
       const nx = dx / d, ny = dy / d, vn = ball.vx * nx + ball.vy * ny;
-      ball.x = hx + nx * reach; ball.y = hy + ny * reach;
+      ball.x = sensPx.x + nx * reach; ball.y = sensPx.y + ny * reach;
       if (vn < 0) { ball.vx -= 1.7 * vn * nx; ball.vy -= 1.7 * vn * ny; }
       ball.vx += nx * 160; ball.vy += ny * 160;
     }
   };
-  // once a frame: put the ball on the page, and make it the target, exactly as a cursor would be
-  const placeBall = (r) => {
-    ball.el.style.transform = `translate(${ball.x.toFixed(1)}px, ${ball.y.toFixed(1)}px)`;
-    const px = r.left + ball.x, py = r.top + ball.y;
-    pointer.px = px; pointer.py = py; pointer.x = (px / W) * 2 - 1; pointer.y = -(py / H) * 2 + 1;
-    pointer.moved = performance.now() / 1000;
-  };
 
   /* ---------- the loop ---------- */
   let frozen = false;
-  let last = performance.now() / 1000, spin = 0, yaw = -0.35, tilt = 0.12, headYaw = 0, headPitch = 0, travelPrev = 0, explodeNow = 0;
+  let last = performance.now() / 1000, spin = 0, yaw = -0.35, tilt = 0.12, headYaw = 0, headPitch = 0, explodeNow = 0;
   const tmp = new THREE.Vector3();
   const lerp = THREE.MathUtils.lerp;
 
@@ -1099,7 +1102,9 @@ async function robot() {
   const TOO_CLOSE = 9;                     // cm, at the robot's own scale (1 unit = 10 cm)
   let lastPing = 0, avoidAt = -10, hudAt = 0, glow = 0, avoiding = false, retreat = 0, retreatPrev = 0;
 
-  let shown = '', slow = 1 / 60, samples = 0;
+  // shadows are redrawn every other frame (every third on phones): soft shadows look the same, at a fraction of the cost
+  renderer.shadowMap.autoUpdate = false;
+  let slow = 1 / 60, samples = 0, frameNo = 0;
   function frame() {
     requestAnimationFrame(frame);
     if (frozen) return;
@@ -1107,15 +1112,7 @@ async function robot() {
     if (t - last < 1 / 75) return;             // about 60 frames a second at most, even on 120 Hz screens
     const raw = t - last;
     const dt = Math.min(0.05, raw); last = t;
-
-    const heroR = hero.getBoundingClientRect();
-    const kitR = kit ? kit.getBoundingClientRect() : { top: Infinity, bottom: -Infinity };
-    const onScreen = heroR.bottom > 0 || (kitR.top < H && kitR.bottom > 0);
-    const vis = onScreen ? 'visible' : 'hidden';
-    if (vis !== shown) { canvas.style.visibility = vis; shown = vis; }
-    if (!onScreen) return;
-    // the layer covers only the hero and the kit stage, never the sections after them (a scissor, so no CSS repaint)
-    const lo = Math.min(H, Math.max(heroR.bottom, kitR.bottom));
+    if (!seen[mode]) { ball.t = t; return; }   // off screen: nothing to draw
 
     // a device that can't hold about 40 frames a second renders fewer pixels, then drops the shadows
     if (raw < 0.25) { samples++; slow += (raw - slow) * 0.05; }
@@ -1125,33 +1122,37 @@ async function robot() {
       else key.castShadow = false;
     }
 
-    // travel from the hero spot to the kit spot as the kit section comes up
-    const travel = kit ? smooth(0, 1, 1 - kitR.top / H) : 0;
-    const a = anchor(spotHero, 0.83, 0.9);
-    const b = kit ? anchor(spotKit, state.kitLive ? 0.74 : 0.8, phone ? 0.86 : 0.8) : a;
-    robotRoot.position.set(lerp(a.x, b.x, travel), lerp(a.y, b.y, travel), 0);
+    // the pose eases between the hero's and the kit stage's after each move; in the kit it rises into place
+    const inKit = mode === 'kit';
+    const pe = clamp((t - poseAt) / (inKit ? 0.9 : 0.4));
+    pose = lerp(poseFrom, inKit ? 1 : 0, 1 - Math.pow(1 - pe, 3));
+    const rise = inKit ? (1 - pose) * 0.9 : 0;
 
     // explode with the kit stage
     const p = state.kitLive ? state.kitP : 0.5;
-    const explode = travel < 0.999 ? 0 : (state.kitLive ? smooth(0.06, 0.2, p) * (1 - smooth(0.84, 0.97, p)) : 0.85);
+    const explode = !inKit ? 0 : (state.kitLive ? smooth(0.06, 0.2, p) * (1 - smooth(0.84, 0.97, p)) : 0.85);
     explodeNow = lerp(explodeNow, explode, reduced ? 1 : Math.min(1, dt * 8));
-    const s = lerp(a.s, b.s, travel) / (1 + explodeNow * 0.3);
+    const s = A.s / (1 + explodeNow * 0.3);
+    robotRoot.position.set(A.x, A.y - rise * A.s, 0);
     robotRoot.scale.setScalar(s);
     aimKey(s);
 
-    // body pose: facing the headline in the hero, turning slowly through the kit stage
+    // where the target is, in the canvas's pixels: the ball on phones, otherwise the cursor (read once a frame)
     const now = t;
-    // the ball keeps real time (in small steps), whatever the frame rate
-    if (ball.on && travel < 0.5 && heroR.bottom > 0) {
-      const fr = field.getBoundingClientRect();
-      let left = Math.min(0.25, t - (ball.t || t)); while (left > 1e-4) { const st = Math.min(1 / 60, left); roll(st, fr); left -= st; }
-      placeBall(fr);
+    if (ball.on && !inKit) {
+      let left = Math.min(0.25, t - (ball.t || t)); while (left > 1e-4) { const st = Math.min(1 / 60, left); roll(st); left -= st; }
+      ball.el.style.transform = `translate(${ball.x.toFixed(1)}px, ${ball.y.toFixed(1)}px)`;
+      pointer.px = ball.x; pointer.py = ball.y; pointer.moved = now;
+    } else if (!inKit && now - pointer.moved < 2.5) {
+      const c = canvas.getBoundingClientRect();
+      pointer.px = pointer.cx - c.left; pointer.py = pointer.cy - c.top;
     }
     ball.t = t;
-    const tracking = travel < 0.5 && now - pointer.moved < 2.5;
+    pointer.x = (pointer.px / W) * 2 - 1; pointer.y = -(pointer.py / H) * 2 + 1;
+    const tracking = !inKit && now - pointer.moved < 2.5;
     let az = 0, cm = Infinity;
     if (tracking) {
-      // where the cursor sits in space, on a plane a little in front of the sensor
+      // where the target sits in space, on a plane a little in front of the sensor
       neck.getWorldPosition(neckW);
       aimPlane.constant = -(neckW.z + 2.5 * s);
       aimRay.setFromCamera(ndc.set(pointer.x, pointer.y), camera);
@@ -1159,41 +1160,41 @@ async function robot() {
       v3.copy(aimHit); robotRoot.worldToLocal(v3);
       const nl = robotRoot.worldToLocal(neckW.clone());
       az = Math.atan2(v3.x - nl.x, v3.z - nl.z);
-      // the reading: screen distance from the sensor to the cursor, in the robot's centimetres
+      // the reading: distance on screen from the sensor to the target, in the robot's centimetres
       v3.copy(neckW).project(camera);
       const sx = (v3.x + 1) / 2 * W, sy = (1 - v3.y) / 2 * H;
       sensPx.x = sx; sensPx.y = sy; sensPx.ppu = s / worldPerPx();
       cm = Math.hypot(pointer.px - sx, pointer.py - sy) / (s / worldPerPx()) * 10;
     }
-    // too close: back off and stay back while the cursor stays near (a little slack so it doesn't flicker)
+    // too close: back off and stay back while the target stays near (a little slack so it doesn't flicker)
     const near = tracking && cm < (avoiding ? TOO_CLOSE + 5 : TOO_CLOSE);
     if (near && !avoiding) avoidAt = now;
-    avoiding = travel < 0.5 && (near || now - avoidAt < 1.1);
+    avoiding = !inKit && (near || now - avoidAt < 1.1);
     retreat = lerp(retreat, avoiding && !reduced ? 1 : 0, Math.min(1, dt * (avoiding ? 5 : 2.2)));
     const back = retreat;
     const heroYaw = (tracking ? clamp(-0.38 + az * 0.3, -1.1, 0.7) : -0.38) - back * 0.45 * Math.sign(az || 1);
     const kitYaw = state.kitLive ? 0.65 - p * Math.PI * 2 : 0.5;   // one full turn, ending where it began
-    const yawT = lerp(heroYaw, kitYaw, travel);
-    const tiltT = lerp(0.2, phone ? 0.42 : 0.38, travel);
+    const yawT = lerp(heroYaw, kitYaw, pose);
+    const tiltT = lerp(0.2, phone ? 0.42 : 0.38, pose);
     const k = reduced ? 1 : Math.min(1, dt * 6);
     yaw = lerp(yaw, yawT, k); tilt = lerp(tilt, tiltT, k);
     body.rotation.set(tilt, yaw, 0);
 
-    // the hop when tapped, and the wheels turning while it travels
+    // the hop when tapped, and the wheels turning while it rises in or backs off
     const h = now - happy;
     const hop = h < 1.4 && !reduced ? Math.abs(Math.sin(h * Math.PI * 2.2)) * 0.18 * (1 - h / 1.4) : 0;
     body.position.y = hop + (reduced ? 0 : Math.sin(now * 2.2) * 0.008);
     floor.position.y = floorBlob.position.y = 0.003 - body.position.y;   // the floor stays put when it hops
     body.position.x = -Math.sin(yaw) * back * 0.6;
     body.position.z = -Math.cos(yaw) * back * 0.6;
-    spin += (travel - travelPrev) * 28 + (h < 1.4 ? dt * 14 : 0) - (retreat - retreatPrev) * 30;
-    travelPrev = travel; retreatPrev = retreat;
-    wheels.forEach((w, i) => { w.rotation.x = spin * (i ? 1 : 1); });
+    spin += (pose - posePrev) * 28 + (h < 1.4 ? dt * 14 : 0) - (retreat - retreatPrev) * 30;
+    posePrev = pose; retreatPrev = retreat;
+    wheels.forEach((w) => { w.rotation.x = spin; });
 
     robotRoot.updateMatrixWorld(true);
-    // the head (servo + sensor): aims straight at the cursor, scans when there is none
+    // the head (servo + sensor): aims straight at the target, scans when there is none
     let hy = 0, hp = 0;
-    if (travel < 0.5) {
+    if (!inKit) {
       if (tracking) {
         v3.copy(aimHit); neck.parent.worldToLocal(v3); v3.sub(neck.position);
         hy = clamp(Math.atan2(v3.x, v3.z), -1.45, 1.45);
@@ -1212,7 +1213,7 @@ async function robot() {
     pings.forEach((pg) => {
       if (pg.t < 0) return;
       const life = (now - pg.t) / 0.9;
-      if (life >= 1 || travel >= 0.5) { pg.t = -1; pg.m.visible = false; return; }
+      if (life >= 1 || inKit) { pg.t = -1; pg.m.visible = false; return; }
       pg.m.visible = true;
       pg.m.position.set(pg.x, 0, 0.14 + life * 1.9);
       pg.m.scale.setScalar(1 + life * 4.5);
@@ -1226,7 +1227,7 @@ async function robot() {
     // the robot's own screen, ten times a second
     if (now - hudAt > 0.1) {
       hudAt = now;
-      lcdShow(travel >= 0.5 ? 'kit' : !tracking ? 'scan' : cm > 400 ? 'far' : avoiding ? 'near' : 'dist', Math.round(cm), now);
+      lcdShow(inKit ? 'kit' : !tracking ? 'scan' : cm > 400 ? 'far' : avoiding ? 'near' : 'dist', Math.round(cm), now);
     }
 
     // parts move out along their own directions; the active chapter lifts a little more
@@ -1252,12 +1253,12 @@ async function robot() {
       l.material.emissiveIntensity = on ? 2.4 : 0.05;
     });
 
-    renderer.setScissorTest(false); renderer.clear();
-    renderer.setScissor(0, H - lo, W, lo); renderer.setScissorTest(true);
+    if (++frameNo % (phone ? 3 : 2) === 0) renderer.shadowMap.needsUpdate = true;
     renderer.render(scene, camera);
   }
 
   html.classList.add('has-3d');
+  renderer.shadowMap.needsUpdate = true;
   frame();                                   // the first frame now, shaders and all, while the boot screen is still up
 
   // still frames for the no-WebGL fallback images (used once by the build, harmless otherwise)
@@ -1272,9 +1273,8 @@ async function robot() {
     Object.values(parts).forEach((pt) => pt.g.position.copy(pt.home).addScaledVector(pt.out, e));
     wires.visible = !e; floorBlob.visible = floor.visible = !e;
     lcdShow('kit', 0, 0);
-    lcdShow('kit', 0, 0);
     robotRoot.updateMatrixWorld(true); aimKey(robotRoot.scale.x);
-    renderer.setScissorTest(false); renderer.clear();
+    renderer.shadowMap.needsUpdate = true;
     renderer.render(scene, camera);
     return canvas.toDataURL('image/png');
   };
@@ -1315,8 +1315,7 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
     const target = document.getElementById('proposal');
     if (radio) radio.checked = true;
     if (!target) return;
-    if (lenis) lenis.scrollTo(target, { offset: -64 });
-    else target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
     const first = target.querySelector('input:not([type=hidden]):not(.hp)');
     if (first) setTimeout(() => first.focus({ preventScroll: true }), 800);
   }));
@@ -1403,14 +1402,12 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
     count.textContent = `${two(i + 1)} / ${two(clips.length)}`;
   };
   count.textContent = `01 / ${two(clips.length)}`;
+  // the loop only runs while the section is on screen (an observer starts and stops it)
+  let running = false, ffShown = '', timeShown = '';
   const tick = () => {
+    if (!running) return;
     requestAnimationFrame(tick);
     const r = reel.getBoundingClientRect();
-    const near = r.top < innerHeight && r.bottom > 0;
-    if (!near) {
-      if (seen) { clips[active].pause(); seen = false; }
-      lastY = scrollY; return;
-    }
     if (!seen) { seen = true; clips[active].play().catch(() => {}); }
     const p = clamp(-r.top / Math.max(1, r.height - innerHeight));
     const z = smooth(0.02, 0.42, p);
@@ -1426,9 +1423,15 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
     rate += (want - rate) * (want > rate ? 0.25 : 0.06);
     const v = clips[active];
     if (Math.abs(v.playbackRate - rate) > 0.05) v.playbackRate = rate;
-    ff.textContent = rate > 1.2 ? `>> ${rate.toFixed(1)}x` : '';
+    const f = rate > 1.2 ? `>> ${rate.toFixed(1)}x` : '';
+    if (f !== ffShown) { ff.textContent = f; ffShown = f; }
     const s = v.currentTime || 0;
-    time.textContent = `${two(Math.floor(s / 60))}:${two(Math.floor(s) % 60)}:${two(Math.floor((s % 1) * 30))}`;
+    const tc = `${two(Math.floor(s / 60))}:${two(Math.floor(s) % 60)}:${two(Math.floor((s % 1) * 30))}`;
+    if (tc !== timeShown) { time.textContent = tc; timeShown = tc; }
   };
-  requestAnimationFrame(tick);
+  new IntersectionObserver((es) => {
+    const on = es[es.length - 1].isIntersecting;
+    if (on && !running) { running = true; lastY = scrollY; requestAnimationFrame(tick); }
+    else if (!on && running) { running = false; seen = false; clips[active].pause(); }
+  }).observe(reel);
 })();

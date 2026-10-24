@@ -6,7 +6,8 @@ Upload all of these into your site root, keeping the folders as they are:
 
 ```
 index.html      site.css        assets/     (the pages use assets/web/)
-demo.html       site.js         vendor/     (three.js and Lenis, served from your own site)
+demo.html       site.js         vendor/     (three.js, served from your own site)
+                boot.js
 schools.html    script.js
 corporate.html
 privacy.html

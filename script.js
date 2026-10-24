@@ -41,9 +41,15 @@
   if (!bar) return;
   var ticking = false;
 
+  // the page height is measured when it changes, not on every scroll
+  var max = 0;
+  function measure() { max = document.documentElement.scrollHeight - window.innerHeight; }
+  measure();
+  window.addEventListener('resize', measure);
+  window.addEventListener('load', measure);
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
   function draw() {
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    bar.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+    bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
     ticking = false;
   }
   window.addEventListener('scroll', function () {
