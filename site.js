@@ -37,8 +37,7 @@ if (window.Lenis && !reduced && finePointer) {
     for (const el of toned) {
       const r = el.getBoundingClientRect();
       if (r.top <= y && r.bottom > y) {
-        let tone = el.dataset.tone;
-        if (el.classList.contains('hero')) tone = 'cyan';
+        const tone = el.dataset.tone;
         if (bar.dataset.tone !== tone) bar.dataset.tone = tone;
         break;
       }
@@ -52,7 +51,7 @@ if (window.Lenis && !reduced && finePointer) {
   if (hero && 'IntersectionObserver' in window) {
     new IntersectionObserver((e) => document.body.classList.toggle('in-hero', e[0].intersectionRatio > 0.35), { threshold: [0, 0.35, 1] }).observe(hero);
     // the floating WhatsApp button steps aside wherever it would sit on a primary action
-    const actions = [...document.querySelectorAll('.tally, .ticket-stub, #contactForm, .footer-last')];
+    const actions = [...document.querySelectorAll('.tally, .ticket-stub, #contactForm, #demoForm, .proposal-form, .footer-last')];
     const near = new Set();
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) e.isIntersecting ? near.add(e.target) : near.delete(e.target);
@@ -88,7 +87,10 @@ if (window.Lenis && !reduced && finePointer) {
     '.next h2, .poster-list li',
     '.meet-pics, .meet-copy > *',
     '.faq h2, .faq-item',
-    '.sub-head > *, .tier, .points > *, .shots > *, .legal > *',
+    '.sub-head > *, .mosaic > *, .format, .formats-note',
+    '.report-copy > *, .card-slip',
+    '.proposal-copy > *, .proposal-form',
+    '.legal > *',
   ];
   const items = [];
   for (const sel of groups) {
@@ -701,4 +703,20 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
   form.addEventListener('change', paint);
   form.addEventListener('reset', () => setTimeout(paint, 0));
   paint();
+})();
+
+/* ===== 10 · FORMAT BUTTONS: choosing a format fills it in on the proposal form ===== */
+(() => {
+  const buttons = document.querySelectorAll('[data-format]');
+  if (!buttons.length) return;
+  buttons.forEach((b) => b.addEventListener('click', () => {
+    const radio = document.querySelector(`input[name="format"][value="${b.dataset.format}"]`);
+    const target = document.getElementById('proposal');
+    if (radio) radio.checked = true;
+    if (!target) return;
+    if (lenis) lenis.scrollTo(target, { offset: -64 });
+    else target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    const first = target.querySelector('input:not([type=hidden]):not(.hp)');
+    if (first) setTimeout(() => first.focus({ preventScroll: true }), 800);
+  }));
 })();
