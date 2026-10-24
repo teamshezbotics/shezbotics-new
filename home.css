@@ -261,6 +261,9 @@ html.js .kit.is-live .kit-stage{
 .kit.is-live .kit-parts li p{ display:none }
 .kit.is-live .kit-parts li.is-on p{ display:block; animation:load-rise 420ms var(--ease-out) both }
 .kit.is-live[data-beat="all"] .kit-parts li{ opacity:1 }
+.kit-all{ display:none }
+.kit.is-live[data-beat="all"] .kit-all{ display:block }
+.kit.is-live[data-beat="all"] .kit-all p{ display:block; animation:load-rise 420ms var(--ease-out) both }
 .kit.is-live .kit-parts{ align-self:center }
 
 @media (max-width:1023px){
@@ -270,6 +273,8 @@ html.js .kit.is-live .kit-stage{
   .kit.is-live .kit-parts{ grid-row:3; position:relative; min-height:7.5em }
   .kit.is-live .kit-parts li{ position:absolute; inset:0 0 auto 0; opacity:0 }
   .kit.is-live .kit-parts li.is-on{ opacity:1 }
+  .kit.is-live[data-beat="all"] .kit-parts li{ opacity:0 }
+  .kit.is-live[data-beat="all"] .kit-parts .kit-all{ opacity:1 }
   .kit.is-live .kit-foot{ grid-row:4; font-size:var(--step-small) }
 }
 
@@ -289,7 +294,7 @@ html.js .kit.is-live .kit-stage{
 .tile-low img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 30% }
 .tile-low .tile-fig,.tile-low .tile-cap{ position:relative; z-index:1 }
 .tile-low::after{ content:""; position:absolute; inset:auto 0 0 0; height:52%; background:rgba(7,20,35,.78) }
-.tile-fig{ font-size:var(--step-head); line-height:.9 }
+.tile-fig{ font-size:var(--step-head); line-height:.9; white-space:nowrap }
 .tile-tall .tile-fig{ font-size:var(--step-display) }
 .tile-cap{ font-size:var(--step-body); font-weight:500; max-width:26ch }
 .tile-low .tile-fig{ font-size:var(--step-lead); margin-bottom:.3rem }
@@ -457,6 +462,13 @@ html.js .kit.is-live .kit-stage{
    WORK , full panels that slide over each other
    ========================================================================== */
 .work{ position:relative }
+.work-intro{
+  display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); column-gap:var(--g); align-items:end;
+  padding:var(--sec) var(--m) clamp(40px,5vw,72px);
+}
+.work-intro h2{ grid-column:1 / span 7 }
+.work-intro p{ grid-column:9 / span 4; max-width:36ch }
+@media (max-width:767px){ .work-intro h2,.work-intro p{ grid-column:1 / -1 } .work-intro p{ margin-top:1rem } }
 .panel{ position:sticky; top:0; height:100svh; overflow:hidden; background:var(--navy-2) }
 .panel img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.15) }
 .panel-head,.panel-row{ transition:opacity 200ms linear }
@@ -781,7 +793,7 @@ html.js .kit.is-live .kit-stage{
 .whatsapp svg{ width:30px; height:30px; fill:currentColor }
 .whatsapp:active{ transform:scale(.94) }
 .whatsapp{ transition:transform var(--t-press) var(--ease-out), opacity var(--t-ui) ease, visibility 0s }
-html.js body.in-hero .whatsapp{ opacity:0; visibility:hidden; transition:opacity var(--t-ui) ease, visibility 0s var(--t-ui) }
+html.js body.in-hero .whatsapp, html.js body.near-action .whatsapp{ opacity:0; visibility:hidden; transition:opacity var(--t-ui) ease, visibility 0s var(--t-ui) }
 
 .modal{
   position:fixed; inset:0; z-index:40; display:grid; place-items:center; padding:var(--m);

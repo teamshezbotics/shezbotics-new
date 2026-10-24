@@ -50,6 +50,14 @@ if (window.Lenis && !reduced && finePointer) {
   const hero = document.querySelector('.hero');
   if (hero && 'IntersectionObserver' in window) {
     new IntersectionObserver((e) => document.body.classList.toggle('in-hero', e[0].intersectionRatio > 0.35), { threshold: [0, 0.35, 1] }).observe(hero);
+    // the floating WhatsApp button steps aside wherever it would sit on a primary action
+    const actions = [...document.querySelectorAll('.tally, .ticket-stub, #contactForm, .footer-last')];
+    const near = new Set();
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) e.isIntersecting ? near.add(e.target) : near.delete(e.target);
+      document.body.classList.toggle('near-action', near.size > 0);
+    }, { rootMargin: '0px 0px -0px 0px', threshold: 0 });
+    actions.forEach((el) => io.observe(el));
   }
 
   const burger = document.getElementById('burger');
@@ -69,6 +77,7 @@ if (window.Lenis && !reduced && finePointer) {
     '.founder-title, .founder-text > *, .founder-hex',
     '.journey-title, .stop',
     '.voices h2, .voice',
+    '.work-intro > *',
     '.gallery-head > *',
     '.beyond-title, .beyond-link',
     '.contact-title, .row, .contact-copy, #contactForm',
@@ -101,6 +110,23 @@ if (window.Lenis && !reduced && finePointer) {
   }, { rootMargin: '0px 0px -15% 0px', threshold: 0.01 });
   reveal.forEach((el) => io2.observe(el.parentElement));
   addEventListener('beforeprint', () => items.forEach((el) => el.classList.add('is-in')));
+
+  // A jump (an anchor link, the End key) can carry an element from below the screen to above it
+  // between two frames; the observer sees no crossing then, so anything already passed is shown too.
+  let left = items.slice(), queued = false;
+  const sweep = () => {
+    queued = false;
+    const edge = innerHeight * 0.9;
+    left = left.filter((el) => {
+      if (el.classList.contains('is-in')) return false;
+      if (el.getBoundingClientRect().top < edge) { el.classList.add('is-in'); io.unobserve(el); return false; }
+      return true;
+    });
+    reveal.forEach((el) => { if (!el.classList.contains('is-in') && el.parentElement.getBoundingClientRect().top < edge) el.classList.add('is-in'); });
+    if (!left.length) removeEventListener('scroll', onScroll);
+  };
+  const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(sweep); } };
+  addEventListener('scroll', onScroll, { passive: true });
 })();
 
 /* ===== 04 · ROLLING FIGURES ===== */
@@ -278,8 +304,13 @@ if (window.Lenis && !reduced && finePointer) {
     queued = false;
     panels.forEach((p, i) => {
       const next = panels[i + 1];
-      const o = next ? clamp((next.getBoundingClientRect().top - innerHeight * 0.35) / (innerHeight * 0.4)) : 1;
-      p.querySelectorAll('.panel-head, .panel-row').forEach((el) => { el.style.opacity = o.toFixed(3); el.style.visibility = o < 0.02 ? 'hidden' : ''; });
+      const top = next ? next.getBoundingClientRect().top : Infinity;
+      p.querySelectorAll('.panel-row').forEach((el) => {
+        // gone by the moment the next panel's edge reaches the bottom of this row
+        const o = clamp((top - el.getBoundingClientRect().bottom) / (innerHeight * 0.2));
+        el.style.opacity = o.toFixed(3);
+        el.style.visibility = o < 0.02 ? 'hidden' : '';
+      });
     });
   };
   addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(place); } }, { passive: true });
@@ -569,7 +600,7 @@ async function robot() {
     const idle = now - pointer.moved > 2.5 || !finePointer;
     const relX = clamp(pointer.x - (robotRoot.position.x / (W * worldPerPx() / 2)), -1.5, 1.5);
     const heroYaw = -0.38 + (idle ? 0 : relX * 0.22);
-    const kitYaw = state.kitLive ? 0.65 - p * Math.PI * 1.25 : 0.5;
+    const kitYaw = state.kitLive ? 0.65 - p * Math.PI * 2 : 0.5;   // one full turn, ending where it began
     const yawT = lerp(heroYaw, kitYaw, travel);
     const tiltT = lerp(0.12, phone ? 0.42 : 0.38, travel);
     const k = reduced ? 1 : Math.min(1, dt * 6);
