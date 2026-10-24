@@ -1,0 +1,15 @@
+# Files in the repository that are not part of the website
+.git
+.github
+.gitignore
+.assetsignore
+.agents
+.claude
+.taste-skill
+.wrangler
+node_modules
+pulse
+wrangler.jsonc
+skills-lock.json
+Code.gs
+SETUP.md
