@@ -13,6 +13,8 @@
   clearTimeout(window.__bootFs);            // the page's own safety net; this script keeps its own below
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // the page's own brand (the ShezBotics companies set data-brand on <html>), and its greeting
+  var BRAND = (html.dataset.brand || 'ShezBotics').toUpperCase(), HELLO = html.dataset.hello || 'HELLO, MAKER!';
   var hint = boot.querySelector('[data-boot-skip]');
   if (hint && window.matchMedia('(hover: hover)').matches) hint.textContent = 'Click or press any key to skip';
   var cv = boot.querySelector('canvas');
@@ -183,7 +185,7 @@
 
   var hello = function () {
     clear(); cursor = null;
-    write(0, centred('SHEZBOTICS'), 'SHEZBOTICS'); write(1, centred('HELLO, MAKER!'), 'HELLO, MAKER!');
+    write(0, centred(BRAND), BRAND); write(1, centred(HELLO), HELLO);
   };
 
   if (reduced) {
@@ -200,8 +202,8 @@
     .then(function () { clear(); return wait(120); })
     .then(function () { return Promise.all([type(0, 0, '> INITIALISING', 42), progress()]); })
     .then(function () { return wait(260); })
-    .then(function () { clear(); return type(0, centred('SHEZBOTICS'), 'SHEZBOTICS', 46); })
-    .then(function () { return type(1, centred('HELLO, MAKER!'), 'HELLO, MAKER!', 36); })
-    .then(function () { cursor = [1, centred('HELLO, MAKER!') + 13]; return wait(600); })
+    .then(function () { clear(); return type(0, centred(BRAND), BRAND, 46); })
+    .then(function () { return type(1, centred(HELLO), HELLO, 36); })
+    .then(function () { cursor = [1, Math.min(15, centred(HELLO) + HELLO.length)]; return wait(600); })
     .then(finish);
 })();

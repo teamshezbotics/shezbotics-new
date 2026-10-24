@@ -828,6 +828,7 @@ async function robot() {
     }
   });
   const centred = (t) => ' '.repeat(Math.max(0, Math.floor((16 - t.length) / 2))) + t;
+  const BRAND = (html.dataset.brand || 'ShezBotics').toUpperCase();   // the page's own brand
   let lcdKey = '';
   const lcdShow = (mode, n, now) => {
     const dots = '.'.repeat(Math.floor(now * 2.5) % 4);
@@ -839,8 +840,8 @@ async function robot() {
       [...t].forEach((ch, i) => putBig(c0 + i * 4, ch));
       putText(0, 12, mode === 'near' ? 'TOO ' : 'DIST'); putText(1, 12, mode === 'near' ? 'NEAR' : ' cm ');
     } else if (mode === 'far') { putText(0, 0, centred('NO OBSTACLE')); putText(1, 0, centred('IN RANGE')); }
-    else if (mode === 'kit') { putText(0, 0, centred('HELLO, MAKER')); putText(1, 0, centred('SHEZBOTICS')); }
-    else { putText(0, 0, centred('SHEZBOTICS')); putText(1, 3, 'SCANNING' + dots); }
+    else if (mode === 'kit') { putText(0, 0, centred('HELLO, MAKER')); putText(1, 0, centred(BRAND)); }
+    else { putText(0, 0, centred(BRAND)); putText(1, 3, 'SCANNING' + dots); }
     const [bg, off, on] = mode === 'near' ? LCD_RED : LCD_BLUE;
     lcdCtx.fillStyle = bg; lcdCtx.fillRect(0, 0, LW, LH);
     for (let r = 0; r < 2; r++) for (let c = 0; c < 16; c++) for (let dy = 0; dy < 8; dy++) for (let dx = 0; dx < 5; dx++) {

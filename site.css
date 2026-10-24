@@ -121,6 +121,9 @@ h3{ font-size:var(--step-lead); font-weight:700; line-height:1.2; letter-spacing
   font-weight:800; font-stretch:125%; font-size:var(--step-ui); letter-spacing:-0.01em;
 }
 .wordmark img{ width:26px; height:auto }
+/* a ShezBotics company: its own name, and whose it is underneath */
+.wordmark--sister{ display:grid; gap:3px; line-height:1 }
+.wordmark-by{ font-size:11px; font-weight:600; font-stretch:100%; letter-spacing:0; opacity:.75 }
 .wordmark-ink-light{ display:none }
 .bar[data-tone="navy"] .wordmark-ink-light{ display:block }
 .bar[data-tone="navy"] .wordmark-ink-dark{ display:none }
@@ -838,14 +841,20 @@ html.js .kit.is-live .kit-stage{
 .footer{ padding:clamp(72px,10vw,140px) var(--m) 28px }
 .blocks{ display:block; width:100%; height:auto; max-height:40svh }
 .blocks text{ fill:var(--navy); font-size:88px; text-anchor:middle; font-family:var(--face); font-weight:800; font-stretch:150% }
+.blocks--long text{ font-size:74px }   /* eleven letters to a row */
 .footer-cols{
   margin-top:56px; display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); column-gap:var(--g); row-gap:2.5rem;
 }
 .footer-cols nav,.footer-contact{ display:grid; gap:.55rem; align-content:start; font-size:var(--step-ui) }
 .footer-cols nav:nth-child(1){ grid-column:1 / span 2 }
-.footer-cols nav:nth-child(2){ grid-column:3 / span 3 }
-.footer-cols nav:nth-child(3){ grid-column:6 / span 3 }
-.footer-contact{ grid-column:9 / span 4 }
+.footer-cols nav:nth-child(2){ grid-column:3 / span 2 }
+.footer-cols nav:nth-child(3){ grid-column:5 / span 3 }
+.footer-cols nav:nth-child(4){ grid-column:8 / span 2 }
+.footer-contact{ grid-column:10 / span 3 }
+.footer-brands a{ display:grid; gap:2px }
+.footer-brands b{ font-weight:800 }
+.footer-brands span{ font-size:var(--step-small); opacity:.7 }
+.footer-last a{ color:inherit }
 .footer-cols h3{ font-size:var(--step-ui); font-weight:800; margin-bottom:.3rem; color:var(--mint) }
 .footer-cols a{ text-decoration:none; justify-self:start }
 @media (hover:hover){ .footer-cols a:hover{ color:var(--cyan) } }
