@@ -80,17 +80,18 @@ if (window.Lenis && !reduced && finePointer) {
     '.work-intro > *',
     '.gallery-head > *',
     '.beyond-title, .beyond-link',
-    '.contact-title, .row, .contact-copy, #contactForm',
+    '.contact-title, .row, .contact-copy',
     '.footer-cols > *, .footer-last',
     '.facts-row li',
-    '.book-head > *, .pass, .book-form',
+    '.book-head > *, .pass',
     '.next h2, .poster-list li',
     '.meet-pics, .meet-copy > *',
     '.faq h2, .faq-item',
     '.sub-head > *, .mosaic > *, .format, .formats-note',
     '.report-copy > *, .card-slip',
-    '.proposal-copy > *, .proposal-form',
-    '.toolkit-note, .duo, .stage-photo',
+    '.proposal-copy > *',
+    '.toolkit-note, .duo',
+    '.skill-note, .limits-copy > *, .limits-lists > *, .stays-out h2, .stays-list li, .stays-note',
     '.legal > *',
   ];
   const items = [];
@@ -722,31 +723,29 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
   }));
 })();
 
-/* ===== 11 · TEAM TASKS: the chat window shows the kind of task each team brings ===== */
+/* ===== 11 · SAME TOOL, DIFFERENT INSTRUCTION: the chat window switches between the two ===== */
 (() => {
   const root = document.querySelector('[data-chat]');
   if (!root) return;
-  const tasks = {
-    ops: { ask: "Here are this week's 38 customer emails. Group them by problem, count each group, and draft one reply per group in our tone.",
-      rows: [['Late delivery', 14], ['Billing questions', 11], ['Login trouble', 8], ['Feature requests', 5]],
-      end: 'Four draft replies follow, one per group, ready to edit.' },
-    hr: { ask: "Here's our job description for a sales executive and 12 CVs. Shortlist the closest matches, say why in one line each, and suggest three interview questions per person.",
-      rows: [['Shortlisted', 5], ['Worth a call first', 4], ['Not a match', 3]],
-      end: 'Fifteen interview questions follow, three for each shortlisted candidate.' },
-    fin: { ask: "Here are last month's 64 vendor invoices as a spreadsheet. Flag possible duplicates, anything over budget, and anything missing a GST number.",
-      rows: [['Possible duplicates', 3], ['Over budget', 6], ['Missing GST number', 2], ['Clean', 53]],
-      end: 'The eleven flagged invoices follow, each with its reason.' },
+  const take = {
+    built: { ask: 'You are a sales coordinator at an industrial supplier. Our shipment to a regular customer is delayed by four days due to a transport issue. Draft a short, formal email that apologises, gives the revised date, and offers to call. Under 120 words.',
+      reply: "Dear Mr Rao, your shipment is delayed by four days because of a transport issue on our side, and I'm sorry for the trouble. The revised delivery date is Thursday. I'm happy to call at a time that suits you.",
+      verdict: 'Usable on the first attempt.', bad: false },
+    vague: { ask: 'Write an email to the customer about the delay.',
+      reply: 'Dear Customer, we regret to inform you that there has been a delay. We apologise for any inconvenience caused and appreciate your patience and understanding in this matter.',
+      verdict: 'Generic. Wrong tone. You rewrite most of it.', bad: true },
   };
   const tabs = [...root.querySelectorAll('[data-team]')];
   const ask = root.querySelector('[data-chat-ask]');
   const reply = root.querySelector('[data-chat-reply]');
   const ai = root.querySelector('.msg-ai');
   const show = (key) => {
-    const t = tasks[key];
+    const t = take[key];
     tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.team === key)));
     ask.textContent = t.ask;
-    reply.innerHTML = '<ul class="chat-list">' + t.rows.map(([k, v], i) => `<li style="--k:${i}"><span>${k}</span><span>${v}</span></li>`).join('') +
-      `</ul><p style="--k:${t.rows.length}">${t.end}</p>`;
+    reply.innerHTML = `<p style="--k:0"></p><p class="chat-verdict${t.bad ? ' is-bad' : ''}" style="--k:1"></p>`;
+    reply.children[0].textContent = t.reply;
+    reply.children[1].textContent = t.verdict;
     ai.classList.add('is-typing');
     requestAnimationFrame(() => requestAnimationFrame(() => ai.classList.remove('is-typing')));
   };

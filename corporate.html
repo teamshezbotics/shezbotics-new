@@ -52,24 +52,23 @@
     </h1>
 
     <figure class="hero-print" data-open>
-      <img src="assets/web/founder.webp" width="1000" height="1333"
-           alt="Shehzad Dobariya, who runs every ShezBotics training session" fetchpriority="high">
+      <img src="assets/web/corp-rctf.webp" width="960" height="1280"
+           alt="Shehzad teaching the Role, Context, Task, Format method to a company team" fetchpriority="high">
     </figure>
 
-    <div class="chatui" data-ui data-chat aria-label="An example of a team task rebuilt with AI in a session">
-      <div class="chat-tabs" role="tablist" aria-label="Pick a team">
-        <button type="button" role="tab" aria-selected="true" data-team="ops">Operations</button>
-        <button type="button" role="tab" aria-selected="false" data-team="hr">HR</button>
-        <button type="button" role="tab" aria-selected="false" data-team="fin">Finance</button>
+    <div class="chatui" data-ui data-chat aria-label="Same tool, different instruction: a vague instruction against one built properly">
+      <div class="chat-tabs" role="tablist" aria-label="Pick an instruction">
+        <button type="button" role="tab" aria-selected="true" data-team="built">Built properly</button>
+        <button type="button" role="tab" aria-selected="false" data-team="vague">Vague</button>
       </div>
       <div class="chat-body" role="tabpanel" aria-live="polite">
-        <div class="msg msg-you"><b>Your team</b><p data-chat-ask>Here are this week's 38 customer emails. Group them by problem, count each group, and draft one reply per group in our tone.</p></div>
-        <div class="msg msg-ai"><b>AI, checked by you</b><div data-chat-reply>
-          <ul class="chat-list"><li><span>Late delivery</span><span>14</span></li><li><span>Billing questions</span><span>11</span></li><li><span>Login trouble</span><span>8</span></li><li><span>Feature requests</span><span>5</span></li></ul>
-          <p>Four draft replies follow, one per group, ready to edit.</p>
+        <div class="msg msg-you"><b>The instruction</b><p data-chat-ask>You are a sales coordinator at an industrial supplier. Our shipment to a regular customer is delayed by four days due to a transport issue. Draft a short, formal email that apologises, gives the revised date, and offers to call. Under 120 words.</p></div>
+        <div class="msg msg-ai"><b>What comes back</b><div data-chat-reply>
+          <p>Dear Mr Rao, your shipment is delayed by four days because of a transport issue on our side, and I'm sorry for the trouble. The revised delivery date is Thursday. I'm happy to call at a time that suits you.</p>
+          <p class="chat-verdict">Usable on the first attempt.</p>
         </div></div>
       </div>
-      <p class="chat-note">An example of the kind of task people bring. Yours will be your own.</p>
+      <p class="chat-note">Same tool, different instruction. The two instructions are from our first-session slides.</p>
     </div>
   </div>
 
@@ -79,6 +78,86 @@
       having done them faster, with tools they can open again on Monday.
     </p>
     <a href="#proposal" class="btn btn-cyan" data-load style="--d:520ms">Request a proposal</a>
+  </div>
+</section>
+
+<!-- ================= INSIDE A TEAM SESSION ================= -->
+<section class="mosaic-sec" data-tone="navy">
+  <div class="sub-head">
+    <h2>Inside a team session</h2>
+    <p>A real programme with a company team: one table, their own work on the screen, and every question answered in the room.</p>
+  </div>
+  <div class="mosaic">
+    <figure class="m-big"><img src="assets/web/corp-room.webp" width="1280" height="960" loading="lazy" alt="Shehzad opening a session with a company team around a boardroom table"><figcaption>Day one: three questions each</figcaption></figure>
+    <figure class="m-tall"><img src="assets/web/corp-instruction.webp" width="1280" height="960" loading="lazy" alt="Shehzad presenting a slide comparing a vague instruction with one built properly"><figcaption>Same tool, different instruction</figcaption></figure>
+    <figure class="m-a"><img src="assets/web/corp-never.webp" width="1280" height="720" loading="lazy" alt="Shehzad explaining what should never go into a public AI tool"><figcaption>What stays out of AI</figcaption></figure>
+    <figure class="m-b"><img src="assets/web/corp-talk.webp" width="1280" height="960" loading="lazy" alt="Shehzad taking questions from the team"><figcaption>Questions from the table</figcaption></figure>
+    <figure class="m-c"><img src="assets/web/corp-explain.webp" width="1280" height="960" loading="lazy" alt="Shehzad presenting what AI is good at and what it is not"><figcaption>What AI is good at, and what it is not</figcaption></figure>
+  </div>
+</section>
+
+<!-- ================= THE CORE SKILL ================= -->
+<section class="next skill" data-tone="cyan">
+  <div class="sub-head">
+    <h2>One skill, taught first</h2>
+    <p>Most bad answers come from vague instructions, not bad tools. In the first session every team learns the same four-part instruction, then uses it on their own work.</p>
+  </div>
+  <ol class="poster-list">
+    <li><p class="poster-word">Role</p><p class="poster-fact"><b>Who should it be?</b> &ldquo;You are an experienced accounts assistant.&rdquo;</p></li>
+    <li><p class="poster-word">Context</p><p class="poster-fact"><b>What does it need to know?</b> &ldquo;We supply raw materials to industrial buyers.&rdquo;</p></li>
+    <li><p class="poster-word">Task</p><p class="poster-fact"><b>What exactly do you want?</b> &ldquo;Draft a reply to this enquiry about a delivery delay.&rdquo;</p></li>
+    <li><p class="poster-word">Format</p><p class="poster-fact"><b>How should it come back?</b> &ldquo;Short email. Formal. Under 120 words.&rdquo;</p></li>
+  </ol>
+  <p class="skill-note">A vague instruction gets a vague answer, from AI and from people.</p>
+</section>
+
+<!-- ================= HONEST ABOUT LIMITS ================= -->
+<section class="limits" data-tone="paper">
+  <div class="limits-copy">
+    <h2>Honest about the limits</h2>
+    <p>Teams that know the edges use these tools better, so the first session starts with what they can't do.</p>
+    <figure class="limits-photo">
+      <img src="assets/web/corp-goodat.webp" width="1280" height="720" loading="lazy" alt="Shehzad pointing to the list of what AI is not reliable for">
+    </figure>
+  </div>
+  <div class="limits-lists">
+    <div>
+      <h3>Good at</h3>
+      <ul class="ticks">
+        <li>Drafting and rewriting</li>
+        <li>Summarising long documents</li>
+        <li>Explaining and formatting</li>
+        <li>Structuring messy information</li>
+        <li>Getting a first version started</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Not reliable for</h3>
+      <ul class="ticks ticks--no">
+        <li>Facts, figures and dates</li>
+        <li>Anything legal or statutory</li>
+        <li>Your company's own data</li>
+        <li>Final judgement</li>
+        <li>Being sure when it is wrong</li>
+      </ul>
+    </div>
+    <p class="limits-quote">&ldquo;It never says &lsquo;I am not sure.&rsquo; That is the part you have to supply.&rdquo;</p>
+  </div>
+</section>
+
+<!-- ================= WHAT STAYS OUT ================= -->
+<section class="stays-out" data-tone="mint">
+  <h2>What stays out of AI</h2>
+  <div class="stays-grid">
+    <ul class="stays-list">
+      <li>Directors' personal or financial details</li>
+      <li>GST, TDS and statutory credentials</li>
+      <li>Employee personal data</li>
+      <li>Donor and trust records</li>
+      <li>Customer contracts and unpublished pricing</li>
+      <li>Anything you would not email outside the company</li>
+    </ul>
+    <p class="stays-note">Everyone receives this list in writing on day one. Check every figure before it leaves your desk: the judgement and the accountability stay with you, not the tool.</p>
   </div>
 </section>
 
@@ -192,7 +271,7 @@
     <div class="card-row" role="row"><span role="rowheader">Your tasks</span><span role="cell">We ask for real work in advance and build the session around it. Generic demos don't transfer.</span></div>
     <div class="card-row" role="row"><span role="rowheader">Small groups</span><span role="cell">Capped so everyone gets screen time and their own questions answered.</span></div>
     <div class="card-row" role="row"><span role="rowheader">Free tiers first</span><span role="cell">Everyone can practise the same evening without waiting on procurement.</span></div>
-    <div class="card-row" role="row"><span role="rowheader">The limits</span><span role="cell">Where these tools are unreliable, we show that too. Teams that know the edges use them better.</span></div>
+    <div class="card-row" role="row"><span role="rowheader">Measured twice</span><span role="cell">Each department times five tasks it does every week. In the final session we time the same five again: a real result, not an invented percentage.</span></div>
     <div class="card-row" role="row"><span role="rowheader">Where</span><span role="cell">Delivered live, online or on site, anywhere in India.</span></div>
     <div class="card-row" role="row"><span role="rowheader">Who</span><span role="cell">Taught by the founder, Shehzad Dobariya.</span></div>
     <p class="card-total" role="row"><span role="cell">Outcome</span><span role="cell">Working prompts, not notes</span></p>
@@ -200,10 +279,10 @@
 </section>
 
 <!-- ================= STAGE PHOTO ================= -->
-<section class="stage-band" data-tone="navy" aria-label="On stage">
+<section class="stage-band" data-tone="navy" aria-label="A team session">
   <figure class="stage-photo">
-    <img src="assets/web/naf-stage.webp" width="1600" height="900" loading="lazy" alt="Shehzad and fellow speakers on stage at the National Arts Festival of the Aga Khan Youth and Sports Board">
-    <figcaption>On stage at the National Arts Festival</figcaption>
+    <img src="assets/web/corp-table.webp" width="1280" height="960" loading="lazy" alt="Shehzad presenting to a full company team seated around a long boardroom table">
+    <figcaption>The whole team, one table</figcaption>
   </figure>
 </section>
 
