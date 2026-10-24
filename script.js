@@ -213,27 +213,49 @@
 })();
 
 /* ===== 08 · TOAST ===== */
-function shezToast(heading, detail) {
+function shezToast(heading, detail, action) {
   var t = document.getElementById('toast');
   if (!t) return;
   t.querySelector('b').textContent = heading;
   t.querySelector('span').textContent = detail;
+  var box = t.querySelector('b').parentNode;
+  var link = t.querySelector('.toast-act');
+  if (action) {
+    if (!link) {
+      link = document.createElement('a');
+      link.className = 'toast-act';
+      link.target = '_blank';
+      link.rel = 'noopener';
+      box.appendChild(link);
+    }
+    link.href = action.href;
+    link.textContent = action.label;
+    link.hidden = false;
+  } else if (link) {
+    link.hidden = true;
+  }
   t.classList.add('is-shown');
   clearTimeout(t._timer);
-  t._timer = setTimeout(function () { t.classList.remove('is-shown'); }, 4500);
+  t._timer = setTimeout(function () { t.classList.remove('is-shown'); }, action ? 15000 : 4500);
 }
 
 /* ===== 09 · SUBMISSIONS → GOOGLE SHEET + ALERT MAIL =====
    Primary : Apps Script web app. Writes a row to the Sheet AND emails you.
    Fallback: FormSubmit, so mail still arrives if the script is unreachable.
-   Paste your deployed /exec URL into SHEZ_ENDPOINT below. */
+             FormSubmit delivers nothing until its one-time "Activate Form" email,
+             sent to SHEZ_FALLBACK on the first submission, has been clicked.
+   Last resort: the visitor is offered WhatsApp with their details filled in,
+             so an enquiry is never silently lost.
+   Paste your deployed /exec URL into SHEZ_ENDPOINT below (see SETUP.md). */
 
 var SHEZ_ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
 var SHEZ_FALLBACK = 'team.shezbotics@gmail.com';
+var SHEZ_WHATSAPP = '919545797867';
 
 function shezCollect(form) {
   var data = {};
   new FormData(form).forEach(function (value, key) {
+    if (key === '_honey') return;
     if (key in data) {                          // checkbox groups
       if (!Array.isArray(data[key])) data[key] = [data[key]];
       data[key].push(value);
@@ -250,26 +272,55 @@ function shezCollect(form) {
   return data;
 }
 
-function shezSend(form) {
-  var data = shezCollect(form);
+function shezHasScript() {
+  return /^https:\/\/script\.google(usercontent)?\.com\//.test(SHEZ_ENDPOINT);
+}
 
+function shezSend(data) {
   // text/plain keeps this a "simple request" — no CORS preflight to Apps Script
-  var toScript = fetch(SHEZ_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(data)
-  }).then(function (r) {
-    if (!r.ok) throw new Error('script ' + r.status);
-    return r;
-  });
+  var toScript = shezHasScript()
+    ? fetch(SHEZ_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data)
+      }).then(function (r) {
+        if (!r.ok) throw new Error('script ' + r.status);
+        return r.json();
+      }).then(function (res) {
+        if (!res || res.ok !== true) throw new Error('script said ' + JSON.stringify(res));
+        return res;
+      })
+    : Promise.reject(new Error('SHEZ_ENDPOINT not set'));
 
-  return toScript.catch(function () {
+  return toScript.catch(function (err) {
+    if (window.console) console.warn('Sheet route failed, trying email:', err.message);
+    var mail = {};
+    Object.keys(data).forEach(function (k) { if (k.charAt(0) !== '_') mail[k] = data[k]; });
+    mail._subject = data._subject || ('ShezBotics website: ' + data._form);
+    mail._template = 'table';
+    mail.form = data._form;
+    mail.page = data._page;
     return fetch('https://formsubmit.co/ajax/' + SHEZ_FALLBACK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(mail)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (res) {
+        // FormSubmit answers 200 even when it did not deliver (e.g. not yet activated)
+        if (!r.ok || String(res.success) !== 'true') throw new Error('formsubmit: ' + (res.message || r.status));
+        return res;
+      });
     });
   });
+}
+
+function shezWhatsAppText(data) {
+  var lines = ['Hi ShezBotics, I tried to send this from your website (' + data._form + ' form):'];
+  Object.keys(data).forEach(function (k) {
+    if (k.charAt(0) === '_' || !String(data[k]).trim()) return;
+    lines.push(k.replace(/_/g, ' ') + ': ' + data[k]);
+  });
+  return 'https://wa.me/' + SHEZ_WHATSAPP + '?text=' + encodeURIComponent(lines.join('\n'));
 }
 
 (function () {
@@ -284,21 +335,29 @@ function shezSend(form) {
       if (hp && hp.value) return;                       // bot
       if (!form.reportValidity()) return;
 
-      var btn = form.querySelector('button[type="submit"]');
+      // the button actually pressed (multi-step forms carry one per step)
+      var btn = e.submitter || [].slice.call(form.querySelectorAll('button[type="submit"]')).filter(function (b) {
+        return b.offsetParent !== null;
+      })[0];
+      if (btn && btn.disabled) return;
       var label = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
-      shezSend(form)
+      var data = shezCollect(form);
+      shezSend(data)
         .then(function () {
           form.reset();
-          if (form.dataset.resetSteps) window.shezResetSteps && window.shezResetSteps();
+          if (form.hasAttribute('data-reset-steps') && window.shezResetSteps) window.shezResetSteps();
           shezToast(
             form.dataset.successTitle || 'Enquiry received',
             form.dataset.successBody || 'We usually reply within one working day.'
           );
         })
-        .catch(function () {
-          shezToast('Could not send', 'Please WhatsApp us on +91 95457 97867 instead.');
+        .catch(function (err) {
+          if (window.console) console.error('Enquiry not delivered:', err.message);
+          shezToast('Could not send that',
+            'Nothing was lost. Send the same details to us on WhatsApp, or call +91 95457 97867.',
+            { href: shezWhatsAppText(data), label: 'Send on WhatsApp' });
         })
         .finally(function () {
           if (btn) { btn.disabled = false; btn.textContent = label; }
@@ -307,29 +366,32 @@ function shezSend(form) {
   });
 })();
 
-/* ===== 09b · MULTI-STEP FORM (demo.html) ===== */
+/* ===== 09b · MULTI-STEP FORM (demo.html) =====
+   Every step carries its own Back / Continue / submit row, so each button is wired. */
 (function () {
   var form = document.querySelector('[data-steps]');
   if (!form) return;
 
   var steps = [].slice.call(form.querySelectorAll('.step'));
   var dots = [].slice.call(document.querySelectorAll('.stepper li'));
-  var nextBtn = form.querySelector('[data-next]');
-  var backBtn = form.querySelector('[data-back]');
-  var submitBtn = form.querySelector('button[type="submit"]');
-  var count = form.querySelector('.step-count');
   var i = 0;
 
   function paint() {
-    steps.forEach(function (s, n) { s.hidden = n !== i; });
+    steps.forEach(function (s, n) {
+      s.hidden = n !== i;
+      var back = s.querySelector('[data-back]');
+      var next = s.querySelector('[data-next]');
+      var submit = s.querySelector('button[type="submit"]');
+      var count = s.querySelector('.step-count');
+      if (back) back.hidden = n === 0;
+      if (next) next.hidden = n === steps.length - 1;
+      if (submit) submit.hidden = n !== steps.length - 1;
+      if (count) count.textContent = 'Step ' + (n + 1) + ' of ' + steps.length;
+    });
     dots.forEach(function (d, n) {
       d.classList.toggle('is-current', n === i);
       d.classList.toggle('is-done', n < i);
     });
-    backBtn.hidden = i === 0;
-    nextBtn.hidden = i === steps.length - 1;
-    submitBtn.hidden = i !== steps.length - 1;
-    if (count) count.textContent = 'Step ' + (i + 1) + ' of ' + steps.length;
   }
 
   function valid() {
@@ -348,8 +410,12 @@ function shezSend(form) {
     if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 450);
   }
 
-  nextBtn.addEventListener('click', function () { if (valid()) go(i + 1); });
-  backBtn.addEventListener('click', function () { go(i - 1); });
+  form.querySelectorAll('[data-next]').forEach(function (b) {
+    b.addEventListener('click', function () { if (valid()) go(i + 1); });
+  });
+  form.querySelectorAll('[data-back]').forEach(function (b) {
+    b.addEventListener('click', function () { go(i - 1); });
+  });
 
   // Enter advances instead of submitting early
   form.addEventListener('keydown', function (e) {
@@ -409,6 +475,7 @@ document.querySelectorAll('[data-mark] img').forEach(function (img) {
 
   var angle = 0, vel = AUTO, target = null;
   var dragging = false, hovering = false, visible = true, running = false;
+  var lastFront = -1;
   var startX = 0, startAngle = 0, lastX = 0, lastT = 0, last = 0;
 
   function frame(t) {
@@ -425,6 +492,12 @@ document.querySelectorAll('[data-mark] img').forEach(function (img) {
       }
     }
     ring.style.transform = 'translateZ(' + R + 'px) rotateY(' + angle + 'deg)';
+    var front = ((Math.round(angle / step) % n) + n) % n;   // the card facing the viewer shows its caption
+    if (front !== lastFront) {
+      if (cards[lastFront]) cards[lastFront].classList.remove('is-front');
+      cards[front].classList.add('is-front');
+      lastFront = front;
+    }
     if (visible) requestAnimationFrame(frame); else { running = false; last = 0; }
   }
   function start() { if (!running) { running = true; requestAnimationFrame(frame); } }

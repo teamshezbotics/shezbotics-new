@@ -806,6 +806,11 @@ button.btn-primary{ width:100%; margin-top:.6rem }
   background:var(--mint); color:var(--navy-deep);
   font-style:normal; font-size:.85rem; font-weight:600;
 }
+.toast-act{
+  display:inline-block; margin-top:.6rem; padding:.45rem .8rem; border-radius:3px;
+  background:#25D366; color:#062b14; font-weight:600; font-size:.85rem; text-decoration:none;
+}
+.toast-act[hidden]{ display:none }
 
 /* ============ 19 · MOTION ============ */
 .lift{ opacity:0; transform:translateY(20px) }
