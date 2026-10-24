@@ -220,6 +220,13 @@ html.has-3d .robot-still{ visibility:hidden }
 .sonar.is-alert b{ color:var(--navy) }
 html:not(.has-3d) .sonar{ display:none }
 @media (max-width:767px){ .sonar{ right:4%; top:6%; min-width:0; padding:6px 10px } }
+/* phones: the ball that tilting rolls, which the sensor tracks */
+.tilt-ball{
+  position:absolute; left:0; top:0; z-index:3; width:22px; height:22px; margin:-11px 0 0 -11px;
+  border-radius:50%; background:var(--mint); border:3px solid var(--navy);
+  pointer-events:none; opacity:0; transition:opacity 400ms ease;
+}
+.tilt-ball.is-on{ opacity:1 }
 .hero-hint{
   position:absolute; left:var(--m); bottom:5%; z-index:2; max-width:15ch;
   font-size:var(--step-small); font-weight:500; line-height:1.4;
