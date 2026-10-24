@@ -123,7 +123,7 @@ h3{ font-size:var(--step-lead); font-weight:700; line-height:1.2; letter-spacing
 .wordmark img{ width:26px; height:auto }
 /* a ShezBotics company: its own name, and whose it is underneath */
 .wordmark--sister{ display:grid; gap:3px; line-height:1 }
-.wordmark-by{ font-size:11px; font-weight:600; font-stretch:100%; letter-spacing:0; opacity:.75 }
+.wordmark-by{ font-size:13px; font-weight:500; font-stretch:100%; letter-spacing:0; opacity:.8 }
 .wordmark-ink-light{ display:none }
 .bar[data-tone="navy"] .wordmark-ink-light{ display:block }
 .bar[data-tone="navy"] .wordmark-ink-dark{ display:none }
@@ -875,7 +875,12 @@ html.js .founder-hex.is-done :is(.oled-off,.oled-img,.oled-scan){ display:none }
 .footer-brands a{ display:grid; gap:2px }
 .footer-brands b{ font-weight:800 }
 .footer-brands span{ font-size:var(--step-small); opacity:.7 }
-.footer-last a{ color:inherit }
+.footer-contact a{ overflow-wrap:anywhere }
+@media (min-width:768px) and (max-width:1100px){
+  .footer-cols{ grid-template-columns:repeat(3,minmax(0,1fr)) }
+  .footer-cols nav:nth-child(n),.footer-contact{ grid-column:auto }
+}
+.footer-last p a{ color:inherit }
 .footer-cols h3{ font-size:var(--step-ui); font-weight:800; margin-bottom:.3rem; color:var(--mint) }
 .footer-cols a{ text-decoration:none; justify-self:start }
 @media (hover:hover){ .footer-cols a:hover{ color:var(--cyan) } }
