@@ -208,6 +208,18 @@ html.has-3d .robot-still{ visibility:hidden }
   position:absolute; z-index:1; left:17vw; bottom:-3%;
   width:min(34vw, 620px); aspect-ratio:9/7;
 }
+/* the sensor's live reading, pinned to the robot */
+.sonar{
+  position:absolute; z-index:2; right:2%; top:18%; display:grid; gap:2px; min-width:150px;
+  padding:8px 12px; background:var(--navy); color:var(--paper); font-size:var(--step-small); line-height:1.25;
+  font-variant-numeric:tabular-nums; transition:background-color 200ms ease, color 200ms ease;
+}
+.sonar span{ font-weight:500; opacity:.8 }
+.sonar b{ font-weight:800; color:var(--mint) }
+.sonar.is-alert{ background:#ff8a7a; color:var(--navy) }
+.sonar.is-alert b{ color:var(--navy) }
+html:not(.has-3d) .sonar{ display:none }
+@media (max-width:767px){ .sonar{ right:4%; top:6%; min-width:0; padding:6px 10px } }
 .hero-hint{
   position:absolute; left:var(--m); bottom:5%; z-index:2; max-width:15ch;
   font-size:var(--step-small); font-weight:500; line-height:1.4;

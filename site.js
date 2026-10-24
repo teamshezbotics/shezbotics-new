@@ -499,6 +499,14 @@ async function robot() {
     pupils.push(face);
   });
   box(0.08, 0.035, 0.03, M.silver, 0, 0.065, 0.02, eyes);
+  const pupilMat = new THREE.MeshStandardMaterial({ color: 0x2a2f36, roughness: 0.9, metalness: 0.3, emissive: 0x5fffd7, emissiveIntensity: 0 });
+  pupils.forEach((f) => { f.material = pupilMat; });
+  const pings = [];
+  for (let i = 0; i < 10; i++) {
+    const m = new THREE.Mesh(new THREE.RingGeometry(0.062, 0.078, 48),
+      new THREE.MeshBasicMaterial({ color: 0x071423, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
+    m.visible = false; eyes.add(m); pings.push({ m, t: -1, x: 0 });
+  }
   for (let i = 0; i < 4; i++) box(0.012, 0.06, 0.012, M.silver, -0.045 + i * 0.03, -0.13, 0, eyes);
 
   // wires (they belong to the assembled robot and fade as it comes apart)
@@ -560,16 +568,19 @@ async function robot() {
   };
 
   /* ---------- input ---------- */
-  const pointer = { x: 0, y: 0, moved: -10 };
-  addEventListener('pointermove', (e) => {
+  const pointer = { x: 0, y: 0, px: 0, py: 0, moved: -10 };
+  const aimAt = (e) => {
+    pointer.px = e.clientX; pointer.py = e.clientY;
     pointer.x = (e.clientX / W) * 2 - 1;
     pointer.y = -(e.clientY / H) * 2 + 1;
     pointer.moved = performance.now() / 1000;
-  }, { passive: true });
+  };
+  addEventListener('pointermove', aimAt, { passive: true });
 
   const ray = new THREE.Raycaster();
   let happy = -10;
   addEventListener('pointerdown', (e) => {
+    aimAt(e);
     const v = new THREE.Vector2((e.clientX / W) * 2 - 1, -(e.clientY / H) * 2 + 1);
     ray.setFromCamera(v, camera);
     if (ray.intersectObject(body, true).some((h) => h.object !== shadow)) happy = performance.now() / 1000; // taste-skill-ignore: drawn ground blob
@@ -580,6 +591,15 @@ async function robot() {
   let last = performance.now() / 1000, spin = 0, yaw = -0.35, tilt = 0.12, headYaw = 0, headPitch = 0, travelPrev = 0, explodeNow = 0;
   const tmp = new THREE.Vector3();
   const lerp = THREE.MathUtils.lerp;
+
+  // the sensor: finds the cursor, pings it, measures it, and backs off when it gets too close
+  const sonar = spotHero.querySelector('[data-sonar]');
+  const sonarVal = sonar && sonar.querySelector('b');
+  const aimRay = new THREE.Raycaster();
+  const aimPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+  const aimHit = new THREE.Vector3(), neckW = new THREE.Vector3(), v3 = new THREE.Vector3(), ndc = new THREE.Vector2();
+  const TOO_CLOSE = 9;                     // cm, at the robot's own scale (1 unit = 10 cm)
+  let lastPing = 0, avoidAt = -10, hudAt = 0, glow = 0;
 
   function frame() {
     requestAnimationFrame(frame);
@@ -611,9 +631,26 @@ async function robot() {
 
     // body pose: facing the headline in the hero, turning slowly through the kit stage
     const now = t;
-    const idle = now - pointer.moved > 2.5 || !finePointer;
-    const relX = clamp(pointer.x - (robotRoot.position.x / (W * worldPerPx() / 2)), -1.5, 1.5);
-    const heroYaw = -0.38 + (idle ? 0 : relX * 0.22);
+    const tracking = travel < 0.5 && now - pointer.moved < 2.5;
+    let az = 0, cm = Infinity;
+    if (tracking) {
+      // where the cursor sits in space, on a plane a little in front of the sensor
+      neck.getWorldPosition(neckW);
+      aimPlane.constant = -(neckW.z + 2.5 * s);
+      aimRay.setFromCamera(ndc.set(pointer.x, pointer.y), camera);
+      aimRay.ray.intersectPlane(aimPlane, aimHit);
+      v3.copy(aimHit); robotRoot.worldToLocal(v3);
+      const nl = robotRoot.worldToLocal(neckW.clone());
+      az = Math.atan2(v3.x - nl.x, v3.z - nl.z);
+      // the reading: screen distance from the sensor to the cursor, in the robot's centimetres
+      v3.copy(neckW).project(camera);
+      const sx = (v3.x + 1) / 2 * W, sy = (1 - v3.y) / 2 * H;
+      cm = Math.hypot(pointer.px - sx, pointer.py - sy) / (s / worldPerPx()) * 10;
+      if (cm < TOO_CLOSE && now - avoidAt > 2.2) avoidAt = now;
+    }
+    const av = now - avoidAt, avoiding = av < 1.3 && travel < 0.5;
+    const back = avoiding && !reduced ? Math.sin((av / 1.3) * Math.PI) : 0;
+    const heroYaw = (tracking ? clamp(-0.38 + az * 0.3, -1.1, 0.7) : -0.38) - back * 0.45 * Math.sign(az || 1);
     const kitYaw = state.kitLive ? 0.65 - p * Math.PI * 2 : 0.5;   // one full turn, ending where it began
     const yawT = lerp(heroYaw, kitYaw, travel);
     const tiltT = lerp(0.12, phone ? 0.42 : 0.38, travel);
@@ -625,18 +662,53 @@ async function robot() {
     const h = now - happy;
     const hop = h < 1.4 && !reduced ? Math.abs(Math.sin(h * Math.PI * 2.2)) * 0.18 * (1 - h / 1.4) : 0;
     body.position.y = hop + (reduced ? 0 : Math.sin(now * 2.2) * 0.008);
-    spin += (travel - travelPrev) * 28 + (h < 1.4 ? dt * 14 : 0);
+    body.position.x = -Math.sin(yaw) * back * 0.6;
+    body.position.z = -Math.cos(yaw) * back * 0.6;
+    spin += (travel - travelPrev) * 28 + (h < 1.4 ? dt * 14 : 0) - (back > 0 ? dt * 20 : 0);
     travelPrev = travel;
     wheels.forEach((w, i) => { w.rotation.x = spin * (i ? 1 : 1); });
 
-    // the head (servo + sensor): follows the pointer, scans when idle
-    let hy, hp;
+    robotRoot.updateMatrixWorld(true);
+    // the head (servo + sensor): aims straight at the cursor, scans when there is none
+    let hy = 0, hp = 0;
     if (travel < 0.5) {
-      if (idle) { hy = reduced ? 0.3 : Math.sin(now * 0.9) * 0.85; hp = 0; }
-      else { hy = clamp(relX * 1.1 + 0.5, -1.2, 1.2); hp = clamp(-pointer.y * 0.3, -0.25, 0.3); }
-    } else { hy = 0; hp = 0; }
-    headYaw = lerp(headYaw, hy, Math.min(1, dt * 7)); headPitch = lerp(headPitch, hp, Math.min(1, dt * 7));
+      if (tracking) {
+        v3.copy(aimHit); neck.parent.worldToLocal(v3); v3.sub(neck.position);
+        hy = clamp(Math.atan2(v3.x, v3.z), -1.45, 1.45);
+        hp = clamp(-Math.atan2(v3.y - eyes.position.y, Math.hypot(v3.x, v3.z)), -0.6, 0.6);
+      } else { hy = reduced ? 0.3 : Math.sin(now * 0.9) * 0.85; }
+    }
+    const kh = Math.min(1, dt * (tracking ? 12 : 4));
+    headYaw = lerp(headYaw, hy, kh); headPitch = lerp(headPitch, hp, kh);
     neck.rotation.y = headYaw; eyes.rotation.x = headPitch;
+
+    // pings leave both transducers while it has a target; the faces glow when it is locked on
+    if (tracking && !reduced && now - lastPing > 0.34) {
+      lastPing = now;
+      [-0.13, 0.13].forEach((x) => { const pg = pings.find((q) => q.t < 0); if (pg) { pg.t = now; pg.x = x; } });
+    }
+    pings.forEach((pg) => {
+      if (pg.t < 0) return;
+      const life = (now - pg.t) / 0.9;
+      if (life >= 1 || travel >= 0.5) { pg.t = -1; pg.m.visible = false; return; }
+      pg.m.visible = true;
+      pg.m.position.set(pg.x, 0, 0.14 + life * 1.9);
+      pg.m.scale.setScalar(1 + life * 4.5);
+      pg.m.material.opacity = (1 - life) * 0.65;
+      pg.m.material.color.setHex(avoiding ? 0xe0453a : 0x071423);
+    });
+    glow = lerp(glow, tracking ? (avoiding ? 2.4 : 1.1) : 0.12, Math.min(1, dt * 6));
+    pupilMat.emissiveIntensity = glow;
+    pupilMat.emissive.setHex(avoiding ? 0xff6a5a : 0x5fffd7);
+
+    // the reading on the hero, ten times a second
+    if (sonarVal && now - hudAt > 0.1) {
+      hudAt = now;
+      const txt = !tracking ? 'scanning' : cm > 400 ? 'out of range' : avoiding ? `${Math.round(cm)} cm, backing off` : `${Math.round(cm)} cm`;
+      if (sonarVal.textContent !== txt) sonarVal.textContent = txt;
+      sonar.classList.toggle('is-alert', avoiding);
+      sonar.classList.toggle('is-locked', tracking && !avoiding);
+    }
 
     // parts move out along their own directions; the active chapter lifts a little more
     const active = state.part;
@@ -656,7 +728,7 @@ async function robot() {
     // five seat lights fill one by one, then hold, then empty
     const cyc = reduced ? 5 : (now * 1.4) % 8;
     leds.forEach((l, i) => {
-      const on = h < 1.4 ? (Math.floor(now * 12) + i) % 2 === 0 : cyc > i + 0.5;
+      const on = h < 1.4 || avoiding ? (Math.floor(now * 12) + i) % 2 === 0 : cyc > i + 0.5;
       l.material.emissiveIntensity = on ? 2.4 : 0.05;
     });
 
