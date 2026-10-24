@@ -1215,10 +1215,14 @@ html.js body.in-hero .whatsapp, html.js body.near-action .whatsapp{ opacity:0; v
 }
 
 .toolkit{ padding:var(--sec) var(--m) }
-.cyl--tools .tool{ display:flex; align-items:flex-end; padding:18px; background:var(--navy); color:var(--paper) }
-.cyl--tools .tool:nth-child(3n+2){ background:var(--paper); color:var(--navy) }
-.cyl--tools .tool:nth-child(3n){ background:var(--mint); color:var(--navy) }
+/* each tool in its own colours: the mark in the middle, the name underneath */
+.cyl--tools .tool{ display:grid; grid-template-rows:minmax(0,1fr) auto; padding:18px; background:var(--bg, var(--navy)); color:var(--ink, var(--paper)) }
+.cyl--tools .tool img,.cyl--tools .tool .tool-word{ align-self:center; justify-self:center }
+.cyl--tools .tool img{ width:44%; height:auto; aspect-ratio:1 }
+.cyl--tools .tool img.tool-wordmark{ width:70%; aspect-ratio:auto }
+.cyl--tools .tool .tool-word{ font-size:clamp(1.5rem, 2.3vw, 2.1rem); font-weight:800; letter-spacing:-0.02em }
 .cyl--tools .tool span{ font-size:var(--step-body); font-weight:800; line-height:1.15; letter-spacing:-0.01em }
+.toolkit-legal{ margin-top:.6rem; font-size:var(--step-small); opacity:.7 }
 .toolkit-note{ max-width:60ch; margin-top:clamp(16px,2vw,28px) }
 .toolkit .cyl-btn{ background:var(--navy); color:var(--cyan) }
 @media (hover:hover){ .toolkit .cyl-btn:hover{ background:var(--paper); color:var(--navy) } }
