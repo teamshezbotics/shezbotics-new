@@ -2,7 +2,7 @@
    SHEZBOTICS · site.js  (every page, loaded as a module after script.js)
    01 scrolling · 02 bar ink by chapter · 03 entrances · 04 rolling figures
    05 course tally · 06 sideways journey · 07 kit stage · 08 the 3D robot
-   09 the demo pass ... 13 the reel · 14 the founder. Each part does nothing on a page without its elements.
+   09 the demo pass ... 13 the reel · 14 the founder · 15 the brand film. Each part does nothing on a page without its elements.
    script.js still runs the menu, modal, enrol links, forms, toast and gallery.
    ========================================================================== */
 
@@ -1497,4 +1497,29 @@ robot().catch((err) => { console.warn('3D robot unavailable:', err); html.classL
   addEventListener('scroll', () => { if (near && !queued) { queued = true; requestAnimationFrame(place); } }, { passive: true });
   addEventListener('resize', place);
   place();
+})();
+
+/* ===== 15 · THE BRAND FILM: car, robot, parts, then the SB mark, played as the footer arrives ===== */
+(() => {
+  const film = document.querySelector('video[data-film]');
+  if (!film) return;
+  if (reduced) { film.poster = film.dataset.end; return; }   // just the mark
+  const warm = new IntersectionObserver((es) => {
+    if (es[es.length - 1].isIntersecting) { film.preload = 'auto'; warm.disconnect(); }
+  }, { rootMargin: '100% 0px' });
+  warm.observe(film);
+  // plays when half on screen and holds on the mark; it starts over only after leaving the screen entirely
+  let away = false;
+  new IntersectionObserver((es) => {
+    const e = es[es.length - 1];
+    if (e.intersectionRatio >= 0.5) {
+      if (film.ended && !away) return;          // play() on an ended video would start it over
+      if (film.ended) film.currentTime = 0;
+      away = false;
+      film.play().catch(() => {});
+    } else {
+      film.pause();
+      if (!e.isIntersecting) away = true;
+    }
+  }, { threshold: [0, 0.5] }).observe(film);
 })();

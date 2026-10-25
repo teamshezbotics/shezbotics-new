@@ -859,6 +859,10 @@ html.js .founder-hex.is-done :is(.oled-off,.oled-img,.oled-scan){ display:none }
    FOOTER , the name, built from blocks
    ========================================================================== */
 .footer{ padding:clamp(72px,10vw,140px) var(--m) 28px }
+/* the brand film: its edges are already faded to this navy, so it has no frame */
+.brand-film{ width:min(100%, 1100px); margin:0 auto clamp(40px, 6vw, 80px) }
+.brand-film video{ display:block; width:100%; height:auto; aspect-ratio:16 / 9 }
+@media (max-width:700px){ .brand-film{ width:auto; margin-inline:calc(var(--m) * -1) } }
 .blocks{ display:block; width:100%; height:auto; max-height:40svh }
 .blocks text{ fill:var(--navy); font-size:88px; text-anchor:middle; font-family:var(--face); font-weight:800; font-stretch:150% }
 .blocks--long text{ font-size:74px }   /* eleven letters to a row */
