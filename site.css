@@ -120,13 +120,10 @@ h3{ font-size:var(--step-lead); font-weight:700; line-height:1.2; letter-spacing
   display:flex; align-items:center; gap:.6rem; text-decoration:none;
   font-weight:800; font-stretch:125%; font-size:var(--step-ui); letter-spacing:-0.01em;
 }
-.wordmark img{ width:26px; height:auto }
+.wordmark img{ width:36px; height:auto }
 /* a ShezBotics company: its own name, and whose it is underneath */
 .wordmark--sister{ display:grid; gap:3px; line-height:1 }
 .wordmark-by{ font-size:13px; font-weight:500; font-stretch:100%; letter-spacing:0; opacity:.8 }
-.wordmark-ink-light{ display:none }
-.bar[data-tone="navy"] .wordmark-ink-light{ display:block }
-.bar[data-tone="navy"] .wordmark-ink-dark{ display:none }
 .bar-nav{ margin-left:auto }
 .bar-nav ul{ display:flex; gap:clamp(14px,2vw,30px) }
 .bar-nav a{
@@ -183,6 +180,8 @@ html.booting .boot, .boot.is-leaving{
 }
 .boot.is-leaving{ opacity:0; transition:opacity 500ms var(--ease-out) }
 .boot-lcd{ width:min(620px, 88vw); height:auto; animation:boot-in 500ms var(--ease-out) both }
+/* the SB mark above the screen, lit by the same backlight (boot.js sets its opacity) */
+.boot-logo{ width:auto; height:clamp(112px, 24vh, 210px); margin-bottom:-14px; opacity:0 }
 .boot-skip{ font-size:var(--step-small); opacity:.55 }
 @keyframes boot-in{ from{ opacity:0; transform:translateY(10px) scale(.98) } }
 /* the hero waits for the screen, then makes its entrance */
