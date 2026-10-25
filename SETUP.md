@@ -2,31 +2,38 @@
 
 ## 1. Files
 
-Upload all of these into your site root, keeping your existing `assets/` folder alongside:
+Upload all of these into your site root, keeping the folders as they are:
 
 ```
-index.html      style.css       assets/
-demo.html       script.js
-schools.html
+index.html      site.css        assets/     (the pages use assets/web/)
+demo.html       site.js         vendor/     (three.js, served from your own site)
+                boot.js
+schools.html    script.js
 corporate.html
 privacy.html
 ```
 
-`apps-script/Code.gs` does **not** go on the server — it goes into Google Apps Script (step 2).
+`Code.gs` does **not** go on the server — it goes into Google Apps Script (step 2).
+`.agents/`, `.claude/` and `skills-lock.json` are the design tool used to build the site; they don't need uploading.
+
+The site needs no build step. Every page works as plain files on any static host.
 
 ## 2. Connect the Google Sheet + alert email — 5 minutes
 
-Until this is done, forms fall back to FormSubmit email only and nothing reaches a Sheet.
+**Until this is done, enquiries reach you only through FormSubmit, and FormSubmit delivers nothing
+until it is activated.** The very first submission makes FormSubmit email `team.shezbotics@gmail.com`
+an "Activate Form" link (check spam). Click it once. If neither route works, visitors are offered a
+"Send on WhatsApp" button with their details filled in, so the enquiry isn't lost.
 
 1. Open **sheets.new** — name it *ShezBotics Enquiries*.
-2. **Extensions ▸ Apps Script**. Delete the sample code, paste in all of `apps-script/Code.gs`.
+2. **Extensions ▸ Apps Script**. Delete the sample code, paste in all of `Code.gs`.
 3. Run the `testAlert` function once. Authorise when prompted:
    *choose your account ▸ Advanced ▸ Go to project ▸ Allow*. Check the test mail arrives.
 4. **Deploy ▸ New deployment ▸ Web app**
    - Execute as: **Me**
    - Who has access: **Anyone** ← must be "Anyone", not "Anyone with a Google account"
 5. Copy the `/exec` URL it gives you.
-6. Open `script.js`, line ~200, and paste it in:
+6. Open `script.js`, line ~251, and paste it in:
 
 ```js
 var SHEZ_ENDPOINT = 'https://script.google.com/macros/s/AKfy…/exec';
@@ -41,33 +48,35 @@ Add a form field later and it appears as a new column automatically — you neve
 Apps Script issues a **new URL** on *New deployment*. Use **Manage deployments ▸ edit ▸ Version: New version**
 to keep the same URL, otherwise you must re-paste it into `script.js`.
 
-## 3. Photos to add
+## 3. Photos
 
-Everything else works without these; the layout just shows empty boxes until they exist.
+The pages use web-sized copies in `assets/web/` (WebP, cut from the originals in `assets/`).
+To swap a photo, replace the file in `assets/web/` with one of the same name.
 
-| File | Shot | Size |
-|---|---|---|
-| `assets/schools/hero.jpg` | Wide — students mid-build, you in frame, school room visible | 1600×900 |
-| `assets/schools/proof-1.jpg` | Close-up, hands on an Arduino | 800×600 |
-| `assets/schools/proof-2.jpg` | Full classroom working | 800×600 |
-| `assets/schools/proof-3.jpg` | Students with finished builds | 800×600 |
+`corporate.html` uses only photos of Shehzad, never school photos. Add real adult-training shots
+when you have them.
 
-`corporate.html` intentionally ships with **no photos**. Add them only when you have real
-adult-training shots — school-kid photos on that page will cost you corporate credibility.
+The 3D robot's fallback pictures (`assets/web/robot.webp`, `robot-parts.webp`) are shown only on
+browsers that can't draw 3D.
 
-## 4. Recent changes
+## 4. Recent changes (October 2026)
 
-- Age range is now **8–20** everywhere (was 10–20). Demo form already accepted from 8.
-- Founder title reads **Founder · AI & Robotics Analyst**.
-- Loader has a glow bloom + drifting waves, runs ~1.5s.
-- Timeline years switched to Poppins — Orbitron digits with wide tracking were unreadable.
-- Base font size raised to 106.25% (17px). To go bigger, change one value in `style.css`:
-  `html{ font-size:106.25% }` → `112.5%`.
-- **Contact** added to the nav (7 items now).
+- **New design on every page.** One typeface (TikTok Sans), brand navy, cyan and mint, square corners.
+- **3D robot** (the Intermediate obstacle-avoiding car, with the Advanced kit's 16×2 LCD) in the homepage, demo and schools heroes. On the homepage
+  it comes apart into its parts as you scroll. Visitors with reduced motion get the still version.
+- **Demo form fixed:** Continue now works on every step (it stopped at step 2 before).
+- **Forms:** check that the Sheet or FormSubmit actually accepted the enquiry; on failure the visitor
+  gets a WhatsApp button with their details instead of a false "received".
+- **Homepage course calculator:** tap levels to see sessions, weeks, fees and kits added up.
+- **Corporate:** example tasks by team (operations, HR, finance), labelled as examples.
+- **Privacy page** now names FormSubmit and Google Fonts in "Where it goes".
 
 ## 5. Still open
 
+- **Weekend session times** on the homepage (15, 40, 15 min…) are placeholders. Send the real ones.
 - **Advanced price** — site says ₹9,499. Your bundle maths implied ₹9,999. Four numbers change if it's the latter.
-- **Testimonials** are still anonymous ("Parent, Mumbai"). Named ones convert far better.
+- **Testimonials** are still anonymous ("A parent, Mumbai"). Named ones convert far better.
 - **Project images** are the AI-generated renders. Swap for real build photos when you can.
+- A short **video of a real class** (a robot driving, a student's build working) would be the best
+  thing to add next.
 - Confirm **team.shezbotics@gmail.com** is the address to display publicly.

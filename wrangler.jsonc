@@ -1,0 +1,12 @@
+// Cloudflare Workers config for shezbotics.in: a static site served as assets.
+// Builds run `npx wrangler deploy` for main and `npx wrangler versions upload` for other branches.
+{
+  "name": "shezbotics-new",
+  "compatibility_date": "2026-08-13",
+  "assets": {
+    "directory": "./",
+    // the same settings as the version uploaded from the dashboard on 13 August 2026
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  }
+}

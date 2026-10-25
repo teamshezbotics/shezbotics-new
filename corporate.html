@@ -1,407 +1,457 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-brand="Shezelerate" data-hello="HELLO, TEAM!">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#071423">
-<title>Corporate AI Training | ShezBotics</title>
-<meta name="description" content="Practical AI upskilling for working teams. Half-day intros, full-day practical programmes and ongoing partnerships, delivered live online or on site across India.">
+<meta name="theme-color" content="#eaf6fb">
+<title>Shezelerate | Practical AI Training for Teams</title>
+<meta name="description" content="Shezelerate, a ShezBotics company: practical AI training for working teams in India, a half-day intro, a full-day programme built around your real tasks, or an ongoing partnership. Request a proposal.">
+<script>(function(d){d.classList.add('js');try{var n=performance.getEntriesByType('navigation')[0];if(!sessionStorage.getItem('shez-boot')||(n&&n.type==='reload')){d.classList.add('booting');window.__bootFs=setTimeout(function(){d.classList.remove('booting')},9000)}}catch(e){}})(document.documentElement)</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=TikTok+Sans:wdth,wght@75..150,300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<link rel="icon" href="assets/web/logo-navy.png">
 </head>
 
 <body>
+<div class="boot" data-boot aria-hidden="true"><canvas class="boot-lcd" width="800" height="360"></canvas><p class="boot-skip" data-boot-skip>Tap to skip</p></div>
+<script src="boot.js" async></script>
 <a href="#main" class="skip">Skip to content</a>
 
-<div id="preloader" role="status" aria-label="Loading ShezBotics">
-
-  <div class="loader-wave" aria-hidden="true">
-    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-      <path class="wave-glow" d="M0 60 Q 75 32 150 60 T 300 60 T 450 60 T 600 60 T 750 60 T 900 60 T 1050 60 T 1200 60 T 1350 60 T 1500 60 T 1650 60 T 1800 60"/>
-      <path class="wave-a"    d="M0 60 Q 75 32 150 60 T 300 60 T 450 60 T 600 60 T 750 60 T 900 60 T 1050 60 T 1200 60 T 1350 60 T 1500 60 T 1650 60 T 1800 60"/>
-      <path class="wave-b"    d="M0 84 Q 75 58 150 84 T 300 84 T 450 84 T 600 84 T 750 84 T 900 84 T 1050 84 T 1200 84 T 1350 84 T 1500 84 T 1650 84 T 1800 84"/>
-    </svg>
-  </div>
-
-  <div class="loader-content">
-    <div class="mark" data-mark>
-      <img src="assets/logo.png" alt="">
-      <svg class="mark-fallback" viewBox="0 0 48 48" aria-hidden="true">
-        <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="#00E5FF" stroke-width="1.6"/>
-        <path d="M24 14v10l8 5" fill="none" stroke="#5fffd7" stroke-width="1.6" stroke-linecap="round"/>
-        <circle cx="24" cy="24" r="2.6" fill="#00E5FF"/>
-      </svg>
-    </div>
-    <div class="loader-brand">SHEZBOTICS</div>
-    <div class="loader-seats" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <p class="loader-note">Initializing AI &amp; Robotics</p>
-  </div>
-
-</div>
-
-<header class="site-header">
-  <a href="index.html" class="brand">
-    <span class="mark" data-mark>
-      <img src="assets/logo.png" alt="">
-      <svg class="mark-fallback" viewBox="0 0 48 48" aria-hidden="true">
-        <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="#00E5FF" stroke-width="2"/>
-        <circle cx="24" cy="24" r="3" fill="#00E5FF"/>
-      </svg>
-    </span>
-    <b>ShezBotics</b>
+<header class="bar" data-bar>
+  <a href="#home" class="wordmark wordmark--sister" aria-label="Shezelerate, a ShezBotics company, back to top">
+    <span class="wordmark-name">Shezelerate</span>
+    <span class="wordmark-by">A ShezBotics company</span>
   </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="index.html#about">About</a></li>
-    <li><a href="index.html#courses">Courses</a></li>
-    <li><a href="index.html#projects">Projects</a></li>
-    <li><a href="schools.html">For Schools</a></li>
-    <li><a href="corporate.html" aria-current="page">For Business</a></li>
-    <li><a href="index.html#founder">Founder</a></li>
-    
-    <li><a href="index.html#contact">Contact</a></li>
-  </ul>
-  <a href="demo.html" class="nav-cta">Free demo</a>
-  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><i></i><i></i><i></i></button>
-  <div class="progress" aria-hidden="true"></div>
+
+  <nav class="bar-nav" aria-label="Main">
+    <ul id="navLinks">
+      <li><a href="index.html#courses">Courses</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="index.html#founder">Founder</a></li>
+      <li><a href="schools.html">For schools</a></li>
+      <li><a href="corporate.html" aria-current="page">For business</a></li>
+      <li class="only-menu"><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <a href="demo.html" class="bar-cta">Free demo</a>
+
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">Menu</button>
 </header>
 
 <main id="main">
 
-<section class="hero hero-sub">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <p class="eyebrow lift">For business</p>
-      <h1 class="lift">AI your team <em>will actually use</em></h1>
-      <p class="hero-lead lift">
-        Practical AI training for working teams. No theory lectures &mdash; people bring
-        their own real tasks, and leave having done them faster with tools they can
-        open again on Monday.
-      </p>
-      <div class="hero-actions lift">
-        <a href="#proposal" class="btn-primary">Request a proposal</a>
-        <a href="#formats" class="btn-ghost">See the formats</a>
+<!-- ================= HERO ================= -->
+<section class="hero hero--corp" id="home" data-tone="paper">
+  <div class="hero-field">
+    <h1 class="hero-title lines">
+      <span class="line"><span data-line style="--i:0">AI for</span></span>
+      <span class="line"><span data-line style="--i:1">your team</span></span>
+    </h1>
+
+    <figure class="hero-print" data-open>
+      <img src="assets/web/corp-rctf.webp" width="960" height="1280"
+           alt="Shehzad teaching the Role, Context, Task, Format method to a company team" fetchpriority="high">
+    </figure>
+
+    <div class="chatui" data-ui data-chat aria-label="Same tool, different instruction: a vague instruction against one built properly">
+      <div class="chat-tabs" role="tablist" aria-label="Pick an instruction">
+        <button type="button" role="tab" aria-selected="true" data-team="built">Built properly</button>
+        <button type="button" role="tab" aria-selected="false" data-team="vague">Vague</button>
       </div>
+      <div class="chat-body" role="tabpanel" aria-live="polite">
+        <div class="msg msg-you"><b>The instruction</b><p data-chat-ask>You are a sales coordinator at an industrial supplier. Our shipment to a regular customer is delayed by four days due to a transport issue. Draft a short, formal email that apologises, gives the revised date, and offers to call. Under 120 words.</p></div>
+        <div class="msg msg-ai"><b>What comes back</b><div data-chat-reply>
+          <p>Dear Mr Rao, your shipment is delayed by four days because of a transport issue on our side, and I'm sorry for the trouble. The revised delivery date is Thursday. I'm happy to call at a time that suits you.</p>
+          <p class="chat-verdict">Usable on the first attempt.</p>
+        </div></div>
+      </div>
+      <p class="chat-note">Same tool, different instruction. The two instructions are from our first-session slides.</p>
     </div>
   </div>
-</section>
 
-<section class="section section-alt" id="formats">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Formats</p>
-      <h2>Three depths, <em>scoped to you</em></h2>
-      <p>Every engagement is quoted against your team size, function and goals. Tell us the shape and we'll price it.</p>
-    </div>
-
-    <div class="tiers reveal-stagger">
-
-      <article class="tier">
-        <h3>Team Intro</h3>
-        <div class="spec">
-          <p>Half a day. A grounded tour of what current AI tools do well, what they do badly,
-          and where they fit in your team's existing work. Ends with everyone having run
-          a real task of their own through them.</p>
-          <ul class="tick">
-            <li>Half day &middot; live, online or on site</li>
-            <li>Best for teams starting from scratch</li>
-            <li>Practical from the first hour</li>
-          </ul>
-        </div>
-        <p class="amt">Scoped</p>
-      </article>
-
-      <article class="tier">
-        <h3>Practical Programme</h3>
-        <div class="spec">
-          <p>A full day built around your team's actual workflows. We take the tasks that eat
-          the most hours and rebuild them with AI in the room, so people leave with working
-          prompts and processes rather than notes.</p>
-          <ul class="tick">
-            <li>Full day &middot; hands-on throughout</li>
-            <li>Built around your real documents and tasks</li>
-            <li>Take-home prompt library for the team</li>
-          </ul>
-        </div>
-        <p class="amt">Scoped</p>
-      </article>
-
-      <article class="tier">
-        <h3>Ongoing Partnership</h3>
-        <div class="spec">
-          <p>Recurring sessions as your team's usage matures &mdash; new tools, deeper workflows,
-          and support for the people who become internal champions. Structured around your
-          quarter, not ours.</p>
-          <ul class="tick">
-            <li>Recurring sessions across months</li>
-            <li>Support between sessions</li>
-            <li>Adapts as tools change</li>
-          </ul>
-        </div>
-        <p class="amt">Scoped</p>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">The toolkit</p>
-      <h2>Tools teams <em>leave using</em></h2>
-      <p>
-        Everything we teach has a usable free tier, so nobody needs a purchase order before
-        they can practise. Where a paid plan genuinely earns its cost, we say so and explain why.
-      </p>
-    </div>
-
-    <div class="tool-grid reveal-stagger">
-      <span class="tool">ChatGPT</span>
-      <span class="tool">Claude</span>
-      <span class="tool">Gemini</span>
-      <span class="tool">DeepSeek</span>
-      <span class="tool">Perplexity</span>
-      <span class="tool">NotebookLM</span>
-      <span class="tool">Grok</span>
-      <span class="tool">Canva AI</span>
-      <span class="tool">Ideogram</span>
-      <span class="tool">Gamma</span>
-      <span class="tool">Google Vids &amp; Veo</span>
-      <span class="tool">ElevenLabs</span>
-      <span class="tool">Lovable</span>
-      <span class="tool">Zapier</span>
-      <span class="tool">Notion AI</span>
-    </div>
-
-    <p class="note reveal">
-      The exact set is chosen per engagement. A finance team and a marketing team leave with
-      different toolkits.
+  <div class="hero-band">
+    <p class="hero-lead" data-load style="--d:420ms">
+      Practical AI training for working teams. People bring their own real tasks and leave
+      having done them faster, with tools they can open again on Monday.
     </p>
+    <a href="#proposal" class="btn btn-cyan" data-load style="--d:520ms">Request a proposal</a>
   </div>
 </section>
 
-<section class="section section-alt">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">How it runs</p>
-      <h2>Built around <em>your work</em></h2>
-    </div>
-    <div class="why-grid reveal-stagger">
-      <div class="why-item">
-        <h3>Your tasks, not samples</h3>
-        <p>We ask for real work in advance and build the session around it. Generic demos don't transfer.</p>
-      </div>
-      <div class="why-item">
-        <h3>Small groups</h3>
-        <p>Capped so everyone gets screen time and their own questions answered.</p>
-      </div>
-      <div class="why-item">
-        <h3>Free tiers first</h3>
-        <p>Everyone can practise the same evening without waiting on procurement.</p>
-      </div>
-      <div class="why-item">
-        <h3>Honest about limits</h3>
-        <p>Where these tools are unreliable, we show that too. Teams that know the edges use them better.</p>
-      </div>
-      <div class="why-item">
-        <h3>Online or on site</h3>
-        <p>Delivered live either way, anywhere in India.</p>
-      </div>
-      <div class="why-item">
-        <h3>Taught by the founder</h3>
-        <p>Sessions are run by Shehzad, who also teaches the academy's AI programmes directly.</p>
-      </div>
-    </div>
+<!-- ================= INSIDE A TEAM SESSION ================= -->
+<section class="mosaic-sec" data-tone="navy">
+  <div class="sub-head">
+    <h2>Inside a team session</h2>
+    <p>A real programme with a company team: one table, their own work on the screen, and every question answered in the room.</p>
+  </div>
+  <div class="mosaic">
+    <figure class="m-big"><img src="assets/web/corp-room.webp" width="1280" height="960" loading="lazy" alt="Shehzad opening a session with a company team around a boardroom table"><figcaption>Day one: three questions each</figcaption></figure>
+    <figure class="m-tall"><img src="assets/web/corp-instruction.webp" width="1280" height="960" loading="lazy" alt="Shehzad presenting a slide comparing a vague instruction with one built properly"><figcaption>Same tool, different instruction</figcaption></figure>
+    <figure class="m-a"><img src="assets/web/corp-never.webp" width="1280" height="720" loading="lazy" alt="Shehzad explaining what should never go into a public AI tool"><figcaption>What stays out of AI</figcaption></figure>
+    <figure class="m-b"><img src="assets/web/corp-talk.webp" width="1280" height="960" loading="lazy" alt="Shehzad taking questions from the team"><figcaption>Questions from the table</figcaption></figure>
+    <figure class="m-c"><video src="assets/web/reel-02.mp4" poster="assets/web/reel-02.webp" width="1280" height="720" muted loop playsinline preload="none" data-loop aria-label="Shehzad walking a company team through what AI is good at and what it is not"></video><figcaption>What AI is good at, and what it is not</figcaption></figure>
   </div>
 </section>
 
-<section class="section" id="proposal">
-  <div class="wrap" style="max-width:840px">
-    <div class="section-head reveal">
-      <p class="eyebrow">Next step</p>
-      <h2>Request a <em>proposal</em></h2>
-      <p>Tell us about your team and we'll come back with a scoped proposal and pricing, usually within one working day.</p>
-    </div>
-
-    <form data-sheet="Corporate"
-          data-success-title="Proposal request received"
-          data-success-body="We'll come back with a scoped proposal within one working day."
-          class="reveal">
-      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-      <div class="field-row">
-        <div class="field">
-          <label for="coName">Company</label>
-          <input id="coName" name="company_name" type="text" required autocomplete="organization">
-        </div>
-        <div class="field">
-          <label for="coCity">City</label>
-          <input id="coCity" name="city" type="text" required autocomplete="address-level2">
-        </div>
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label for="coContact">Your name</label>
-          <input id="coContact" name="name" type="text" required autocomplete="name">
-        </div>
-        <div class="field">
-          <label for="coRole">Your role</label>
-          <input id="coRole" name="role" type="text" placeholder="e.g. Founder, Head of HR, Ops Lead">
-        </div>
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label for="coEmail">Work email</label>
-          <input id="coEmail" name="email" type="email" required autocomplete="email">
-        </div>
-        <div class="field">
-          <label for="coPhone">Phone / WhatsApp</label>
-          <input id="coPhone" name="phone" type="tel" required inputmode="tel" placeholder="+91">
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Which format fits?</label>
-        <div class="choice-grid">
-          <label class="choice"><input type="radio" name="format" value="Team Intro" required><span>Team Intro &middot; half day</span></label>
-          <label class="choice"><input type="radio" name="format" value="Practical Programme"><span>Practical Programme &middot; full day</span></label>
-          <label class="choice"><input type="radio" name="format" value="Ongoing Partnership"><span>Ongoing Partnership</span></label>
-          <label class="choice"><input type="radio" name="format" value="Advise me"><span>Advise me</span></label>
-        </div>
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label for="coSize">How many people?</label>
-          <input id="coSize" name="team_size" type="number" min="1" max="5000" inputmode="numeric">
-        </div>
-        <div class="field">
-          <label for="coFunction">Which team?</label>
-          <input id="coFunction" name="team_function" type="text" placeholder="e.g. Sales, Marketing, Ops, whole company">
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Where would it run?</label>
-        <div class="choice-grid">
-          <label class="choice"><input type="radio" name="delivery" value="At our office" required><span>At our office</span></label>
-          <label class="choice"><input type="radio" name="delivery" value="Live online"><span>Live online</span></label>
-          <label class="choice"><input type="radio" name="delivery" value="Either"><span>Either works</span></label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Where is the team starting from?</label>
-        <div class="choice-grid">
-          <label class="choice"><input type="radio" name="ai_maturity" value="New to AI tools" required><span>New to these tools</span></label>
-          <label class="choice"><input type="radio" name="ai_maturity" value="A few people experimenting"><span>A few people experimenting</span></label>
-          <label class="choice"><input type="radio" name="ai_maturity" value="Used regularly, want depth"><span>Used regularly, want depth</span></label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="coWhen">Timeframe</label>
-        <input id="coWhen" name="timeframe" type="text" placeholder="e.g. this quarter, before our offsite in March">
-      </div>
-
-      <div class="field">
-        <label for="coGoals">What would make this worth doing?</label>
-        <textarea id="coGoals" name="goals" required placeholder="The tasks eating the most hours, what you'd like the team doing differently afterwards…"></textarea>
-      </div>
-
-      <button type="submit" class="btn-primary">Request a proposal</button>
-      <p class="form-note">
-        We use these details only to prepare your proposal and reply to you.
-        <a href="privacy.html" style="color:var(--cyan-soft)">Privacy policy</a>.
-      </p>
-    </form>
+<!-- ================= THE CORE SKILL ================= -->
+<section class="next skill" data-tone="cyan">
+  <div class="sub-head">
+    <h2>One skill, taught first</h2>
+    <p>Most bad answers come from vague instructions, not bad tools. In the first session every team learns the same four-part instruction, then uses it on their own work.</p>
   </div>
+  <ol class="poster-list">
+    <li><p class="poster-word">Role</p><p class="poster-fact"><b>Who should it be?</b> &ldquo;You are an experienced accounts assistant.&rdquo;</p></li>
+    <li><p class="poster-word">Context</p><p class="poster-fact"><b>What does it need to know?</b> &ldquo;We supply raw materials to industrial buyers.&rdquo;</p></li>
+    <li><p class="poster-word">Task</p><p class="poster-fact"><b>What exactly do you want?</b> &ldquo;Draft a reply to this enquiry about a delivery delay.&rdquo;</p></li>
+    <li><p class="poster-word">Format</p><p class="poster-fact"><b>How should it come back?</b> &ldquo;Short email. Formal. Under 120 words.&rdquo;</p></li>
+  </ol>
+  <p class="skill-note">A vague instruction gets a vague answer, from AI and from people.</p>
+</section>
+
+<!-- ================= HONEST ABOUT LIMITS ================= -->
+<section class="limits" data-tone="paper">
+  <div class="limits-copy">
+    <h2>Honest about the limits</h2>
+    <p>Teams that know the edges use these tools better, so the first session starts with what they can't do.</p>
+    <figure class="limits-photo">
+      <img src="assets/web/corp-goodat.webp" width="1280" height="720" loading="lazy" alt="Shehzad pointing to the list of what AI is not reliable for">
+    </figure>
+  </div>
+  <div class="limits-lists">
+    <div>
+      <h3>Good at</h3>
+      <ul class="ticks">
+        <li>Drafting and rewriting</li>
+        <li>Summarising long documents</li>
+        <li>Explaining and formatting</li>
+        <li>Structuring messy information</li>
+        <li>Getting a first version started</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Not reliable for</h3>
+      <ul class="ticks ticks--no">
+        <li>Facts, figures and dates</li>
+        <li>Anything legal or statutory</li>
+        <li>Your company's own data</li>
+        <li>Final judgement</li>
+        <li>Being sure when it is wrong</li>
+      </ul>
+    </div>
+    <p class="limits-quote">&ldquo;It never says &lsquo;I am not sure.&rsquo; That is the part you have to supply.&rdquo;</p>
+  </div>
+</section>
+
+<!-- ================= WHAT STAYS OUT ================= -->
+<section class="stays-out" data-tone="mint">
+  <h2>What stays out of AI</h2>
+  <div class="stays-grid">
+    <ul class="stays-list">
+      <li>Directors' personal or financial details</li>
+      <li>GST, TDS and statutory credentials</li>
+      <li>Employee personal data</li>
+      <li>Donor and trust records</li>
+      <li>Customer contracts and unpublished pricing</li>
+      <li>Anything you would not email outside the company</li>
+    </ul>
+    <p class="stays-note">Everyone receives this list in writing on day one. Check every figure before it leaves your desk: the judgement and the accountability stay with you, not the tool.</p>
+  </div>
+</section>
+
+<!-- ================= FORMATS (calendar) ================= -->
+<section class="formats" id="formats" data-tone="navy">
+  <div class="sub-head">
+    <h2>Three depths, scoped to you</h2>
+    <p>Every engagement is quoted against your team size, function and goals. Tell us the shape and we'll price it. The bars show how much of the calendar each one takes.</p>
+  </div>
+
+  <article class="format">
+    <h3 class="format-name">Team intro</h3>
+    <div class="format-facts">
+      <p class="format-price">Half a day</p>
+      <p>A grounded tour of what current AI tools do well, what they do badly, and where they fit in your team's existing work. Ends with everyone having run a real task of their own through them.</p>
+      <ul class="ticks">
+        <li>Live, online or on site</li>
+        <li>Best for teams starting from scratch</li>
+        <li>Practical from the first hour</li>
+      </ul>
+      <div class="tt" data-ui aria-label="Takes half of one working day">
+        <p class="tt-label">One working day</p>
+        <div class="tt-row tt-day"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <button type="button" class="btn btn-cyan" data-format="Team Intro">Ask about a team intro</button>
+    </div>
+  </article>
+
+  <article class="format">
+    <h3 class="format-name">Practical programme</h3>
+    <div class="format-facts">
+      <p class="format-price">A full day</p>
+      <p>Built around your team's actual workflows. We take the tasks that eat the most hours and rebuild them with AI in the room, so people leave with working prompts and processes rather than notes.</p>
+      <ul class="ticks">
+        <li>Hands-on throughout</li>
+        <li>Built around your real documents and tasks</li>
+        <li>Take-home prompt library for the team</li>
+      </ul>
+      <div class="tt" data-ui aria-label="Takes the whole working day">
+        <p class="tt-label">One working day</p>
+        <div class="tt-row tt-day"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+      </div>
+      <button type="button" class="btn btn-cyan" data-format="Practical Programme">Ask about the programme</button>
+    </div>
+  </article>
+
+  <article class="format">
+    <h3 class="format-name">Ongoing partnership</h3>
+    <div class="format-facts">
+      <p class="format-price">Across months</p>
+      <p>Recurring sessions as your team's usage matures: new tools, deeper workflows, and support for the people who become internal champions. Structured around your quarter, not ours.</p>
+      <ul class="ticks">
+        <li>Recurring sessions across months</li>
+        <li>Support between sessions</li>
+        <li>Adapts as tools change</li>
+      </ul>
+      <div class="tt" data-ui aria-label="Recurring sessions across a quarter">
+        <p class="tt-label">One quarter, week by week</p>
+        <div class="tt-row tt-term"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i></div>
+      </div>
+      <button type="button" class="btn btn-cyan" data-format="Ongoing Partnership">Ask about a partnership</button>
+    </div>
+  </article>
+</section>
+
+<!-- ================= TOOLKIT (3D ring) ================= -->
+<section class="toolkit" data-tone="cyan">
+  <div class="sub-head">
+    <h2>Tools teams leave using</h2>
+    <p>Everything we teach has a usable free tier, so nobody needs a purchase order before they can practise. Where a paid plan genuinely earns its cost, we say so and explain why.</p>
+  </div>
+
+  <div class="cyl cyl--tools" data-cylinder aria-roledescription="carousel" aria-label="The AI tools we teach">
+    <div class="cyl-ring">
+      <figure class="cyl-card tool" style="--bg:#10A37F;--ink:#FFFFFF"><img src="assets/tools/chatgpt.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>ChatGPT</span></figure>
+      <figure class="cyl-card tool" style="--bg:#F0EEE6;--ink:#141413"><img src="assets/tools/claude.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>Claude</span></figure> <!-- taste-skill-ignore: the Claude card in Claude's own brand colours -->
+      <figure class="cyl-card tool" style="--bg:#F0F4F9;--ink:#1F1F1F"><img src="assets/tools/gemini.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>Gemini</span></figure>
+      <figure class="cyl-card tool" style="--bg:#4D6BFE;--ink:#FFFFFF"><img src="assets/tools/deepseek.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>DeepSeek</span></figure>
+      <figure class="cyl-card tool" style="--bg:#091717;--ink:#FBFAF4"><img src="assets/tools/perplexity.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>Perplexity</span></figure>
+      <figure class="cyl-card tool" style="--bg:#FFFFFF;--ink:#000000"><img src="assets/tools/notebooklm.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>NotebookLM</span></figure>
+      <figure class="cyl-card tool" style="--bg:#000000;--ink:#FFFFFF"><img src="assets/tools/grok.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>Grok</span></figure>
+      <figure class="cyl-card tool tool--art" style="--bg:#3E7AD8;--ink:#FFFFFF"><img class="tool-art" src="assets/tools/canva-card.webp" width="460" height="626" alt="" loading="lazy" draggable="false"><span>Canva AI</span></figure>
+      <figure class="cyl-card tool" style="--bg:#111111;--ink:#FFFFFF"><img src="assets/tools/ideogram.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>Ideogram</span></figure>
+      <figure class="cyl-card tool" style="--bg:#CFB3FF;--ink:#16112B"><img class="tool-mark" src="assets/tools/gamma.webp" width="218" height="250" alt="" loading="lazy" draggable="false"><span>Gamma</span></figure>
+      <figure class="cyl-card tool" style="--bg:#FFFFFF;--ink:#202124"><img src="assets/tools/google-vids-veo.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>Google Vids &amp; Veo</span></figure>
+      <figure class="cyl-card tool" style="--bg:#000000;--ink:#FFFFFF"><img src="assets/tools/elevenlabs.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>ElevenLabs</span></figure>
+      <figure class="cyl-card tool" style="--bg:#FFF4EF;--ink:#1C1C1C"><img src="assets/tools/lovable.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>Lovable</span></figure>
+      <figure class="cyl-card tool" style="--bg:#FF4F00;--ink:#FFFFFF"><img class="tool-wordmark" src="assets/tools/zapier.svg" width="284" height="96" alt="" loading="lazy" draggable="false"><span>Zapier</span></figure>
+      <figure class="cyl-card tool" style="--bg:#FFFFFF;--ink:#000000"><img src="assets/tools/notion-ai.svg" width="96" height="96" alt="" loading="lazy" draggable="false"><span>Notion AI</span></figure>
+    </div>
+    <div class="cyl-ctrl">
+      <button type="button" class="cyl-btn" data-cyl-prev aria-label="Previous tool">&#8249;</button>
+      <button type="button" class="cyl-btn" data-cyl-next aria-label="Next tool">&#8250;</button>
+    </div>
+  </div>
+  <p class="toolkit-note">The exact set is chosen per engagement. A finance team and a marketing team leave with different toolkits.</p>
+  <p class="toolkit-legal">Tool names and logos belong to their owners. Shezelerate is not affiliated with these companies.</p>
+</section>
+
+<!-- ================= HOW IT RUNS (agenda) ================= -->
+<section class="report report--agenda" data-tone="paper">
+  <div class="report-copy">
+    <h2>Built around your work</h2>
+    <p>Sessions are run by Shehzad, who also teaches the academy's AI programmes directly. 120+ projects built, and in 2025 he represented India at Global Encounters in Dubai.</p>
+    <div class="duo">
+      <figure class="duo-a"><img src="assets/web/dubai-team.webp" width="751" height="1086" loading="lazy" alt="Shehzad at the Team India wall, Global Encounters, Dubai"><figcaption>Team India, Dubai 2025</figcaption></figure>
+      <figure class="duo-b"><img src="assets/web/dubai-arrival.webp" width="691" height="1086" loading="lazy" alt="Shehzad arriving in Dubai for the 2025 GE Festival"><figcaption>Arriving for Global Encounters</figcaption></figure>
+    </div>
+  </div>
+  <div class="card-slip" role="table" aria-label="How a session runs">
+    <p class="card-slip-title" role="row"><span role="columnheader">Agenda, every session</span></p>
+    <div class="card-row" role="row"><span role="rowheader">Your tasks</span><span role="cell">We ask for real work in advance and build the session around it. Generic demos don't transfer.</span></div>
+    <div class="card-row" role="row"><span role="rowheader">Small groups</span><span role="cell">Capped so everyone gets screen time and their own questions answered.</span></div>
+    <div class="card-row" role="row"><span role="rowheader">Free tiers first</span><span role="cell">Everyone can practise the same evening without waiting on procurement.</span></div>
+    <div class="card-row" role="row"><span role="rowheader">Measured twice</span><span role="cell">Each department times five tasks it does every week. In the final session we time the same five again: a real result, not an invented percentage.</span></div>
+    <div class="card-row" role="row"><span role="rowheader">Where</span><span role="cell">Delivered live, online or on site, anywhere in India.</span></div>
+    <div class="card-row" role="row"><span role="rowheader">Who</span><span role="cell">Taught by the founder, Shehzad Dobariya.</span></div>
+    <p class="card-total" role="row"><span role="cell">Outcome</span><span role="cell">Working prompts, not notes</span></p>
+  </div>
+</section>
+
+<!-- ================= STAGE PHOTO ================= -->
+<section class="stage-band" data-tone="navy" aria-label="A team session">
+  <figure class="stage-photo">
+    <img src="assets/web/corp-table.webp" width="1280" height="960" loading="lazy" alt="Shehzad presenting to a full company team seated around a long boardroom table">
+    <figcaption>The whole team, one table</figcaption>
+  </figure>
+</section>
+
+<!-- ================= PROPOSAL ================= -->
+<section class="proposal" id="proposal" data-tone="navy">
+  <div class="proposal-copy">
+    <h2>Request a proposal</h2>
+    <p>Tell us about your team and we'll come back with a scoped proposal and pricing, usually within one working day.</p>
+    <p>Prefer to talk first? Call or WhatsApp <a href="tel:+919545797867">+91 95457 97867</a>, or write to <a href="mailto:team.shezbotics@gmail.com">team.shezbotics@gmail.com</a>.</p>
+  </div>
+
+  <form class="proposal-form" data-sheet="Corporate"
+        data-success-title="Proposal request received"
+        data-success-body="We'll come back with a scoped proposal within one working day.">
+    <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <div class="field-row">
+      <div class="field">
+        <label for="coName">Company</label>
+        <input id="coName" name="company_name" type="text" required autocomplete="organization">
+      </div>
+      <div class="field">
+        <label for="coCity">City</label>
+        <input id="coCity" name="city" type="text" required autocomplete="address-level2">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="coContact">Your name</label>
+        <input id="coContact" name="name" type="text" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="coRole">Your role</label>
+        <input id="coRole" name="role" type="text" placeholder="e.g. Founder, Head of HR, Ops Lead">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="coEmail">Work email</label>
+        <input id="coEmail" name="email" type="email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="coPhone">Phone or WhatsApp</label>
+        <input id="coPhone" name="phone" type="tel" required inputmode="tel" placeholder="+91">
+      </div>
+    </div>
+    <div class="field" role="radiogroup" aria-labelledby="qCoFormat">
+      <p class="field-label" id="qCoFormat">Which format fits?</p>
+      <div class="choice-grid">
+        <label class="choice"><input type="radio" name="format" value="Team Intro" required><span>Team intro, half day</span></label>
+        <label class="choice"><input type="radio" name="format" value="Practical Programme"><span>Practical programme, full day</span></label>
+        <label class="choice"><input type="radio" name="format" value="Ongoing Partnership"><span>Ongoing partnership</span></label>
+        <label class="choice"><input type="radio" name="format" value="Advise me"><span>Advise me</span></label>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="coSize">How many people?</label>
+        <input id="coSize" name="team_size" type="number" min="1" max="5000" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="coFunction">Which team?</label>
+        <input id="coFunction" name="team_function" type="text" placeholder="e.g. Sales, Marketing, Ops, whole company">
+      </div>
+    </div>
+    <div class="field" role="radiogroup" aria-labelledby="qCoWhere">
+      <p class="field-label" id="qCoWhere">Where would it run?</p>
+      <div class="choice-grid">
+        <label class="choice"><input type="radio" name="delivery" value="At our office" required><span>At our office</span></label>
+        <label class="choice"><input type="radio" name="delivery" value="Live online"><span>Live online</span></label>
+        <label class="choice"><input type="radio" name="delivery" value="Either"><span>Either works</span></label>
+      </div>
+    </div>
+    <div class="field" role="radiogroup" aria-labelledby="qCoStart">
+      <p class="field-label" id="qCoStart">Where is the team starting from?</p>
+      <div class="choice-grid">
+        <label class="choice"><input type="radio" name="ai_maturity" value="New to AI tools" required><span>New to these tools</span></label>
+        <label class="choice"><input type="radio" name="ai_maturity" value="A few people experimenting"><span>A few people experimenting</span></label>
+        <label class="choice"><input type="radio" name="ai_maturity" value="Used regularly, want depth"><span>Used regularly, want depth</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label for="coWhen">Timeframe</label>
+      <input id="coWhen" name="timeframe" type="text" placeholder="e.g. this quarter, before our offsite in March">
+    </div>
+    <div class="field">
+      <label for="coGoals">What would make this worth doing?</label>
+      <textarea id="coGoals" name="goals" required placeholder="The tasks eating the most hours, what you'd like the team doing differently afterwards…"></textarea>
+    </div>
+    <button type="submit" class="btn btn-cyan">Request a proposal</button>
+    <p class="form-note">
+      We use these details only to prepare your proposal and reply to you. <a href="privacy.html">Privacy policy</a>.
+    </p>
+  </form>
 </section>
 
 </main>
 
-<footer class="footer">
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <span class="brand">
-          <span class="mark" data-mark>
-            <img src="assets/logo.png" alt="">
-            <svg class="mark-fallback" viewBox="0 0 48 48" aria-hidden="true">
-              <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="#00E5FF" stroke-width="2"/>
-              <circle cx="24" cy="24" r="3" fill="#00E5FF"/>
-            </svg>
-          </span>
-          <b>ShezBotics</b>
-        </span>
-        <p>Live online AI and robotics training in batches of five, for students aged 8&ndash;20 anywhere in India.</p>
-        <div class="social">
-          <a href="https://www.instagram.com/team_shezbotics" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://www.linkedin.com/in/shehzad-dobariya-178531250" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://youtube.com/@shezbotics" target="_blank" rel="noopener">YouTube</a>
-        </div>
-      </div>
-      <div class="footer-links">
-        <h4>Academy</h4>
-        <a href="index.html#about">About</a>
-        <a href="index.html#courses">Courses</a>
-        <a href="index.html#projects">Projects</a>
-        <a href="index.html#founder">Founder</a>
-        <a href="index.html#gallery">Gallery</a>
-      </div>
-      <div class="footer-links">
-        <h4>Programmes</h4>
-        <a href="index.html#basic">Basic &mdash; &#8377;3,499</a>
-        <a href="index.html#intermediate">Intermediate &mdash; &#8377;4,999</a>
-        <a href="index.html#advanced">Advanced &mdash; &#8377;9,499</a>
-        <a href="index.html#full-track">All three &mdash; &#8377;15,999</a>
-        <a href="schools.html">For schools</a>
-        <a href="corporate.html">For business</a>
-      </div>
-      <div class="footer-links">
-        <h4>Contact</h4>
-        <p>Live online, all India</p>
-        <p>Based in Mumbai</p>
-        <a href="tel:+919545797867">+91 95457 97867</a>
-        <a href="mailto:team.shezbotics@gmail.com">team.shezbotics@gmail.com</a>
-        <a href="demo.html">Book a free demo</a>
-        <a href="privacy.html">Privacy policy</a>
-      </div>
+<footer class="footer" data-tone="navy">
+  <svg class="blocks blocks--long" viewBox="0 0 1000 300" role="img" aria-label="Shezelerate">
+    <title>Shezelerate</title>
+    <rect x="0.0" y="24.0" width="87.3" height="276.0" style="fill:var(--mint)"/><text x="43.6" y="284">S</text>
+    <rect x="91.3" y="90.0" width="87.3" height="210.0" style="fill:var(--cyan)"/><text x="134.9" y="284">H</text>
+    <rect x="182.5" y="0.0" width="87.3" height="300.0" style="fill:var(--paper)"/><text x="226.2" y="284">E</text>
+    <rect x="273.8" y="114.0" width="87.3" height="186.0" style="fill:var(--mint)"/><text x="317.5" y="284">Z</text>
+    <rect x="365.1" y="48.0" width="87.3" height="252.0" style="fill:var(--cyan)"/><text x="408.7" y="284">E</text>
+    <rect x="456.4" y="78.0" width="87.3" height="222.0" style="fill:var(--paper)"/><text x="500.0" y="284">L</text>
+    <rect x="547.6" y="12.0" width="87.3" height="288.0" style="fill:var(--mint)"/><text x="591.3" y="284">E</text>
+    <rect x="638.9" y="102.0" width="87.3" height="198.0" style="fill:var(--cyan)"/><text x="682.5" y="284">R</text>
+    <rect x="730.2" y="36.0" width="87.3" height="264.0" style="fill:var(--paper)"/><text x="773.8" y="284">A</text>
+    <rect x="821.5" y="66.0" width="87.3" height="234.0" style="fill:var(--mint)"/><text x="865.1" y="284">T</text>
+    <rect x="912.7" y="84.0" width="87.3" height="216.0" style="fill:var(--cyan)"/><text x="956.4" y="284">E</text>
+  </svg>
+
+  <div class="footer-cols">
+    <nav aria-label="Academy">
+      <h3>Academy</h3>
+      <a href="index.html#about">How it works</a>
+      <a href="index.html#courses">Courses</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#founder">Founder</a>
+      <a href="index.html#gallery">Gallery</a>
+    </nav>
+    <nav aria-label="Programmes">
+      <h3>Programmes</h3>
+      <a href="index.html#basic">Basic, &#8377;3,499</a>
+      <a href="index.html#intermediate">Intermediate, &#8377;4,999</a>
+      <a href="index.html#advanced">Advanced, &#8377;9,499</a>
+      <a href="index.html#full-track">All three, &#8377;15,999</a>
+    </nav>
+    <nav aria-label="Our brands" class="footer-brands">
+      <h3>Our brands</h3>
+      <a href="index.html"><b>ShezBotics</b><span>Live online classes</span></a>
+      <a href="schools.html"><b>ShezTronics</b><span>Robotics for schools</span></a>
+      <a href="corporate.html" aria-current="page"><b>Shezelerate</b><span>AI for teams</span></a>
+    </nav>
+    <nav aria-label="Elsewhere">
+      <h3>Elsewhere</h3>
+      <a href="https://www.instagram.com/team_shezbotics" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.linkedin.com/in/shehzad-dobariya-178531250" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://youtube.com/@shezbotics" target="_blank" rel="noopener">YouTube</a>
+      <a href="privacy.html">Privacy policy</a>
+    </nav>
+    <div class="footer-contact">
+      <h3>Contact</h3>
+      <p>Live online, Pan India. Based in Mumbai.</p>
+      <p><a href="tel:+919545797867">+91 95457 97867</a></p>
+      <p><a href="mailto:team.shezbotics@gmail.com">team.shezbotics@gmail.com</a></p>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 ShezBotics. All rights reserved. &middot; <a href="privacy.html">Privacy</a></p>
-      <p class="credit">Site by Shehzad Dobariya</p>
-    </div>
+  </div>
+
+  <div class="footer-last">
+    <p>&copy; 2026 Shezelerate, a <a href="index.html">ShezBotics</a> company. All rights reserved.</p>
+    <a href="demo.html" class="btn btn-cyan btn-small">Book a free demo</a>
   </div>
 </footer>
 
-<a class="whatsapp" href="https://wa.me/919545797867?text=Hi%20ShezBotics%2C%20I%27d%20like%20to%20book%20a%20free%20demo."
-   target="_blank" rel="noopener" aria-label="Message ShezBotics on WhatsApp">
+<a class="whatsapp" href="https://wa.me/919545797867?text=Hi%20Shezelerate%2C%20I%27d%20like%20to%20talk%20about%20AI%20training%20for%20our%20team."
+   target="_blank" rel="noopener" aria-label="Message Shezelerate on WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
 </a>
 
 <div class="toast" id="toast" role="status" aria-live="polite">
-  <i>&#10003;</i>
-  <div><b>Demo booked</b><span>We'll confirm your slot on WhatsApp.</span></div>
+  <div><b>Proposal request received</b><span>We'll come back with a scoped proposal within one working day.</span></div>
 </div>
 
-<a class="whatsapp" href="https://wa.me/919545797867?text=Hi%20ShezBotics%2C%20I%27d%20like%20to%20discuss%20AI%20training%20for%20our%20team."
-   target="_blank" rel="noopener" aria-label="Message ShezBotics on WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
-</a>
-
-<div class="toast" id="toast" role="status" aria-live="polite">
-  <i>&#10003;</i>
-  <div><b>Request received</b><span>We'll reply within one working day.</span></div>
-</div>
-
-<script src="script.js"></script>
+<script src="script.js" defer></script>
+<script type="module" src="site.js"></script>
 </body>
 </html>
