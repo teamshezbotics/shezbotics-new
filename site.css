@@ -183,6 +183,8 @@ html.booting .boot, .boot.is-leaving{
 }
 .boot.is-leaving{ opacity:0; transition:opacity 500ms var(--ease-out) }
 .boot-lcd{ width:min(620px, 88vw); height:auto; animation:boot-in 500ms var(--ease-out) both }
+/* the SB mark above the screen, lit by the same backlight (boot.js sets its opacity) */
+.boot-logo{ width:auto; height:clamp(112px, 24vh, 210px); margin-bottom:-14px; opacity:0 }
 .boot-skip{ font-size:var(--step-small); opacity:.55 }
 @keyframes boot-in{ from{ opacity:0; transform:translateY(10px) scale(.98) } }
 /* the hero waits for the screen, then makes its entrance */
@@ -860,6 +862,10 @@ html.js .founder-hex.is-done :is(.oled-off,.oled-img,.oled-scan){ display:none }
    FOOTER , the name, built from blocks
    ========================================================================== */
 .footer{ padding:clamp(72px,10vw,140px) var(--m) 28px }
+/* the brand film: its edges are already faded to this navy, so it has no frame */
+.brand-film{ width:min(100%, 1100px); margin:0 auto clamp(40px, 6vw, 80px) }
+.brand-film video{ display:block; width:100%; height:auto; aspect-ratio:16 / 9 }
+@media (max-width:700px){ .brand-film{ width:auto; margin-inline:calc(var(--m) * -1) } }
 .blocks{ display:block; width:100%; height:auto; max-height:40svh }
 .blocks text{ fill:var(--navy); font-size:88px; text-anchor:middle; font-family:var(--face); font-weight:800; font-stretch:150% }
 .blocks--long text{ font-size:74px }   /* eleven letters to a row */

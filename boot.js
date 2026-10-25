@@ -18,6 +18,7 @@
   var hint = boot.querySelector('[data-boot-skip]');
   if (hint && window.matchMedia('(hover: hover)').matches) hint.textContent = 'Click or press any key to skip';
   var cv = boot.querySelector('canvas');
+  var logo = boot.querySelector('.boot-logo');   // the SB mark, lit with the backlight
   var W = 800, H = 360, dpr = Math.min(2, window.devicePixelRatio || 1);
   cv.width = W * dpr; cv.height = H * dpr;
   var x = cv.getContext('2d');
@@ -99,6 +100,7 @@
   };
   var cursor = null;          // [row, col] of the blinking block, or null
   var light = 0;              // backlight, 0 off → 1 on
+  var lit = function (v) { light = v; if (logo) logo.style.opacity = v; };
 
   var mix = function (a, c, t) {
     var pa = parseInt(a.slice(1), 16), pc = parseInt(c.slice(1), 16);
@@ -189,14 +191,14 @@
   };
 
   if (reduced) {
-    light = 1; hello();
+    lit(1); hello();
     wait(900).then(finish);
     return;
   }
 
   // power on: the backlight flickers up and an uninitialised LCD shows a row of blocks
   var flicker = [[0.55, 60], [0.1, 70], [0.85, 60], [0.35, 50], [1, 0]];
-  var power = flicker.reduce(function (pr, f) { return pr.then(function () { light = f[0]; return wait(f[1]); }); }, Promise.resolve());
+  var power = flicker.reduce(function (pr, f) { return pr.then(function () { lit(f[0]); return wait(f[1]); }); }, Promise.resolve());
   power
     .then(function () { write(0, 0, '################'); return wait(320); })
     .then(function () { clear(); return wait(120); })
