@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+:root {
+  --navy: #0c3a72;
+  --accent: #0a63a1;
+  --card: #f2f6fb;
+  --background: #ffffff;
+  --ink: #12243d;
+  --ink-soft: #4a5d76;
+  --ink-muted: #7688a0;
+  --line: #dde6f2;
+  --good: #1f7a4d;
+  --bad: #a33a2e;
+}
+
+@theme inline {
+  --color-navy: var(--navy);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --color-background: var(--background);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+/* Everything below lives in @layer base so Tailwind utilities still win —
+   unlayered CSS would override classes like text-white. */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+
+  /* Inputs read as one system across the app, mobile included. */
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.5rem 0.65rem;
+    min-height: 42px;
+    color: var(--ink);
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
