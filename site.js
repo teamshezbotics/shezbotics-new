@@ -246,11 +246,16 @@ const state = { kitP: 0, kitLive: false, part: -1 };
     const p = clamp(-root.getBoundingClientRect().top / dx);
     track.style.transform = `translate3d(${(-p * dx).toFixed(1)}px,0,0)`;
   };
+  // Measuring means pinning for a moment. If that made the page shorter, a reader near the end was
+  // pulled up (iPhones fire resize whenever the address bar slides, and stacked stops are 1,175px):
+  // so phones, which never pin, don't measure, and elsewhere the section holds its length meanwhile.
   const measure = () => {
-    root.classList.add('is-pinned');
     track.style.transform = '';
+    if (!wide.matches) { root.classList.remove('is-pinned'); root.style.height = ''; return; }
+    root.style.height = `${root.offsetHeight}px`;
+    root.classList.add('is-pinned');
     dx = track.scrollWidth - track.clientWidth;
-    const pin = wide.matches && dx > 0 && dx < innerHeight * 3;
+    const pin = dx > 0 && dx < innerHeight * 3;
     root.classList.toggle('is-pinned', pin);
     root.style.height = pin ? `${innerHeight + dx}px` : '';
     place();
