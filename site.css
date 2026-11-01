@@ -1353,3 +1353,75 @@ html.js body.in-hero .whatsapp, html.js body.near-action .whatsapp{ opacity:0; v
   html{ scroll-behavior:auto }
   *,*::before,*::after{ animation-duration:.01ms !important; transition-duration:.01ms !important }
 }
+
+/* ==========================================================================
+   GLASS , frosted acrylic wherever something floats over a photo, the class
+   footage or the 3D robot. Square corners and a hairline edge, like the cut
+   acrylic plates on a robot kit. Browsers without backdrop blur, and anyone
+   who asks for less transparency, keep the solid colours above.
+   taste-skill-ignore: glass is the owner's call; it stays on overlays only
+   ========================================================================== */
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){ /* taste-skill-ignore: glass */
+  :root{
+    --frost:blur(16px) saturate(1.5);
+    --edge-dark:rgba(234,246,251,.16);   /* hairline on dark glass */
+    --edge-light:rgba(7,20,35,.12);      /* hairline on light glass */
+  }
+
+  /* the bar: its chapter's colour, with the page passing under it. The frost sits on a layer behind
+     the bar, not on the bar: a blurred element becomes the frame for fixed children, and the phone
+     menu inside the bar is fixed to the screen. */
+  .bar{ background:transparent; box-shadow:inset 0 -1px var(--edge-light) } /* taste-skill-ignore: hairline */
+  .bar::before{
+    content:""; position:absolute; inset:0; z-index:-1; background:rgba(0,229,255,.8);
+    -webkit-backdrop-filter:var(--frost); backdrop-filter:var(--frost); transition:background-color 300ms ease; /* taste-skill-ignore: glass */
+  }
+  .bar[data-tone="navy"]{ box-shadow:inset 0 -1px var(--edge-dark) } /* taste-skill-ignore: hairline */
+  .bar[data-tone="navy"]::before{ background:rgba(7,20,35,.74) }
+  .bar[data-tone="paper"]::before{ background:rgba(234,246,251,.8) }
+  .bar[data-tone="mint"]::before{ background:rgba(95,255,215,.82) }
+  @media (max-width:900px){
+    .bar-nav ul{ background:rgba(7,20,35,.8); -webkit-backdrop-filter:blur(22px) saturate(1.4); backdrop-filter:blur(22px) saturate(1.4) } /* taste-skill-ignore: glass */
+  }
+
+  /* the hint beside the hero robot */
+  .hero-hint{
+    max-width:19ch; padding:.6rem .8rem; background:rgba(234,246,251,.42);
+    -webkit-backdrop-filter:var(--frost); backdrop-filter:var(--frost); border:1px solid rgba(234,246,251,.6); /* taste-skill-ignore: glass */
+  }
+  @media (max-width:767px){ .hero-hint{ max-width:26ch } }   /* the padding takes room the phone layout had given the words */
+
+  /* bands and labels over photos and footage */
+  .panel-row,
+  .tile-low::after,
+  .beyond-link--schools::after{
+    background:rgba(7,20,35,.5); -webkit-backdrop-filter:var(--frost); backdrop-filter:var(--frost); /* taste-skill-ignore: glass */
+    border-top:1px solid var(--edge-dark); /* taste-skill-ignore: glass */
+  }
+  .panel-row{ border-bottom:1px solid var(--edge-dark) } /* taste-skill-ignore: glass */
+  .reel-hud p,
+  .mosaic figcaption,
+  .stage-photo figcaption{
+    background:rgba(7,20,35,.5); -webkit-backdrop-filter:var(--frost); backdrop-filter:var(--frost); /* taste-skill-ignore: glass */
+    border:1px solid var(--edge-dark); /* taste-skill-ignore: glass */
+  }
+  .reel-hud .reel-ff{ -webkit-backdrop-filter:none; backdrop-filter:none; border:0 } /* taste-skill-ignore: glass */
+
+  /* what's behind a project card or a message goes soft, not just dark */
+  .modal{ background:rgba(4,11,20,.6); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px) } /* taste-skill-ignore: glass */
+  .toast{ background:rgba(234,246,251,.78); -webkit-backdrop-filter:var(--frost); backdrop-filter:var(--frost); border:1px solid var(--edge-light) } /* taste-skill-ignore: glass */
+}
+/* less transparency asked for: the solid colours again (an unknown query here keeps the glass, which is why it isn't a "not") */
+@media (prefers-reduced-transparency:reduce){
+  .bar::before{ display:none }
+  .bar-nav ul,.hero-hint,.panel-row,.tile-low::after,.beyond-link--schools::after,
+  .reel-hud p,.mosaic figcaption,.stage-photo figcaption,.modal,.toast{ -webkit-backdrop-filter:none; backdrop-filter:none; border:0; box-shadow:none } /* taste-skill-ignore: glass */
+  .bar{ background:var(--cyan); box-shadow:none }
+  .bar[data-tone="navy"],.bar-nav ul,.reel-hud p,.mosaic figcaption,.stage-photo figcaption{ background:var(--navy) }
+  .bar[data-tone="paper"]{ background:var(--paper) }
+  .bar[data-tone="mint"]{ background:var(--mint) }
+  .hero-hint{ max-width:15ch; padding:0; background:none }
+  .panel-row,.modal{ background:rgba(4,11,20,.8) }
+  .tile-low::after,.beyond-link--schools::after{ background:rgba(7,20,35,.8) }
+  .toast{ background:var(--paper); box-shadow:0 12px 32px rgba(0,0,0,.3) } /* taste-skill-ignore: floats */
+}
